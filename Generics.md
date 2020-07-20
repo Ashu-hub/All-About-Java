@@ -224,8 +224,10 @@ public void boxTest(Box<Number> n) { /* ... */ }
 What type of argument does it accept? By looking at its signature, you can see that it accepts a single argument whose type is Box<Number>.
 But what does that mean? Are you allowed to pass in Box<Integer> or Box<Double>, as you might expect? The answer is "no", because Box<Integer> and Box<Double> are not subtypes of Box<Number>.
 
-	![alt text](https://github.com/Ashu-hub/All-About-Java/blob/master/images/generics-subtypeRelationship.gif)
+![alt text](https://github.com/Ashu-hub/All-About-Java/blob/master/images/generics-subtypeRelationship.gif)
+
 					Box<Integer> is not a subtype of Box<Number> even though Integer is a subtype of Number.
+
 ```
 Note: Given two concrete types A and B (for example, Number and Integer), MyClass<A> has no relationship to MyClass<B>, regardless of whether or not A and B are related. The common parent of MyClass<A> and MyClass<B> is Object.
 ```
