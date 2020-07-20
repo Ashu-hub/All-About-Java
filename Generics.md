@@ -223,4 +223,4 @@ public void boxTest(Box<Number> n) { /* ... */ }
 ```
 What type of argument does it accept? By looking at its signature, you can see that it accepts a single argument whose type is Box<Number>.
 But what does that mean? Are you allowed to pass in Box<Integer> or Box<Double>, as you might expect? The answer is "no", because Box<Integer> and Box<Double> are not subtypes of Box<Number>.
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![alt text](https://github.com/Ashu-hub/All-About-Java/blob/master/images/generics-subtypeRelationship.gif)
