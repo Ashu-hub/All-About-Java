@@ -17,7 +17,6 @@ In a nutshell, generics enable types (classes and interfaces) to be parameters w
 **Much like the more familiar formal parameters used in method declarations, type parameters provide a way for you to re-use the same code with different inputs.
 The difference is that the inputs to formal parameters are values, while the inputs to type parameters are types.
 
-
 ## Benefits of Generics :
 Code that uses generics has many benefits over non-generic code:
 1. Stronger type checks at compile time.
@@ -36,6 +35,8 @@ Code that uses generics has many benefits over non-generic code:
 
 3. Enabling programmers to implement generic algorithms:-
 By using generics, programmers can implement generic algorithms that work on collections of different types, can be customized, and are type safe and easier to read.
+
+4. To provide better **Type Safety.
 
 ## Generic Types
 A generic type is a generic class or interface that is parameterized over types. 
@@ -142,3 +143,84 @@ rawBox.set(8);  // warning: unchecked invocation to set(T)
 The warning shows that raw types bypass generic type checks, deferring the catch of unsafe code to runtime. Therefore, you should avoid using raw types.
 ```
 
+## Unchecked Error Messages
+When mixing **legacy code with generic code**, you may encounter warning messages similar to the following:
+```java
+Note: Example.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+```
+This can happen when using an older API that operates on raw types:-
+```java
+public class WarningDemo {
+    public static void main(String[] args){
+        Box<Integer> bi;
+        bi = createBox();
+    }
+
+    static Box createBox(){
+        return new Box();
+    }
+}
+```
+
+The term "unchecked" means that the compiler does not have enough type information to perform all type checks necessary to ensure type safety.
+The "unchecked" warning is disabled, by default, though the compiler gives a hint. To see all "unchecked" warnings, recompile with -Xlint:unchecked.
+ The @SuppressWarnings("unchecked") annotation suppresses unchecked warnings
+ 
+### Generic Methods:
+Generic methods are methods that introduce their own type parameters. This is similar to declaring a generic type, but the type parameter's scope is limited to the method where it is declared.
+Eg:- The Util class includes a generic method, compare, which compares two Pair objects:
+```java 
+public class Util {
+    public static <K, V> boolean compare(Pair<K, V> p1, Pair<K, V> p2) {
+        return p1.getKey().equals(p2.getKey()) &&
+               p1.getValue().equals(p2.getValue());
+    }
+}
+
+public class Pair<K, V> {
+
+    private K key;
+    private V value;
+
+    public Pair(K key, V value) {
+        this.key = key;
+        this.value = value;
+    }
+
+    public void setKey(K key) { this.key = key; }
+    public void setValue(V value) { this.value = value; }
+    public K getKey()   { return key; }
+    public V getValue() { return value; }
+}
+
+Pair<Integer, String> p1 = new Pair<>(1, "apple");
+Pair<Integer, String> p2 = new Pair<>(2, "pear");
+boolean same = Util.<Integer, String>compare(p1, p2);
+//		OR
+boolean same = Util.compare(p1, p2);
+```
+The type has been explicitly provided. Generally, this can be left out and the compiler will infer the type that is needed:
+This feature, known as **type inference**, allows you to invoke a generic method as an ordinary method, without specifying a type between angle brackets
+
+## Generics, Inheritance, and Subtypes
+It is possible to assign an object of one type to an object of another type provided that the types are compatible. For example, you can assign an Integer to an Object, since Object is one of Integer's supertypes:
+```java
+Object someObject = new Object();
+Integer someInteger = new Integer(10);
+someObject = someInteger;   // OK
+```
+In object-oriented terminology, this is called an "is a" relationship. Since an Integer is a kind of Object, the assignment is allowed. But Integer is also a kind of Number, 
+The same is also true with generics. You can perform a generic type invocation, passing Number as its type argument, and any subsequent invocation of add will be allowed if the argument is compatible with Number:
+```java
+Box<Number> box = new Box<Number>();
+box.add(new Integer(10));   // OK
+box.add(new Double(10.1));  // OK
+```
+Now consider the following method:
+```
+public void boxTest(Box<Number> n) { /* ... */ }
+```
+What type of argument does it accept? By looking at its signature, you can see that it accepts a single argument whose type is Box<Number>.
+But what does that mean? Are you allowed to pass in Box<Integer> or Box<Double>, as you might expect? The answer is "no", because Box<Integer> and Box<Double> are not subtypes of Box<Number>.
+![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
