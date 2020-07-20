@@ -231,3 +231,62 @@ But what does that mean? Are you allowed to pass in Box<Integer> or Box<Double>,
 ```
 Note: Given two concrete types A and B (for example, Number and Integer), MyClass<A> has no relationship to MyClass<B>, regardless of whether or not A and B are related. The common parent of MyClass<A> and MyClass<B> is Object.
 ```
+## Generic Classes and Subtyping
+You can subtype a generic class or interface by extending or implementing it. The relationship between the type parameters of one class or interface and the type parameters of another are determined by the extends and implements clauses.
+
+![alt text](https://github.com/Ashu-hub/All-About-Java/blob/master/images/generics-sampleHierarchy.gif)
+
+Now imagine we want to define our own list interface, PayloadList, that associates an optional value of generic type P with each element. Its declaration might look like:
+```
+interface PayloadList<E,P> extends List<E> {
+  void setPayload(int index, P val);
+  ...
+}
+//The following parameterizations of PayloadList are subtypes of List<String>:
+
+PayloadList<String,String>
+PayloadList<String,Integer>
+PayloadList<String,Exception>
+```
+![alt text](https://github.com/Ashu-hub/All-About-Java/blob/master/images/generics-payloadListHierarchy.gif)
+
+# Wildcards
+In generic code, the question mark (?), called the wildcard, represents an unknown type.
+The wildcard can be used in a variety of situations: as the type of a parameter, field, or local variable; sometimes as a return type 
+e wildcard is never used as a type argument for a generic method invocation, a generic class instance creation, or a supertype.
+	
+## Upper Bounded Wildcards
+You can use an upper bounded wildcard to relax the restrictions on a variable. For example, say you want to write a method that works on List<Integer>, List<Double>, and List<Number>; you can achieve this by using an upper bounded wildcard.
+To declare an upper-bounded wildcard, use the wildcard character ('?'), followed by the extends keyword, followed by its upper bound. Note that, in this context, extends is used in a general sense to mean either "extends" (as in classes) or "implements" (as in interfaces).
+To write the method that works on lists of Number and the subtypes of Number, such as Integer, Double, and Float, you would specify List<? extends Number>. The term List<Number> is more restrictive than List<? extends Number>
+because the former matches a list of type Number only, whereas the latter matches a list of type Number or any of its subclasses.	
+To declare an upper-bounded wildcard, use the wildcard character (‘?’), followed by the extends keyword, followed by its upper bound.
+```public static void add(List<? extends Number> list)
+```
+## Unbounded Wildcards
+The unbounded wildcard type is specified using the wildcard character (?), for example, List<?>. This is called a *list of unknown type.*
+There are two scenarios where an unbounded wildcard is a useful approach:-
+1. If you are writing a method that can be implemented using functionality provided in the Object class.
+2. When the code is using methods in the generic class that don't depend on the type parameter. For example, List.size or List.clear. In fact, Class<?> is so often used because most of the methods in Class<T> do not depend on T.
+
+Consider the following method, printList:
+```
+public static void printList(List<Object> list) {
+    for (Object elem : list)
+        System.out.println(elem + " ");
+    System.out.println();
+}
+
+//The goal of printList is to print a list of any type, but it fails to achieve that goal — it prints only a list of Object instances; it cannot print List<Integer>, List<String>, List<Double>, and so on, because they are not subtypes of List<Object>. To write a generic printList method, use List<?>:
+
+public static void printList(List<?> list) {
+    for (Object elem: list)
+        System.out.print(elem + " ");
+    System.out.println();
+}
+```
+## Lower Bounded Wildcards
+A lower bounded wildcard restricts the unknown type to be a specific type or a super type of that type.
+ Syntax: Collectiontype <? super A>
+ 
+	Note: You can specify an upper bound for a wildcard, or you can specify a lower bound, but you cannot specify both.
