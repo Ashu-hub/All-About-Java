@@ -261,7 +261,8 @@ To declare an upper-bounded wildcard, use the wildcard character ('?'), followed
 To write the method that works on lists of Number and the subtypes of Number, such as Integer, Double, and Float, you would specify List<? extends Number>. The term List<Number> is more restrictive than List<? extends Number>
 because the former matches a list of type Number only, whereas the latter matches a list of type Number or any of its subclasses.	
 To declare an upper-bounded wildcard, use the wildcard character (‘?’), followed by the extends keyword, followed by its upper bound.
-```public static void add(List<? extends Number> list)
+```
+public static void add(List<? extends Number> list)
 ```
 ## Unbounded Wildcards
 The unbounded wildcard type is specified using the wildcard character (?), for example, List<?>. This is called a *list of unknown type.*
@@ -290,3 +291,31 @@ A lower bounded wildcard restricts the unknown type to be a specific type or a s
  Syntax: Collectiontype <? super A>
  
 	Note: You can specify an upper bound for a wildcard, or you can specify a lower bound, but you cannot specify both.
+eg:-
+```java
+import java.util.Arrays; 
+import java.util.List; 
+  
+class WildcardDemo 
+{ 
+    public static void main(String[] args) 
+    { 
+        //Lower Bounded Integer List 
+        List<Integer> list1= Arrays.asList(4,5,6,7); 
+          
+        //Integer list object is being passed 
+        printOnlyIntegerClassorSuperClass(list1); 
+  
+        //Number list 
+        List<Number> list2= Arrays.asList(4,5,6,7); 
+          
+        //Integer list object is being passed 
+        printOnlyIntegerClassorSuperClass(list2); 
+    } 
+  
+    public static void printOnlyIntegerClassorSuperClass(List<? super Integer> list) 
+    { 
+        System.out.println(list); 
+    } 
+} 
+```
