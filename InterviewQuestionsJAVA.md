@@ -1,14 +1,14 @@
 ## Java Overview:-
-1. What is JDK, JRE, JVM?
-Ans. 
-JDK(Java Development Kit) : JDK is intended for software developers and includes development tools such as the Java compiler, Javadoc, Jar, and a debugger.
-JRE(Java Runtime Environment) : JRE contains the parts of the Java libraries required to run Java programs and is intended for end users. JRE can be view as a subset of JDK.
-JVM: JVM (Java Virtual Machine) is an abstract machine. It is a specification that provides runtime environment in which java bytecode can be executed. JVMs are available for many hardware and software platforms. 
-	JDK = JRE + Development Tools(Java compiler, Javadoc, Jar, debugger.)
-	JRE = JVM + Library Classes(JDBC, AWT, JNDI, class library lke rt.jar)
+**1. What is JDK, JRE, JVM?**
+	Ans. 
+	JDK(Java Development Kit) : JDK is intended for software developers and includes development tools such as the Java compiler, Javadoc, Jar, and a debugger.
+	JRE(Java Runtime Environment) : JRE contains the parts of the Java libraries required to run Java programs and is intended for end users. JRE can be view as a subset of JDK.
+	JVM: JVM (Java Virtual Machine) is an abstract machine. It is a specification that provides runtime environment in which java bytecode can be executed. JVMs are available for many hardware and software platforms. 
+		JDK = JRE + Development Tools(Java compiler, Javadoc, Jar, debugger.)
+		JRE = JVM + Library Classes(JDBC, AWT, JNDI, class library lke rt.jar)
 	
-2. Can you brifely tell me about JVM Architecture?
-Ans:- Class Loader SubSystem, Different Memory, Execution Engine, Native method interface?
+**2. Can you brifely tell me about JVM Architecture?**
+	Ans:- Class Loader SubSystem, Different Memory, Execution Engine, Native method interface?
 
 3. Is main() compulsory in java?
 Ans: Brfore Java 7, it is not mandatory to write main(). You canhave full code inside static block and run that,
