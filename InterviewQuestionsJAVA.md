@@ -23,7 +23,6 @@
 
 **5. What is Differences between Instance initialization block and Static initialization block?
 
-		Ans: 
 
 **   Static initialization block:-
 		Static blocks are also called Static initialization blocks in java.
@@ -45,11 +44,11 @@
 
 		Flow of Calling:- Static Blocks-> Instance blocks-> Construtors
 
-**6. How to define your own data type in java?
+**6. How to define your own data type in java?**
 
 		Ans:- Using enums
 
-**7. Can we use '_' as a variable name in java?
+**7. Can we use '_' as a variable name in java?**
 
 		Ans:- Till java 8 yes, from java 9 -NO
 
