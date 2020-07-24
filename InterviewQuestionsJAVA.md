@@ -127,8 +127,8 @@
 
 **11. what is the difference between super and super()?**
 
-	| super																											| 	super()		|
-	| ---------------																								|:--------------|
+	| 	super																										| 	super()		|
+	| 	---------------																								|:--------------:|
 	|	The super keyword in Java is a reference variable that is used to refer parent class objects.				|	The super() in Java is a reference variable that is used to refer parent class constructors.|
 	| 	super can be used to call parent class’ variables and methods.												| 	super() can be used to call parent class’ constructors only.								|
 	| 	The variables and methods to be called through super keywordd can be done at any time.						| 	Call to super() must be first statement in Derived(Student) Class constructor.|
