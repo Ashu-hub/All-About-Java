@@ -23,8 +23,8 @@
 
 **5. What is Differences between Instance initialization block and Static initialization block?**
 
+**Static initialization block:-**
 
-**   Static initialization block:-**
 		Static blocks are also called Static initialization blocks in java.
 		Static block executes when class is loaded in java.
 		static blocks executes before instance blocks in java.
@@ -32,7 +32,7 @@
 		static blocks can be used for initializing static variables or calling any static method in java.
 		this keyword cannot be used in static block in java.
 
-**   Instance initialization block:-**
+**Instance initialization block:-**
 
 		Instance blocks are also called instance initialization blocks in java
 		Instance block executes when instance of class is created in java.
@@ -53,12 +53,15 @@
 		Ans:- Till java 8 yes, from java 9 -NO
 
 **8. What is Currying Function in java?**
+
 		Function Currying is a concept of breaking a function with many arguments into many functions with single argument in such a way, that the output is same.
 
 **9. Is it compulsory to use atleast one public class in a java file? **
+
 		Ans: No. Java file have default modifier also and it will compile fine.
 
 **10. Can A class be protected?**
+
 		Ans- No, A normal Class can be public, default, abstract or final. Inner Classes can be protected or private.
 
 
@@ -70,6 +73,7 @@
 		Ans: [Yes](https://github.com/Ashu-hub/Books-to-Prepare-Oracle-Java-Certification-Exams/blob/master/interview_questions_java.md#general-answers)
 
 **3. What is Encapsulation and give one example?**
+
 		Ans: Encapsulation is defined as the wrapping up of data under a single unit. 
 				OR 
 		It is a protective shield that prevents the data from being accessed by the code outside this shield.
@@ -78,10 +82,12 @@
 		Encapsulation can be achieved by: **Declaring all the variables in the class as private and writing public methods in the class to set and get the values of variables.**
 
 **4. What is Data Hiding?**
+
 		The user will have no idea about the inner implementation of the class. It will not be visible to the user that how the class is storing values in the variables. He only knows that we are passing the values to a setter method and variables are getting initialized with that value.
 		How do you do that?- By using Access modifiers.
 
 **5. What is Abstraction in Java?**
+
 		Ans:- Showing the Essential Feature and not showing the non- essential features to the world/user.
 		How to acheive it? -> In java, abstraction is achieved by interfaces and abstract classes. We can achieve 100% abstraction using interfaces.
 			An abstract class can have parametrized constructors and default constructor is always present in an abstract class.
@@ -109,18 +115,21 @@
 ```
 
 **7. Is it possible to create abstract and final class in Java?** - No, Final and Abstract Can't be used Together.
+
 **8. Is it possible to have an abstract method in a final class?** -  No, for any abstract method inside class, the class must be abstract.
+
 **9. Is it possible to inherit from multiple abstract classes in Java?** - NO,Java does't support multiple inheritance in the classes. Cause for ambiguity
 
 **10. What is Inheritance in Java and how to acheive it?**
+
 		Ans: It is the mechanism by which one class acquire the property of another class.
 		It can be acheive by using **extends** or **implements** keyword.
 
 **11. what is the difference between super and super()?**
 
-		|super																										| super()		|
-		|---------------																							|:--------------|
-		|The super keyword in Java is a reference variable that is used to refer parent class objects.				| The super() in Java is a reference variable that is used to refer parent class constructors.|
-		|super can be used to call parent class’ variables and methods.												| super() can be used to call parent class’ constructors only.								|
-		|The variables and methods to be called through super keywordd can be done at any time.						| Call to super() must be first statement in Derived(Student) Class constructor.|
-		|If one does not explicitly invoke a superclass variables/methods, by using super keyword,nothing happens 	| If a constructor does not explicitly invoke a superclass constructor by using super(), the Java compiler automatically inserts a call to the no-argument constructor of the superclass.|
+	| super																										| super()		|
+	| ---------------																							|:--------------|
+	| The super keyword in Java is a reference variable that is used to refer parent class objects.				| The super() in Java is a reference variable that is used to refer parent class constructors.|
+	| super can be used to call parent class’ variables and methods.											| super() can be used to call parent class’ constructors only.								|
+	| The variables and methods to be called through super keywordd can be done at any time.					| Call to super() must be first statement in Derived(Student) Class constructor.|
+	|If one does not explicitly invoke a superclass variables/methods, by using super keyword,nothing happens 	| If a constructor does not explicitly invoke a superclass constructor by using super(), the Java compiler automatically inserts a call to the no-argument constructor of the superclass.|
