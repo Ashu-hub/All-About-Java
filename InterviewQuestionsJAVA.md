@@ -67,7 +67,7 @@
 **11	What is the scope of static Variable?
 		Ans- Class level.
 	
-**12	What is Cyclomatic Complexity of a code in java?
+**12	What is Cyclomatic Complexity of a code in java?**
 		Ans- Cyclomatic complexity of a code section is the quantitative measure of the number of linearly independent paths in it. It is a software metric used to indicate the complexity of a program.
 		It is computed using the Control Flow Graph of the program.
 		For example, if source code contains no control flow statement then its cyclomatic complexity will be 1 and source code contains a single path in it.
@@ -95,7 +95,7 @@
 		if there is an infinite loop in the try block
 		if the power turns off
 
-**14. 	 What is cloning in java?
+**14. 	 What is cloning in java?**
 
 		Cloning is done for copying the object, cloning can be done using shallow or deep copy.
 		1) Definition of clone method -
@@ -110,7 +110,7 @@
 		
 		[ShallowVsDeepCopy](https://www.javamadesoeasy.com/2015/05/cloning-in-java-using-clone-shallow-and.html)
 		
-**15	What is reflection in java? Have you ever used reflection directly or directly?
+**15	What is reflection in java? Have you ever used reflection directly or directly?**
 
 		Reflection is used to load java classes at runtime.
 		Frameworks like struts, spring and hibernate uses reflection for loading classes at runtime.
@@ -186,6 +186,7 @@
 	| 	If one does not explicitly invoke a superclass variables/methods, by using super keyword,nothing happens	| 	If a constructor does not explicitly invoke a superclass constructor by using super(), the Java compiler automatically inserts a call to the no-argument constructor of the superclass.|
 
 **12. What is Association, Composition, and Aggregation in Java. Give example**
+
 		Association:-
 		Association is relation between two separate classes which establishes through their Objects. Association can be one-to-one, one-to-many, many-to-one, many-to-many.
 		In Object-Oriented programming, an Object communicates to other Object to use functionality and services provided by that object. Composition and Aggregation are the two forms of association.
@@ -203,6 +204,7 @@
 		[AggregationandCompostionExample](https://github.com/Ashu-hub/All-About-Java/tree/master/InterviewQuestionExplanation/src/JavaOverview/aggregationComposition)
 		
 **13. Why to favor composition over Inheritance?**		
+
 	1. One reason of favoring Composition over Inheritance in Java is fact that Java doesn't support multiple inheritance.
 		Since you can only extend one class in Java, but if you need multiple functionality like e.g. for reading and writing character data into file, 
 		you need Reader and Writer functionality and having them as private members makes your job easy. That’s called composition.
@@ -213,16 +215,16 @@
 	Does TypeB want only some/part of the behavior exposed by TypeA? Indicates need for **Composition.**
 
 ## String
-**1. Where does String Pool resides in memory?
+**1. Where does String Pool resides in memory?**
 		Ans:- From java 7 String pool is a storage area in java heap memory, where all the other objects are created. 
 				Prior to Java 7 String pool was created in permgen space of heap. 
-		[Refer this](https://github.com/Ashu-hub/All-About-Java/tree/master/InterviewQuestionExplanation/src/JavaOverview/StringConstantPool.png)
+		[Refer this](https://github.com/Ashu-hub/All-About-Java/blob/master/images/StringConstantPool.png)
 
-**2.	What does Immuatable means?
+**2.	What does Immuatable means?**
 
 		Ans:- It means Constant. Once Created can notbe changed. In java, objects of String are immutable.
 
-**3. 	What does intern() do?
+**3. 	What does intern() do?**
 
 		When the intern method is invoked, if the string pool already contains a string equal to this String object as determined by the equals(Object) method, then the string from the pool is returned. 
 		Otherwise, this String object is added to the string pool and a reference to this String object is returned.
@@ -238,11 +240,11 @@
 
 		**So, s1 == s5 will always return true.**
 	
-**4.	Why String pool in java?
+**4.	Why String pool in java?**
 
 		Ans: Save memory and increase performance. less number number of strings are created in java heap and hence leaving less work for garbage collector to be done.
 
-**5.	Create a immutable class?
+**5.	Create a immutable class?**
 		
 		1. Make Class as FINAL.
 		2. make class variable as private- so that it cant be accessed outside the world.
@@ -257,15 +259,16 @@
 				   any changes made to HashMap object won't produce new HashMap object.
 				   so return copy/clone of object, not reference variable of HashMap.
 			
-**6.	What is difference between final vs Immutability in Java
+**6.	What is difference between final vs Immutability in Java?**
 
 		final means that you can’t change the object’s reference to point to another reference or another object, but you can still mutate its state (using setter methods e.g). 
 		Whereas immutable means that the object’s actual value can’t be changed, but you can change its reference to another one.
 		final ensures that the address of the object remains the same whereas the Immutable suggests that we can’t change the state of the object once created.
 		eg:- 
-		[FinalVsImmutable](https://github.com/Ashu-hub/All-About-Java/tree/master/InterviewQuestionExplanation/src/JavaOverview/FinalVsImmutable)
 		
-**7. 	What is the difference between + and concat()?
+		[FinalVsImmutable](https://github.com/Ashu-hub/All-About-Java/blob/master/InterviewQuestionExplanation/src/JavaOverview/FinalVsImmutable.java)
+		
+**7. 	What is the difference between + and concat()?**
 
 		1. Number of arguments the concat() method and + operator takes:
 		
@@ -287,25 +290,26 @@ public class GFG {
 		concat() method takes only string arguments, if there is any other type is given in arguments then it will raise an error.
 		+ operator takes any type and converts to string type and then concatenates the strings.
 		
+		
 		3. concat() method raises java.lang.NullPointer Exception
 		
 		concat() method throws NullPointer Exception when string is concatenated with null
 		+ operator did not raise any Exception when the string is concatenated with null.
 
-```java
-	public class GFG { 
-	public static void main(String[] args) 
-	{ 
-		String s = "Geeks"; 
-		String r = null; 
-		System.out.println(s + r); 
+	```java
+		public class GFG { 
+		public static void main(String[] args) 
+		{ 
+			String s = "Geeks"; 
+			String r = null; 
+			System.out.println(s + r); 
 
-		// It raises an NullPointer Exception 
-		System.out.println(s.concat(r)); 
+			// It raises an NullPointer Exception 
+			System.out.println(s.concat(r)); 
+		} 
 	} 
-} 
 
-```
+	```
 		
 		4. Creates a new String object
 		
@@ -313,44 +317,46 @@ public class GFG {
 		+ operator creates a new string object every time irrespective of length of string
 
 ```java
-public class GFG { 
-	public static void main(String[] args) 
-	{ 
+	public class GFG { 
+		public static void main(String[] args) 
+		{ 
 
-		String s = "Geeks", g = ""; 
-		String f = s.concat(g); 
-		if (f == s) 
-			System.out.println("Both are same"); 
-		else
-			System.out.println("not same"); 
-		String e = s + g; 
-		if (e == s) 
-			System.out.println("Both are same"); 
-		else
-			System.out.println("not same"); 
+			String s = "Geeks", g = ""; 
+			String f = s.concat(g); 
+			if (f == s) 
+				System.out.println("Both are same"); 
+			else
+				System.out.println("not same"); 
+			String e = s + g; 
+			if (e == s) 
+				System.out.println("Both are same"); 
+			else
+				System.out.println("not same"); 
+		} 
 	} 
-} 
 
 ```
 
-**8. What is difference between String, StringBuffer and StringBuilder in java ?
+**8. What is difference between String, StringBuffer and StringBuilder in java ?**
 
 		Ans:- StringBuilder is not Thread Safe, StringBuffer is Thread Safe, String is Thread Safe
 
 ## Collections
 
-**1. 	What is fail-fast and fail-safe?
+**1. 	What is fail-fast and fail-safe?**
 		
 		Ans- 
 		Iterator returned by few Collection framework Classes are fail-fast, means any structural modification made to these classes during iteration will throw ConcurrentModificationException in java.
 
 		Iterator returned by few Collection framework Classes are fail-safe, means any structural modification made to these classes during iteration won’t throw any Exception in java.
 		
+		
 		[ConcurrentModificationArrayListExample](https://github.com/Ashu-hub/All-About-Java/tree/master/InterviewQuestionExplanation/src/JavaOverview/collection/ConcurrentModificationArrayListExample)
+		
 		
 		[ConcurrentModificationCopyOnWriteArrayListExample](https://github.com/Ashu-hub/All-About-Java/tree/master/InterviewQuestionExplanation/src/JavaOverview/collection/ConcurrentModificationCopyOnWriteArrayListExample)
 		
-**2.	what will happen if add() and remove() methods are called subsequently in java? Will Exception be avoided? Like:- 
+**2.	what will happen if add() and remove() methods are called subsequently in java? Will Exception be avoided? Like:- **
 
 ```java
  while(iterator.hasNext()){
@@ -366,15 +372,17 @@ public class GFG {
 		Ans:-
 		No, Subsequent calls made to add() and remove() methods won’t avoid ConcurrentModificationException. Because in this case modCount will be incremented twice by 1.
 
-**3. 	Which method does not cause structural modifications in java?
+**3. 	Which method does not cause structural modifications in java?**
+
 		set().
 
-**4. 	How CopyOnWriteArrayList not thorw concurrentModificationException?
+**4. 	How CopyOnWriteArrayList not thorw concurrentModificationException?**
+
 		In CopyOnWriteArrayList cursor is maintained on snapshot(it is copy of original CopyOnWriteArrayList), rather than on list as in case of ArrayList
 		Because when list.iterator() is called, a variable called snapshot is created which is copy of list (not the original list).
 		Hence, iteration does not care about structural modifications made to list.
 		
-**5. 	What are classes which as fail-fast?
+**5. 	What are classes which as fail-fast?**
 
 		ArrayList
 		LinkedList
@@ -393,7 +401,7 @@ public class GFG {
 		TreeMap
 		IdentityHashMap
 		
-**6. 	What are classes which as fail-safe?
+**6. 	What are classes which as fail-safe?**
 		
 		Ans:- 
 		
@@ -407,5 +415,13 @@ public class GFG {
 		ConcurrentHashMap
 		ConcurrentSkipListMap
 		
-**7.	
-**7.	How ConcurrentHashMap works? Can 2 threads on same ConcurrentHashMap object access it concurrently?
+**7.	How ConcurrentHashMap works? Can 2 threads on same ConcurrentHashMap object access it concurrently?**
+	
+		Ans: ConcurrentHashMap is divided into different segments based on concurrency level. So different threads can access different segments concurrently in java.
+		
+		Can threads read the segment locked by some other thread?
+		Yes. When thread locks one segment for updation it does not block it for retrieval (done by get method) hence some other thread can read the segment (by get method),
+		but it will be able to read the data before locking in java.
+		
+		[ConncurrantHashMap](https://github.com/Ashu-hub/All-About-Java/blob/master/images/ConncurrantHashMap.png)
+
