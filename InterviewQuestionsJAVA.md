@@ -265,8 +265,7 @@
 		Whereas immutable means that the object’s actual value can’t be changed, but you can change its reference to another one.
 		final ensures that the address of the object remains the same whereas the Immutable suggests that we can’t change the state of the object once created.
 		eg:- 
-		
-		[FinalVsImmutable](https://github.com/Ashu-hub/All-About-Java/blob/master/InterviewQuestionExplanation/src/JavaOverview/FinalVsImmutable.java)
+	[FinalVsImmutable](https://github.com/Ashu-hub/All-About-Java/blob/master/InterviewQuestionExplanation/src/JavaOverview/FinalVsImmutable.java)
 		
 **7. 	What is the difference between + and concat()?**
 
