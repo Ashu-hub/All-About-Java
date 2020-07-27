@@ -133,3 +133,13 @@
 	| 	super can be used to call parent class’ variables and methods.												| 	super() can be used to call parent class’ constructors only.								|
 	| 	The variables and methods to be called through super keywordd can be done at any time.						| 	Call to super() must be first statement in Derived(Student) Class constructor.|
 	| 	If one does not explicitly invoke a superclass variables/methods, by using super keyword,nothing happens	| 	If a constructor does not explicitly invoke a superclass constructor by using super(), the Java compiler automatically inserts a call to the no-argument constructor of the superclass.|
+
+**12. What is Association, Composition, and Aggregation in Java. Give example**
+		
+		Composition:-
+		..*Composition is a restricted form of Aggregation in which two entities are highly dependent on each other.
+		..*It represents part-of relationship.
+		..*In composition, both the entities are dependent on each other.
+		..*When there is a composition between two entities, the composed object cannot exist without the other entity.
+		
+**13. Why to favor composition over Inheritance?**		
