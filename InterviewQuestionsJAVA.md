@@ -423,3 +423,9 @@ public class GFG {
 		
 		[ConncurrantHashMap](https://github.com/Ashu-hub/All-About-Java/blob/master/images/ConncurrantHashMap.png)
 
+**8 	Satck vs ArrayDeque?
+		
+**9		why-hashtable-does-not-allow-null-keys-or-values?
+		To successfully store and retrieve objects from a Hashtable, the objects used as keys must implement the hashCode method and the equals method.
+		Since null isn't an object, you can't call .equals() or .hashCode() on it, so the Hashtable can't compute a hash to use it as a key.
+		While In hashMap, Hash(null) = 0
