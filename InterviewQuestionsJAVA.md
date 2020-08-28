@@ -26,7 +26,7 @@
 **Static initialization block:-**
 
 		Static blocks are also called Static initialization blocks in java.
-		Static block executes when class is loaded in java.
+		Static block **executes when class is loaded in java.**
 		static blocks executes before instance blocks in java.
 		Only static variables can be accessed inside static block in java
 		static blocks can be used for initializing static variables or calling any static method in java.
@@ -35,14 +35,14 @@
 **Instance initialization block:-**
 
 		Instance blocks are also called instance initialization blocks in java
-		Instance block executes when instance of class is created in java.
+		Instance block **executes when instance of class is created in java.**
 		Also known as non-static initialization block in java.
 		instance blocks executes after static blocks in java.
 		Static and non-static variables (instance variables) can be accessed inside instance block in java.
 		instance blocks can be used for initializing instance variables or calling any instance method in java.
 		this keyword can be used in instance block in java.
 
-		Flow of Calling:- Static Blocks-> Instance blocks-> Construtors
+		**Flow of Calling:- Static Blocks-> Instance blocks-> Construtors**
 
 **6. How to define your own data type in java?**
 
@@ -114,7 +114,15 @@
 
 		Reflection is used to load java classes at runtime.
 		Frameworks like struts, spring and hibernate uses reflection for loading classes at runtime.
-		
+	
+**16 	Difference between inner class ans static innner class?
+
+**17	Difference between Syncronized block and static syncronized block?
+
+		Synchronization in Java is basically an implementation of monitors .
+		When synchronizing a non static method, the monitor belongs to the instance. When synchronizing on a static method , the monitor belongs to the class. 
+
+
 ## OOPS 
 **1. Principal concepts of OOPS?**
 		Ans:- [Ans](https://github.com/Ashu-hub/Books-to-Prepare-Oracle-Java-Certification-Exams/blob/master/interview_questions_java.md#general-answers)
@@ -128,7 +136,8 @@
 				OR 
 		It is a protective shield that prevents the data from being accessed by the code outside this shield.
 		Technically in encapsulation, the variables or data of a class is hidden from any other class and can be accessed only through any member function of own class in which they are declared.
-		As in encapsulation, the data in a class is hidden from other classes using the data hiding concept which is achieved by making the members or methods of class as private and the class is exposed to the end user or the world without providing any details behind implementation using the abstraction concept, so it is also known as combination of data-hiding and abstraction..
+		As in encapsulation, the data in a class is hidden from other classes using the data hiding concept which is achieved by making the members or methods of class as private and the class is exposed to the end user or the world without providing any details behind implementation using the abstraction concept, 
+		so it is also known as combination of data-hiding and abstraction..
 		Encapsulation can be achieved by: **Declaring all the variables in the class as private and writing public methods in the class to set and get the values of variables.**
 
 **4. What is Data Hiding?**
@@ -190,14 +199,16 @@
 		Association:-
 		Association is relation between two separate classes which establishes through their Objects. Association can be one-to-one, one-to-many, many-to-one, many-to-many.
 		In Object-Oriented programming, an Object communicates to other Object to use functionality and services provided by that object. Composition and Aggregation are the two forms of association.
+		
 		Composition:-
 		Composition is a restricted form of Aggregation in which two entities are highly dependent on each other.
-		It represents part-of relationship.
+		It represents **part-of relationship.**
 		In composition, both the entities are dependent on each other.
 		When there is a composition between two entities, the composed object **cannot exist without the other entity**.
+		
 		Aggregation
 		It is a special form of Association where:
-		It represents Has-A relationship.
+		It represents **Has-A relationship.**
 		It is a unidirectional association i.e. a one way relationship. For example, department can have students but vice versa is not possible and thus unidirectional in nature.
 		In Aggregation, both the **entries can survive individually** which means ending one entity will not effect the other entity
 		eg:
@@ -210,6 +221,7 @@
 		you need Reader and Writer functionality and having them as private members makes your job easy. That’s called composition.
 	2. When behavior of super class changes, functionality in sub class may get broken, without any change on its part; by using composition, one can avoid such fragility.
 	3. Composition offers better test-ability of a class than Inheritance.
+	
 	When to use What?
 	Does TypeB want to expose the complete interface (all public methods no less) of TypeA such that TypeB can be used where TypeA is expected? Indicates **Inheritance.**
 	Does TypeB want only some/part of the behavior exposed by TypeA? Indicates need for **Composition.**
@@ -220,13 +232,9 @@
 				Prior to Java 7 String pool was created in permgen space of heap. 
 		[Refer this](https://github.com/Ashu-hub/All-About-Java/blob/master/images/StringConstantPool.png)
 
-**2.	What does Immuatable means?**
-
-		Ans:- It means Constant. Once Created can notbe changed. In java, objects of String are immutable.
-
 **3. 	What does intern() do?**
 
-		When the intern method is invoked, if the string pool already contains a string equal to this String object as determined by the equals(Object) method, then the string from the pool is returned. 
+		When the intern method is invoked, if the string pool already contains a string equal to this String object( as determined by the equals(Object) method,) then the string from the pool is returned. 
 		Otherwise, this String object is added to the string pool and a reference to this String object is returned.
 		
 		eg:- 
@@ -239,12 +247,41 @@
 		So, "abc".equals("abc") will return true and s5 will be a reference variable which will refer to "abc" in string pool.
 
 		**So, s1 == s5 will always return true.**
-	
+```java
+	  String s1 = new String("GFG"); // Line-1  
+  
+        // S2 refers to Object in SCP Area 
+        String s2 = s1.intern(); // Line-2  
+          
+        // Comparing memory locations 
+        // s1 is in Heap 
+        // s2 is in SCP 
+        System.out.println(s1 == s2); 
+          
+        // Comparing only values 
+        System.out.println(s1.equals(s2)); 
+          
+        // S3 refers to Object in the SCP Area  
+        String s3 = "GFG"; // Line-3  
+  
+        System.out.println(s2 == s3);
+		
+		//o/p :- 
+		false
+		true
+		true
+````	
 **4.	Why String pool in java?**
 
 		Ans: Save memory and increase performance. less number number of strings are created in java heap and hence leaving less work for garbage collector to be done.
 
+**2.	What does Immuatable means?**
+
+		Ans:- It means Constant. Once Created can notbe changed. In java, objects of String are immutable. Immutability is useful in MultiThreadng.
+		
 **5.	Create a immutable class?**
+		Immutable simply means unmodifiable or unchangeable.
+		Like Once string object is created its data or state can't be changed but a new string object is created.
 		
 		1. Make Class as FINAL.
 		2. make class variable as private- so that it cant be accessed outside the world.
@@ -429,3 +466,45 @@ public class GFG {
 		To successfully store and retrieve objects from a Hashtable, the objects used as keys must implement the hashCode method and the equals method.
 		Since null isn't an object, you can't call .equals() or .hashCode() on it, so the Hashtable can't compute a hash to use it as a key.
 		While In hashMap, Hash(null) = 0
+		
+		
+Q) Why does iterator.remove does not throw ConcurrentModificationException?
+	Ans:- Javadoc says it is permitted way to modify any collection while Iterating.
+Reason:- before callng .remove(int), remove() checks for modification,ifit found any change in original list it will throw ConcurrentModificationException otherwise it will ececute normally. in a way it has reference to internal State of any object.
+
+Q) Assertion Error is SubClass of Error? Why is it so?
+Q) When StackOverFlow Error can come?- I think when the stack is full and there is no other location to store new variable. Generally in case of Recurssion.
+Q) What is Automatic Resource Management?  Order of calling to this.close()?
+	Ans: Java provides a feature to make the code more robust and to cut down the lines of code, this is known as Try with Resource. The try-with-resources statement is a try statement that declares one or more resources.
+		Avaiable after 1.7 version.
+  (a) What is a resource?
+	Ans: A resource is an object that must be closed after the program is finished using it. Any object that implements java.lang.AutoCloseable, which includes all objects which implement java.io.Closeable, can be used as a resource.
+		eg.
+		```java
+		static String readFirstLineFromFile(String path) throws IOException
+{
+    try (BufferedReader br = new BufferedReader(new FileReader(path)))
+    {
+        return br.readLine();
+    }
+}
+```
+Q) What is effective final?
+	Ans. Def.- Objects or primitive values are effectively final if we do not change their values after initialization.
+	 if we remove the final modifier from a method parameter or a local variable without introducing compile-time errors, then it's effectively final
+	```java
+	@FunctionalInterface
+	public interface FunctionalInterface {
+		void testEffectivelyFinal();
+		default void test() {
+			int effectivelyFinalInt = 10;
+			FunctionalInterface functionalInterface 
+				= () -> System.out.println("Value of effectively variable is : " + effectivelyFinalInt);
+		}
+}
+```
+Q) why does generics does not support primitive type?
+	Object is superclass of all objects and can represent any user defined object. Since all primitives doesn't inherit from "Object" so we can't use it as a generic type.
+
+Q) What is Type References in java?
+	Ans. 

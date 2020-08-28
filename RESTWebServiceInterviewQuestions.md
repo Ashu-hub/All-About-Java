@@ -19,13 +19,13 @@
 
 - How to maintian session in HTTP?
 	HTTPSession?
-	There is something called SpringSession in Spring framework which can be used to creating a ID to every user. So It aatahc that ID to particular user.
+	There is something called SpringSession in Spring framework which can be used to creating a ID to every user. So It aatached that ID to particular user.
 
 - When I hit a req I got response in XML,I want it  in JSON, how to modify the request to get that?
 	You need to use Use the Accept: application/json in HTTP Header.
 	HTTP Headers are not part of URL.
 	
-	* Ome way to do is use Application/Json in Postman or change the API to produces application.json
+	* One way to do is use Application/Json in Postman or change the API to produces application.json
 	
 - Custom Datatype?
 
@@ -67,7 +67,7 @@
 		host = Host is a domain. Like http://sample.com and http://sample.net is having different domain, so different origin.
 		port = port is a place where the application listen to.
 		
-	Unless is request is from same origin , the request will be rejected by the browser. As By defaut browser prevent any AJAX request form another Origin.
+	Unless is request is from same origin , the request will be rejected by the browser. As By defaut, browser prevent any AJAX request form another Origin.
 	Sol:- CORS, it the satnadard to relax the same origin policy.
 	
 	How to enable in REST? - Add @CrossOrigin(Origin = "*") in specific method or  add WebMvcCofidurerAdapter method(bean) in Application class, with mapping and allowed origin.

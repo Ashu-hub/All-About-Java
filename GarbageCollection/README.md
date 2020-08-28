@@ -70,6 +70,7 @@ The ideal solution would be if we can make a type of cache which is dynamic in n
 To achieve it in Java, we provide different types of reference in the java.lang.ref package.
 
 ## Type of References:
+
 In Java there are four types of references differentiated on the way by which they are garbage collected:-
 	. Strong References
 	. Weak References
@@ -77,23 +78,28 @@ In Java there are four types of references differentiated on the way by which th
 	. Phantom References
 
 1. Strong References:-
+
 This is the default type/class of Reference Object.  Any object which has an active strong reference are not eligible for garbage collection. 
 The object is garbage collected **only when** the variable which was strongly referenced points to null.
 
 2. Weak Reference:-
-They are not default type and they should be explicitly specified while using them. If JVM detects an object with only weak references, this object will be marked for garbage collection.
+
+They are not default type and they should be explicitly specified while using them. If JVM detects an object with **only weak references, this object will be marked for garbage collection.**
 To create such references java.lang.ref.WeakReference class is used.
 A weakly referenced object is cleared by the Garbage Collector when it's weakly reachable. Weak reachability means that an object has neither strong nor soft references pointing to it. The object can be reached only by traversing a weak reference.
 The most known use of these references is the WeakHashMap class. It's the implementation of the Map interface where every key is stored as a weak reference to the given key. When the Garbage Collector removes a key, the entity associated with this key is deleted as well.
 First off, the Garbage Collector clears a weak reference, so the referent is no longer accessible. Then the reference is placed in a reference queue (if any associated exists) where we can obtain it from.
 
-3. Soft References:- If an object has no strong reference but has a soft reference, then the garbage collector reclaims this object’s memory when GC needs to free up some memory. 
+3. Soft References:- 
+
+If an object has no strong reference but has a soft reference, then the garbage collector **reclaims this object’s memory when GC needs to free up some memory. **
 To get Object from a soft reference, one can invoke the get() method. If the object is not GCed, it returns the object, otherwise , it returns null.
 
 4. Phantom Reference: 
 If an object does not have any of the above references then it may have a phantom reference. Phantom references can’t be accessed directly. When using a get() method it will always return null. 
 Phantom Reference can be used in situations, where sometimes using finalize() is not  sensible.This is a special reference which says that the object was already finalized, and the garbage collector is ready to reclaim its memory.
 "Phantom references are the weakest references of all.
+We can't get a referent of a phantom reference. The referent is never accessible directly through the API and this is why we need a reference queue to work with this type of references
 
 ```java
 import java.lang.ref.PhantomReference;

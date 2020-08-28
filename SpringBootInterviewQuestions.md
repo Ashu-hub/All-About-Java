@@ -37,7 +37,7 @@
 - What is Actuator?
 	Spring boot Actuator provides secured endpoints for monitoring and managing you spring boot application.
 	Setps:-
-	 1. Add Dependency spring boot starter actuator
+	 1. Add Dependency spring-boot-starter-actuator
 	 2. In the application.properties file, we need to disable the security for actuator endpoints. 
 		management.security.enabled = false
 		management.port = 9090 - this will enable diff port for actuator

@@ -68,7 +68,7 @@
 
 ## Future
 	A Future represents the result of an asynchronous computation.
-	Methods are provided to check if the computation is complete, to wait for its completion, and to retrieve the result of the computation.
+	Methods are provided to check if the computation is complete(isDone()), to wait for its completion, and to retrieve the result of the computation(get().
 	The result can only be retrieved using method get() when the computation has completed, blocking until it is ready
 	
 ## Note:- 
@@ -78,14 +78,16 @@
 # CompletableFuture:-
 	This is a class introduced in 1.8 in Concurrent API.
 	Why?- To support Asynchronous computation.
-	Java 5 introduced Future interface for handling Asynchronouscomputation but it does not have any methods to combine these computation or handle possible errors.
+	Java 5 introduced Future interface for handling Asynchronous computation but it does not have any methods to combine these computation or handle possible errors.
 	CompletableFuture is a framework with 50 diff methods for composing, combining, executing Asynchronous computation steps and handling errors
 	
 	It provide a way to execute multiple threads at once, withour blocking the main thread. 
 	It provide methods like supplyAsync(Supplier), thenApply(), thenAccept()
 	
-## Differences between execute() and submit()
-
+## Differences between execute() and submit() of Executor Service
+	execute() returns Future Reference
+	submit method does not returns anything.
+	
 # Condition :-
 	This is a Interface in Java. Condition Instances are similar to Wait, notify and notifyAll.
 	Imp Methods:-
@@ -100,7 +102,7 @@
 
 ## 		Difference between Lock and Synchronized Block:
 	A synchronized block is fully contained within a method ; we can have Lock API's lock() and unlock() operation in separate methods.
-	A synchronized block doesn't support the fairness, any thread can acquire the lock once released, no preference can be specified. We can achieve fairness within the Lock APIs by specifying the fairness property. It makes sure that longest waiting thread is given access to the lock
+	A synchronized block doesn't support the fairness, any thread can acquire the lock once released, no preference can be specified. We can achieve fairness within the Lock APIs by specifying the fairness property. It makes sure that **longest waiting thread **is given access to the lock
 	A thread gets blocked if it can't get an access to the synchronized block. The Lock API provides tryLock() method. The thread acquires lock only if it's available and not held by any other thread. 
 	A thread which is in “waiting” state to acquire the access to synchronized block, can't be interrupted. The Lock API provides a method lockInterruptibly() which can be used to interrupt the thread when it's waiting for the lock
 	Synchronized has implicit locks and locks are explicit as we need to create variable for it.
@@ -116,7 +118,7 @@
 	void unlock() – unlocks the Lock instance
 
 	In addition to the Lock interface, we have a ReadWriteLock interface which maintains a pair of locks, one for read-only operations, and one for the write operation. 
-	The read lock may be simultaneously held by multiple threads as long as there is no write.
+	**The read lock may be simultaneously held by multiple threads as long as there is no write.**
 
 	ReadWriteLock declares methods to acquire read or write locks:
 
@@ -183,7 +185,7 @@ public class StampedLockDemo {
 ```
 
 # Semaphore:
-	A Semaphore(is a class in util.concurrent pkg) controls the access to shared resource using permits in java.
+	A Semaphore(is a class in util.concurrent pkg) controls the **access to shared resource using permits in java.**
 	If permits are greater than zero, then semaphore allow access to shared resource.
 	If permits are zero or less than zero, then semaphore does not allow access to shared resource.
 	These permits are sort of counters, which allow access to the shared resource. Thus, to access the resource, a thread must be granted a permit from the semaphore
