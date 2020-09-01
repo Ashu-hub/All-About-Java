@@ -506,5 +506,24 @@ Q) What is effective final?
 Q) why does generics does not support primitive type?
 	Object is superclass of all objects and can represent any user defined object. Since all primitives doesn't inherit from "Object" so we can't use it as a generic type.
 
+Q) Why to choose generics?
+	Generics gives strong complie-time type Safety to our code. Eliminated explicit type casting and make more readable.
+	Generics allow classes and Interfaces to be paramterized , so that we can implement generic algorithm which works for different types.
+	eg: className<T1,T2....Tn>
+	
+Q) Why List<String> can not be assigned to List<Object> ?
+	List<String> stringList =null ;
+	List<Object> objectList = stringList; //ERROR	
+	Here List<String> is not a sub type of List<Object>, hence as per inheritance rule, this is not allowed.
+
+Q)	Inheritance in Generics - Can we assign List<String> to Collection<String> ?
+	If the type parameter is same, then we can very well extend the classes as per Java Inheritance rules. So it is
+	perfectly legal to assign List<String> to Collection<String> reference.
+	
+Q) What is Type Erasure ?
+	Generics provide compile time safety to our Java code. Type erasure happens at compile time, to remove
+	those generic type information from source and adds casts needed and deliver the byte code. Thus the java
+	byte code will be no different than that the non-generic Java code
+
 Q) What is Type References in java?
 	Ans. 

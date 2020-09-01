@@ -1,7 +1,7 @@
 # Volatile
 	It is a access specifier, used only for variables. This specifier ensures variable visibilty to all other threads.
 	Visibility: It means that changes made by one thread to shared data are visible to other threads.
-	Volatile variables are loaded in shared memory, not in the local memory.
+	Volatile variables are loaded in shared memory, not in the local memory, thats how it can able to give Visibility feature.
 	
 # AtomicInteger:
 	Supppose there is a variable, int i = 0;
@@ -18,6 +18,7 @@
 	CompareAndSet(int expected, int new)
 	
 # ThreadLocal:
+	ThreadLocal is class which provides Tread local Variables. This is another wat to provide thread safety.
 	ThreadLocal enables us for for use:
 	- One Object per Thread.(Thread Confinement)
 	- Per thread context
@@ -58,6 +59,7 @@
 	Ans:- By the help of **Callable. **
 	A task that returns a result and may throw an exception. To hande this scenerio we use Callable.
 	Callable interface has one method, Sign as - V call() throws Exception;
+	
 	Executor service has Submit method for Callable Interface.
 	.submit() return a Future result.
 	Once we got resut. One can use future.get().
@@ -101,8 +103,9 @@
 	A lock is a more flexible and sophisticated thread synchronization mechanism than the standard synchronized block.
 
 ## 		Difference between Lock and Synchronized Block:
-	A synchronized block is fully contained within a method ; we can have Lock API's lock() and unlock() operation in separate methods.
-	A synchronized block doesn't support the fairness, any thread can acquire the lock once released, no preference can be specified. We can achieve fairness within the Lock APIs by specifying the fairness property. It makes sure that **longest waiting thread **is given access to the lock
+	A synchronized block is fully contained **within a method** ; we can have Lock API's lock() and unlock() operation in **separate methods.**
+	A synchronized block d**oesn't support the fairness**, any thread can acquire the lock once released, no preference can be specified. 
+		We can achieve fairness within the Lock APIs by specifying the fairness property. It makes sure that **longest waiting thread **is given access to the lock
 	A thread gets blocked if it can't get an access to the synchronized block. The Lock API provides tryLock() method. The thread acquires lock only if it's available and not held by any other thread. 
 	A thread which is in “waiting” state to acquire the access to synchronized block, can't be interrupted. The Lock API provides a method lockInterruptibly() which can be used to interrupt the thread when it's waiting for the lock
 	Synchronized has implicit locks and locks are explicit as we need to create variable for it.
@@ -128,7 +131,7 @@
 ## Lock Implementation:-
 
 1. ReentrantLock:-(literal mean- describes a computer program or routine that is written so that the same copy in memory can be shared by multiple user )
-	Gives Same semantics as Synchronized with extended functionality.
+	Gives Same semantics as **Synchronized with extended functionality.**
 	ReentrantLock locks allow you to call lock multiple times(getHoldCount()- to know the number of lock.)
 	It allow Fair lock by - new ReentrantLock(true); - It means longest waiting thread can acquire the lock.
 	
@@ -154,7 +157,7 @@
 	This class implements ReadWriteLock interface.
 	Rules for Acquiring Read/ Write Lock:-
 	a) Read Lock:- If no thread acquired the write lock or requested for it, then multiple threads can acquire the read lock.
-	b) Write Lock:- If no thread is reading or writing then only one thread can acquire the write lock.
+	b) Write Lock:- If no thread is **reading or writing** then only one thread can acquire the write lock.
 	
 3. StampedLock:-
 	It is introduced in JAva 8.

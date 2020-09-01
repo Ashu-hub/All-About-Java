@@ -17,9 +17,43 @@
 	Java 8 has added **forEach(Consumer) and spiltIterator() methods in the Iterable Interface**.
 	Local inner class(which are dfined inside a methods) **cannot access non-final local variable** till JDK 1.7, Since JDK 1.8, it is possible to access the non-final local variable in method local inner class.
 	Java 8 has introduced **StampedLock**, in which the acquisition method return a stamp that is used to release a lock and to check whether lock is still valid or not.
+	java 8 has introduced Concurrent Adders & Accumulators- DoubleAdder, DoubleAccumulator, LongAdder, LongAccumulator
 	
-#Method Reference
+# Method Reference
+	
+	In place of lambda expression we can use Method Reference. Syntax - By using "::" operator. 
+	The target method can be Static or instance(non- static) method.
+	
+	**Rules:-**
+	1. The argument type must match.
+	
+	Advantages:
+	Already available methods can be used. **Code Resuability.**
+	
+```java
+		class Test {
+		 public static void m1() {
+			 for(int i=0; i<=10; i++) {
+			 System.out.println("Child Thread");
+			 }
+		}
+		public static void main(String[] args) {
+			 Runnable r = Test:: m1;
+			 Thread t = new Thread(r);
+			 t.start();
+			 for(int i=0; i<=10; i++) {
+			 System.out.println("Main Thread");
+			 }
+ 		} 
+	}	
+```	
+	"::"can be used for method(Static or Non- Static) reference and Constructor reference.
+	Static Reference - ClassName::MethodName
+	NonStatic Reference - Object::MethodName
+	Constructor Reference - ClassName::new
 
+	In java there is Call By Value. From java8 There is Call By method.
+	Like:- list.stream.forEach(println) --> Wait, we need to use ::operator to tell complier that this is method referenc not a variable, so --> list.stream.forEach(::println) --> Wait method Reference can be of a type. Since println is instance method we need to use. -->list.stream.forEach(System.out::println) 
 # Functional Interface:-(SAM)
 
 ## Predicate:- 
@@ -611,3 +645,6 @@ items.forEach(item -> System.out.println(item));
 	Map:-
 	Added V getOrDefault(Object key, V defaultValue) - Returns the value to which the specified key is mapped or a defalut value if  this map contain no mapping.
 	..
+	
+	
+# 

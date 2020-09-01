@@ -35,7 +35,7 @@ class Producer implements Runnable {
 		synchronized (sharedQueue) {
 			System.out.println("Produced-" + i);
 			sharedQueue.add(i);
-			//Thread.sleep(1000);
+		Thread.sleep(1000);
 			// as soon as it produces, it notify
 			sharedQueue.notify();
 		}
@@ -63,7 +63,7 @@ class Consumer implements Runnable {
 
 	private void consume() throws InterruptedException {
 		synchronized (sharedQueue) {
-			if (sharedQueue.size() == 0) {
+			while (sharedQueue.size() == 0) {
 				System.out.println("Waiting for Producer to Produce ");
 				sharedQueue.wait();
 			}
