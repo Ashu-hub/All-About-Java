@@ -62,16 +62,16 @@
 	
 	Executor service has Submit method for Callable Interface.
 	.submit() return a Future result.
-	Once we got resut. One can use future.get().
+	Once we got result. One can use future.get().
 
 ## Differences between Callable and Runnable.
-	Class implementing Callable interface must override call() method. call() method returns computed result or throws an exception if unable to do so.
-	Class implementing Runnable interface must override run() method. A Runnable does not return a result and can neither throw a checked exception
+	Class implementing Callable interface must override call() method. call() method **returns computed result or throws an exception if unable to do so.**
+	Class implementing Runnable interface must override run() method. A Runnable **does not return a result and can neither throw a checked exception**
 
 ## Future
 	A Future represents the result of an asynchronous computation.
 	Methods are provided to check if the computation is complete(isDone()), to wait for its completion, and to retrieve the result of the computation(get().
-	The result can only be retrieved using method get() when the computation has completed, blocking until it is ready
+	The result can only be retrieved using method get() when the computation has completed, **blocking until it is ready**
 	
 ## Note:- 
 		Future.get() is a blocking operation. means until the thread executes and the result does not get publish, the other operation is blocked.
@@ -84,11 +84,11 @@
 	CompletableFuture is a framework with 50 diff methods for composing, combining, executing Asynchronous computation steps and handling errors
 	
 	It provide a way to execute multiple threads at once, withour blocking the main thread. 
-	It provide methods like supplyAsync(Supplier), thenApply(), thenAccept()
+	It provide methods like supplyAsync(Supplier), thenApply(), thenAccept() etc
 	
 ## Differences between execute() and submit() of Executor Service
-	execute() returns Future Reference
-	submit method does not returns anything.
+	execute() does not returns anything.
+	submit method returns Future Reference.
 	
 # Condition :-
 	This is a Interface in Java. Condition Instances are similar to Wait, notify and notifyAll.
@@ -104,10 +104,10 @@
 
 ## 		Difference between Lock and Synchronized Block:
 	A synchronized block is fully contained **within a method** ; we can have Lock API's lock() and unlock() operation in **separate methods.**
-	A synchronized block d**oesn't support the fairness**, any thread can acquire the lock once released, no preference can be specified. 
+	A synchronized block **doesn't support the fairness**, any thread can acquire the lock once released, no preference can be specified. 
 		We can achieve fairness within the Lock APIs by specifying the fairness property. It makes sure that **longest waiting thread **is given access to the lock
-	A thread gets blocked if it can't get an access to the synchronized block. The Lock API provides tryLock() method. The thread acquires lock only if it's available and not held by any other thread. 
-	A thread which is in “waiting” state to acquire the access to synchronized block, can't be interrupted. The Lock API provides a method lockInterruptibly() which can be used to interrupt the thread when it's waiting for the lock
+	A thread gets blocked if it can't get an access to the synchronized block. The Lock API provides **tryLock()** method. The thread acquires lock only if it's available and not held by any other thread. 
+	A thread which is in “waiting” state to acquire the access to synchronized block, **can't be interrupted.** The Lock API provides a method lockInterruptibly() which can be used to interrupt the thread when it's waiting for the lock
 	Synchronized has implicit locks and locks are explicit as we need to create variable for it.
 	
 	NOTE:- Always adivisibe to use try catch finally or try finally with locks as there might be some exception to it.
@@ -156,11 +156,11 @@
 2. ReentrantReadWriteLock:-
 	This class implements ReadWriteLock interface.
 	Rules for Acquiring Read/ Write Lock:-
-	a) Read Lock:- If no thread acquired the write lock or requested for it, then multiple threads can acquire the read lock.
-	b) Write Lock:- If no thread is **reading or writing** then only one thread can acquire the write lock.
+	a) Read Lock:- If no thread acquired the write lock or requested for it, then **multiple threads** can acquire the read lock.
+	b) Write Lock:- If no thread is **reading or writing** then only **one thread** can acquire the write lock.
 	
 3. StampedLock:-
-	It is introduced in JAva 8.
+	It is introduced in Java 8.
 	It also supports both read or write locks. However, lock acquisition method returns a stamp that is used to release a lock or to check if the lock is still valid.
 ```java
 public class StampedLockDemo {

@@ -28,6 +28,7 @@
 	* One way to do is use Application/Json in Postman or change the API to produces application.json
 	
 - Custom Datatype?
+	Enum
 
 - What is HTTP E-Tag?
 	Entity Tags. This is an HTTP Response Header. This is used for HTTP Caching or Conditional Requests
@@ -44,7 +45,7 @@
 	eg:- POST /articles
 	
 	PUT method is idempotent. So if you send retry a request multiple times, that should be equivalent to single request modification.
-	POST is NOT idempotent. So if you retry the request N times, you will end up having N resources with N different URIs created on server.
+	POST is **NOT idempotent.** So if you retry the request N times, you will end up having N resources with N different URIs created on server.
 	
 	Generally, in practice, always use PUT for UPDATE operations.
 	Always use POST for CREATE operations.
@@ -74,7 +75,7 @@
 
 
 - Exception Handling In Rest?
-	1) Create a class with @ControllerAdvice annotation which enables the its method to shared among all controller available. And Extends ResponseEntityExceptionHandler, it provide centralized exception handling for all RequestMapping methods.
+	1) Create a class with @ControllerAdvice annotation which enables its method to shared among all controller available. And Extends ResponseEntityExceptionHandler, it provide centralized exception handling for all RequestMapping methods.
 	2) Create a method with annotation @ExceptionaHandler(CustomExceptionClass.class) which handle the particular exception(in our case CustomExceptionClass.class)
 	3) Create a class CustomExceptionClass which extends RuntimeException and simply put a paramertized constructor and call super(paramter).
 	4) One can throw this custom exception as throw new CustomExceptionClass(message)

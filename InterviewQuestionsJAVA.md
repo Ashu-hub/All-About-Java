@@ -463,10 +463,29 @@ public class GFG {
 **8 	Satck vs ArrayDeque?
 		
 **9		why-hashtable-does-not-allow-null-keys-or-values?
+		
 		To successfully store and retrieve objects from a Hashtable, the objects used as keys must implement the hashCode method and the equals method.
 		Since null isn't an object, you can't call .equals() or .hashCode() on it, so the Hashtable can't compute a hash to use it as a key.
 		While In hashMap, Hash(null) = 0
 		
+**10	Internal Working OF TreeMap?
+		
+		TreeMap Stores elements as Key Value Pair. It extends AbstractMap, implements NavigableMap, cloneable and Serializable.
+		TreeMap Sotores the elements in Sorted manner(natural sorting order). 
+		TreeMap does not using hashing technique for storing the elements, while it uses RED- BLack Tree for storing elements.
+		Red Black Tree Has node str as - 
+		Parent - key - value pair
+		Left - all elemtns smallar then root
+		Right - all elements greater then root
+
+**11	Can I instantiate Abstract class and Does it have constructor?  
+
+		No, You can't. It has constructors(either default or parametrized). Reason for this is Constructor Chaining, the constructor of  Subclass class invokes the constructor of Base Class. It is imperative that all classes has constructors.
+
+**12 	What is difference between using instanceOf operator and getClass() in equals method?
+
+		If we use instanceOf it will return true for comparing current class with its subclass as well,
+		but getClass() will return true only if exactly same class is compared. Comparison with any subclass will return false.		
 		
 Q) Why does iterator.remove does not throw ConcurrentModificationException?
 	Ans:- Javadoc says it is permitted way to modify any collection while Iterating.
@@ -524,6 +543,8 @@ Q) What is Type Erasure ?
 	Generics provide compile time safety to our Java code. Type erasure happens at compile time, to remove
 	those generic type information from source and adds casts needed and deliver the byte code. Thus the java
 	byte code will be no different than that the non-generic Java code
+
+Q) 
 
 Q) What is Type References in java?
 	Ans. 

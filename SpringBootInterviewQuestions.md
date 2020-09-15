@@ -1,5 +1,22 @@
 # Spring Boot Interview questions:-
+- AOP:
+	Aspect oriented programming(AOP) as the name suggests uses aspects in programming. 
+	It can be defined as the breaking of code into different modules, also known as modularisation, where the aspect is the key unit of modularity.
+	Aspect: The class which implements the JEE application's cross-cutting concerns(transaction, logger etc) is known as the aspect.
+	Advice: The job which is meant to be done by an Aspect or it can be defined as the action taken by the Aspect at a particular point. 
+	There are five types of Advice namely: Before, After, Around, AfterThrowing and AfterReturning
 
+- IOC -  Inversion of control- It means giving the **control of creating and instantiating the spring beans to the Spring IOC container. **
+		and the only work the developer does is configuring the beans in the spring xml file.
+
+- Dependency Injections- 
+
+	Flavor of Inversion of Control. Let's look at these two words separately. Here the dependency part translates into an association between two classes. For example, class A is dependent of class B.
+	Now, let's look at the second part, injection. All this means is, class B will get injected into class A by the IoC.
+
+-	Circular Depency in Spring?
+	https://www.baeldung.com/circular-dependencies-in-spring
+	
 - What is Dispatcher Servlet? Front Controller for Spring MVC framework.
 
 - Who Configures Dispatcher Servlet?- Springboot AutoConfiguration
@@ -13,7 +30,7 @@
 - What is Content negotiaiton?
 
 - What is Idempotence?
-	Property of Certain operation in Computer Science, that can be applied multiple times without changing the result beyond initial application .
+	Property of Certain operation in Computer Science, that can be applied multiple times without changing the result beyond initial application.
 	So- Get, PUT, DELETE are- **Idempotent**
 				POST - **Non Idempotent.** Resouce creation should always by POST method.
 
@@ -21,7 +38,7 @@
 	Swagger2 is an open source project used to generate the **REST API documents for RESTful web services.**
 	Steps:
 	1) Add 2 dependencies- springfox-swagger2 and springfox-swagger-ui
-	2) Now, add the @EnableSwagger2 - It will enable the Swagger2 in application.
+	2) Now, add the @EnableSwagger2 in the main class - It will enable the Swagger2 in application.
 	3) Create Docket Bean to configure Swagger2 for your Spring Boot application. We need to define the base package to configure REST API(s) for Swagger2
 		like:-
 ```java		
@@ -29,7 +46,7 @@
     public Docket productApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.exl.dca"))
+                .apis(RequestHandlerSelectors.basePackage("com.hello.dcaa"))
                 .paths(regex("/quotes.*"))
                 .build()
 ```

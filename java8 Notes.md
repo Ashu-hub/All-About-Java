@@ -38,7 +38,7 @@
 			 }
 		}
 		public static void main(String[] args) {
-			 Runnable r = Test:: m1;
+			 Runnable r = Test:: m1; //inplace of run method we can use m1 .
 			 Thread t = new Thread(r);
 			 t.start();
 			 for(int i=0; i<=10; i++) {
@@ -52,8 +52,9 @@
 	NonStatic Reference - Object::MethodName
 	Constructor Reference - ClassName::new
 
-	In java there is Call By Value. From java8 There is Call By method.
+	In java there is Call By Value. From java8, method reference is Call By method.
 	Like:- list.stream.forEach(println) --> Wait, we need to use ::operator to tell complier that this is method referenc not a variable, so --> list.stream.forEach(::println) --> Wait method Reference can be of a type. Since println is instance method we need to use. -->list.stream.forEach(System.out::println) 
+	
 # Functional Interface:-(SAM)
 
 ## Predicate:- 
@@ -158,14 +159,14 @@
 
 ## what's a Streams:-
 
-	One of the major new features in Java 8 is the introduction of the stream functionality – java.util.stream – which contains classes for processing sequences of elements.
-	Streams is itself a final class in java.util.stream package. Stream is public Interface which extends BaseStream.
+	One of the major new features in Java 8 is the introduction of the stream functionality – java.util.stream – **which contains classes for processing sequences of elements.**
+	Streams is itself a final class in java.util.stream package. Stream is also a public Interface which extends BaseStream.
 
 ## Streams Vs Collections:-
 	
 	Streams differ from collections in several ways:-
 	1. No storage - A stream is not a data structure that stores elements, it conveys elements from a source such as a data structure, an array,through a pipeline of computational operations.
-	2. Functional in nature.  - An operation on a stream produces a result, but does not modify its source.  For example, filtering a Stream obtained from a collection produces a new Stream without the filtered elements, rather than removing elements from the source collection.
+	2. Functional in nature.  - An operation on a stream produces a result, but **does not modify its source.**  For example, filtering a Stream obtained from a collection produces a new Stream without the filtered elements, rather than removing elements from the source collection.
 	3. Consumable -  The elements of a stream are only visited once during the life of a stream. Like an Iterator, a new stream must be generated to revisit the same elements of the source.
 	In contrast, a Collection is a container of objects (elements). You can't get (retrieve) an object from a collection unless the object was previously added to the collection.	
 
@@ -480,7 +481,7 @@ public class OptionalDemo{
 ### Optional.of() vs Optional.ofNullable()
 	
 	Optional.of(null) -> will throw NullPointerException
-	Optional.ofNullable -> Will not throw NullPointer rather returns an empty Optional object.
+	Optional.ofNullable(null) -> Will not throw NullPointer rather returns an empty Optional object.
 
 ### Checking Value Presence: isPresent() :-
 	
@@ -550,11 +551,11 @@ public class OptionalDemo{
 ------------------
 # Java 8 features regarding memory:-
 
-	Until Java 7 there was an area in JVM memory called PermGen, where JVM used to keep its classes. In Java 8 it was removed and replaced by area called Metaspace.
+	Until Java 7 there was an area in JVM memory called PermGen, where JVM used to keep its classes or metaInformation. In Java 8 it was removed and replaced by area called Metaspace.
 	What are the most important differences between PermGen and Metaspace?
-	The only difference I know is that java.lang.OutOfMemoryError: PermGen space can no longer be thrown and the VM parameter MaxPermSize is ignored.
+	The only difference I know is that java.lang.OutOfMemoryError: PermGen space error can no longer be thrown and the VM parameter MaxPermSize is ignored.
 
-	The main difference from a user perspective - which I think the previous answer does not stress enough - is that Metaspace by default auto increases its size (up to what the underlying OS provides), 
+	The main difference from a user perspective - which I think the previous answer does not stress enough - is that Metaspace **by default auto increases its size** (up to what the underlying OS provides), 
 	while PermGen always has a fixed maximum size. You can set a fixed maximum for Metaspace with JVM parameters, but you cannot make PermGen auto increase.
 	To a large degree it is just a change of name. Back when PermGen was introduced, there was no Java EE or dynamic class(un)loading, so once a class was loaded it was stuck in memory until the JVM shut down - thus Permanent Generation. Nowadays classes may be loaded and unloaded during the lifespan of the JVM, so Metaspace makes more sense for the area where the metadata is kept.
 	Both of them contain the java.lang.Class instances and both of them suffer from ClassLoader leaks. Only difference is that with Metaspace default settings, it takes longer until you notice the symptoms (since it auto increases as much as it can), i.e. you just push the problem further away without solving it. OTOH I imagine the effect of running out of OS memory can be more severe than just running out of JVM PermGen, so I'm not sure it is much of an improvement.
@@ -597,12 +598,7 @@ items.forEach(item -> System.out.println(item));
 
 ```java
 	// Convert elements to strings and concatenate them, separated by commas
-	String str = things.stream().map(Onject::toString).collect(Collectors.joining(", "));
-```		
-
-```java
-  // Compute sum of salaries of employee
-	int sum = employee.stream().collect(Collectors.summingInt(Employee::getSalary));
+	String str = things.stream().map(Object::toString).collect(Collectors.joining(", "));
 ```		
 
 ```java
@@ -624,6 +620,7 @@ items.forEach(item -> System.out.println(item));
 // Partition students into passing and failing
 	Map<Department, Integer> totalByDept = employee.stream().collect(Collectors.partioningBy(s-> s.getGrade() >= 40));
 ```	
+
 ```java
 	//15. Example Subject wise Highest Marks
 		Map<String, String> subwiseHighMarks = studentList.stream().collect(Collectors.groupingBy(Student::getSubject,
@@ -647,4 +644,3 @@ items.forEach(item -> System.out.println(item));
 	..
 	
 	
-# 
