@@ -4,7 +4,7 @@
 	Java 8 has introduce **Lambda Expression** to bring the benefits of functional Programming in java, Lambda is just a **nameless function, which means it does not have name, return Type and access modifier.** 
 	Java 8 has introduce **Functional Interface** to bring the use of lambda expression. Functional Interface is having Single Abstract Method(SAM) in it. To mark an interface Function an annotation has been introduce i.e. @FunctionInterface. 
 	Java 8 has also added **method Reference** which enables us to define lambda expressions by referring to methods name directly.
-	Java 8 has also introduce **default concrete methods and static methods inside interface**. 
+	Java 8 has also introduce **default concrete methods(extension or defender methods) and static methods inside interface**. 
 	Java 8 has introduce **java.util.function** package which consititue all functional interfaces like Predicate, Function, Supplier, Consumer, BinaryOperator, UnaryOperator.
 	Java 8 has introduce **stream functionality** with java.util.stream package– which contains classes for processing sequence of elements. This is done by Stream pipeline chaining - 
 		Syntax:- "source (.) 0 or more Intermidiate Operation (.) Terminal operation". Intermediate operation like - filter, map, skip, peek, sorted, distinct etc while  Terminal operation like for each(Consumer), reduce, collect, toArray, findFirst, findAny, count etc.
@@ -18,7 +18,12 @@
 	Local inner class(which are dfined inside a methods) **cannot access non-final local variable** till JDK 1.7, Since JDK 1.8, it is possible to access the non-final local variable in method local inner class.
 	Java 8 has introduced **StampedLock**, in which the acquisition method return a stamp that is used to release a lock and to check whether lock is still valid or not.
 	java 8 has introduced Concurrent Adders & Accumulators- DoubleAdder, DoubleAccumulator, LongAdder, LongAccumulator
+
+#	Difference between anonymous class vs lambda
+	Anonymous class is an inner class without a name, which means that we can declare and instantiate class at the same time.
+	 A lambda expression is a short form for writing an anonymous class.
 	
+
 # Method Reference
 	
 	In place of lambda expression we can use Method Reference. Syntax - By using "::" operator. 

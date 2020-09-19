@@ -1,5 +1,5 @@
 # Volatile
-	It is a access specifier, used only for variables. This specifier ensures variable visibilty to all other threads.
+	It is a non-access specifier, used only for variables. This ensures variable visibilty to all other threads.
 	Visibility: It means that changes made by one thread to shared data are visible to other threads.
 	Volatile variables are loaded in shared memory, not in the local memory, thats how it can able to give Visibility feature.
 	
@@ -156,7 +156,7 @@
 2. ReentrantReadWriteLock:-
 	This class implements ReadWriteLock interface.
 	Rules for Acquiring Read/ Write Lock:-
-	a) Read Lock:- If no thread acquired the write lock or requested for it, then **multiple threads** can acquire the read lock.
+	a) Read Lock:- If **no thread acquired the write lock or requested for it**, then **multiple threads** can acquire the read lock.
 	b) Write Lock:- If no thread is **reading or writing** then only **one thread** can acquire the write lock.
 	
 3. StampedLock:-

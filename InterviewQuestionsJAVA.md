@@ -105,10 +105,49 @@
 			It returns Object - Means explicitly cast is needed to convert it to original object.
 		2)  By default clone method do shallow copy
 		3)  Class must implement marker interface java.lang.Cloneable. If class doesn’t implement Cloneable than calling clone method on its object will throw CloneNotSupportedException.
-		[ShallowCopy](https://github.com/Ashu-hub/All-About-Java/tree/master/InterviewQuestionExplanation/src/JavaOverview/ShallowCopy)
-		[DeepCopy](https://github.com/Ashu-hub/All-About-Java/tree/master/InterviewQuestionExplanation/src/JavaOverview/DeepCopy)
 		
-		[ShallowVsDeepCopy](https://www.javamadesoeasy.com/2015/05/cloning-in-java-using-clone-shallow-and.html)
+		[ShallowVsDeepCopy](https://www.javamadesoeasy.com/2015/05/cloning-in-java-using-clone-shallow-and.html )
+		
+	**Shallow Copy**- A shallow copy of an object copies the ‘main’ object, but doesn’t copy the inner objects. The ‘inner objects’ are shared between the original object and its copy.
+					The default implementation of the clone method creates a shallow copy of the source object.
+```java
+	public class Person {
+		private Name name;
+		private Address address;
+
+    public Person(Person originalPerson) {
+         this.name = originalPerson.name;
+         this.address = originalPerson.address;
+    	}
+	}
+	
+```	
+	The problem with the shallow copy is that the two objects are not independent. If you modify the Name object of one Person, the change will be reflected in the other Person object.	
+	
+```java
+Person mother = new Person(new Name(…), new Address(…));
+[…]
+Person son  = new Person(mother);
+[…]
+son.moveOut(new Street(…), new City(…));
+```
+	This occurs because our mother and son objects share the same Address object, as you can see in above example . When we change the Address in one object, it changes in both!
+	
+	**Deep Copy**- A deep copy is a fully independent copy of an object.  If we copied our Person object, we would copy the entire object structure.
+	A change in the Address object of one Person wouldn’t be reflected in the other object
+```java
+public class Person {
+    private Name name;
+    private Address address;
+
+    public Person(Person otherPerson) {
+         this.name    =  new Name(otherPerson.name);
+         this.address =  new Address(otherPerson.address);
+    }
+[…]
+}
+```	
+	For Primitive value, it is simple a value that can't be shared, So By creating second instance variable, we are automatically creating an independent copy.	
 		
 **15	What is reflection in java? Have you ever used reflection directly or directly?**
 
@@ -116,7 +155,16 @@
 		Frameworks like struts, spring and hibernate uses reflection for loading classes at runtime.
 	
 **16 	Difference between inner class ans static innner class?
+		Inner Class requires Instance of Outer Class for Initilization and they are always associated with Instance of enclosing class. While Static Inner Class is not associated with enclosing class.
+		
+		// accessing a static nested class 
+        OuterClass.StaticNestedClass nestedObject = new OuterClass.StaticNestedClass(); 
+		
+		// accessing an inner class 
+        OuterClass outerObject = new OuterClass(); 
+        OuterClass.InnerClass innerObject = outerObject.new InnerClass(); 
 
+		
 **17	Difference between Syncronized block and static syncronized block?
 
 		Synchronization in Java is basically an implementation of monitors .
@@ -295,7 +343,52 @@
 			 - **HashMap** is mutable class, 
 				   any changes made to HashMap object won't produce new HashMap object.
 				   so return copy/clone of object, not reference variable of HashMap.
-			
+		
+		**Passing Mutable Objects to Immutable Class**
+		1. Apart from above creteria, Use clone Object in the constructor for initializing other class reference object.
+		2. For getting the object reference return clonnd object.
+		
+```java
+public final class ImmutableStudent {
+    private final int id;
+    private final String name;
+    private final Age age;
+    
+	public ImmutableStudent(int id, String name, Age age) {
+		this.name = name;
+		this.id = id;
+		//this.age = age;
+	
+	Age cloneAge = new Age();
+		cloneAge.setDay(age.getDay());
+		cloneAge.setMonth(age.getMonth());
+		cloneAge.setYear(age.getYear());
+		this.age = cloneAge;
+    
+	}
+	
+    public int getId() {
+    	return id;
+    }
+    public String getName() {
+	    return name;
+    }
+	
+	
+	public Age getAge() {
+		Age cloneAge = new Age();
+		cloneAge.setDay(this.age.getDay());
+		cloneAge.setMonth(this.age.getMonth());
+		cloneAge.setYear(this.age.getYear());
+		return cloneAge;
+	}
+
+   /* public Age getAge() {
+    return age;
+    }*/
+}
+```
+		
 **6.	What is difference between final vs Immutability in Java?**
 
 		final means that you can’t change the object’s reference to point to another reference or another object, but you can still mutate its state (using setter methods e.g). 
@@ -460,15 +553,15 @@ public class GFG {
 		
 		[ConncurrantHashMap](https://github.com/Ashu-hub/All-About-Java/blob/master/images/ConncurrantHashMap.png)
 
-**8 	Satck vs ArrayDeque?
+**8 	Satck vs ArrayDeque?**
 		
-**9		why-hashtable-does-not-allow-null-keys-or-values?
+**9		why-hashtable-does-not-allow-null-keys-or-values?**
 		
 		To successfully store and retrieve objects from a Hashtable, the objects used as keys must implement the hashCode method and the equals method.
 		Since null isn't an object, you can't call .equals() or .hashCode() on it, so the Hashtable can't compute a hash to use it as a key.
 		While In hashMap, Hash(null) = 0
 		
-**10	Internal Working OF TreeMap?
+**10	Internal Working OF TreeMap?**
 		
 		TreeMap Stores elements as Key Value Pair. It extends AbstractMap, implements NavigableMap, cloneable and Serializable.
 		TreeMap Sotores the elements in Sorted manner(natural sorting order). 
@@ -478,22 +571,26 @@ public class GFG {
 		Left - all elemtns smallar then root
 		Right - all elements greater then root
 
-**11	Can I instantiate Abstract class and Does it have constructor?  
+**11	Can I instantiate Abstract class and Does it have constructor?  **
 
 		No, You can't. It has constructors(either default or parametrized). Reason for this is Constructor Chaining, the constructor of  Subclass class invokes the constructor of Base Class. It is imperative that all classes has constructors.
 
-**12 	What is difference between using instanceOf operator and getClass() in equals method?
+**12 	What is difference between using instanceOf operator and getClass() in equals method?**
 
 		If we use instanceOf it will return true for comparing current class with its subclass as well,
 		but getClass() will return true only if exactly same class is compared. Comparison with any subclass will return false.		
 		
-Q) Why does iterator.remove does not throw ConcurrentModificationException?
-	Ans:- Javadoc says it is permitted way to modify any collection while Iterating.
-Reason:- before callng .remove(int), remove() checks for modification,ifit found any change in original list it will throw ConcurrentModificationException otherwise it will ececute normally. in a way it has reference to internal State of any object.
+**13 Why does iterator.remove does not throw ConcurrentModificationException?**
 
-Q) Assertion Error is SubClass of Error? Why is it so?
-Q) When StackOverFlow Error can come?- I think when the stack is full and there is no other location to store new variable. Generally in case of Recurssion.
-Q) What is Automatic Resource Management?  Order of calling to this.close()?
+	Ans:- Javadoc says it is permitted way to modify any collection while Iterating.
+	Reason:- before callng .remove(int), remove() checks for modification,ifit found any change in original list it will throw ConcurrentModificationException otherwise it will ececute normally. in a way it has reference to internal State of any object.
+
+**14 Assertion Error is SubClass of Error? Why is it so?**
+
+**15 When StackOverFlow Error can come?**- I think when the stack is full and there is no other location to store new variable. Generally in case of Recurssion.
+
+**16 What is Automatic Resource Management?  Order of calling to this.close()?
+
 	Ans: Java provides a feature to make the code more robust and to cut down the lines of code, this is known as Try with Resource. The try-with-resources statement is a try statement that declares one or more resources.
 		Avaiable after 1.7 version.
   (a) What is a resource?
@@ -508,7 +605,8 @@ Q) What is Automatic Resource Management?  Order of calling to this.close()?
     }
 }
 ```
-Q) What is effective final?
+**17 What is effective final?**
+
 	Ans. Def.- Objects or primitive values are effectively final if we do not change their values after initialization.
 	 if we remove the final modifier from a method parameter or a local variable without introducing compile-time errors, then it's effectively final
 	```java
@@ -522,9 +620,85 @@ Q) What is effective final?
 		}
 }
 ```
-Q) why does generics does not support primitive type?
+**18 why does generics does not support primitive type?**
+
 	Object is superclass of all objects and can represent any user defined object. Since all primitives doesn't inherit from "Object" so we can't use it as a generic type.
 
+**19. What is the difference between Serialization and Externalization.
+	
+	1. Serializable is a marker Interface. while Externalizable is having 2 mehotds called writeExternal(), readExternal()
+	2. Default Serialization will take place for classes implementing Serializable interface, while programmer needs to defined the Serilization process for the classes.
+	3. Serializable uses reflection to construct object and does not require no arg constructor. But Externalizable requires public no-arg constructor.
+	
+**20. Discuss Object Serialization with Inheritence in java.
+		
+	Case1: **If superclass is serializable then subclass is automatically serializable.**
+	Case2: **If a superclass is not serializable then subclass can still be serialized :**
+			Serialization: At the time of serialization, if any instance variable is inheriting from non-serializable superclass, then JVM ignores original value of that instance variable and save default value to the file.
+			De- Serialization: At the time of de-serialization, if any non-serializable superclass is present, then JVM will execute instance control flow in the superclass. To execute instance control flow in a class, JVM will always invoke default(no-arg) constructor of that class. 
+			So every **non-serializable superclass must necessarily contain default constructor,** otherwise we will get runtime-exception.
+			
+	Case3:	**If the superclass is serializable but we don’t want the subclass to be serialized**
+			There is no direct way to prevent subclass from serialization in java. One possible way by which a programmer can achieve this is by implementing the **writeObject() and readObject()** methods in the subclass and needs to throw NotSerializableException from these methods. 
+			These methods are executed during serialization and de-serialization respectively. By overriding these methods, we are just implementing our own custom serialization.
+
+**	What is Custom Serialization in java?
+	During serialization, there may be data loss if we use the ‘transient’ keyword. ‘Transient’ keyword is used on the variables which we don’t want to serialize. But sometimes, 
+	it is needed to serialize them in a different manner than the default serialization (such as encrypting before serializing etc.), in that case, we have to use custom serialization and deserialization.
+	
+**21	What is ShallowVsDeepCopy	**
+	Ans- See Above
+	
+**22 What is equals and hascode Contract?**
+		
+		It says that- If two objects are equal according to the equals(Object) method, then calling the hashCode method on each of the two objects must produce the same integer result.
+	
+**23 Discuss Generics in java?**
+	
+	**Why to Choose Generics?**
+	1. Generics add stronger compile time type safety to our code, thus reducing the number of production bugs.
+	2. It tries to eliminate explicit type casting to a greater extent, making our code more readable.
+	3. Generics enable types (classes and interfaces) to be parameters when defining classes, interfaces and methods.
+	
+	eg:- class Classname<T1, T2, ..., Tn> { /* ... */ }
+	
+	**Can we add a Double value to List<Number> ?**
+		Because an Integer is a kind of Number, so this is perfectly allowed due to inheritance.
+		Box<Number> box = new Box<Number>();
+		box.add(new Integer(10)); // OK
+		box.add(new Double(10.1)); // OK
+
+	**Why List<String> can not be assigned to List<Object> ?**
+		Let's consider the following example,
+			List<String> stringList =null ;
+			List<Object> objectList = stringList; //ERROR
+	
+	**What is Type Erasure ?**
+	Generics provide compile time safety to our Java code. Type erasure happens at compile time, to remove
+	those generic type information from source and adds casts needed and deliver the byte code. Thus the java
+	byte code will be no different than that the non-generic Java code
+		
+	**What are Upper and Lower bounds in Generics? Where to choose one?**
+	Upper and Lower bounded wildcard are used in Generics to relax the restriction on a variable.
+	
+	Upper Bounded Wildcards:
+		Upper bounded wildcard restricts the unknown type to be a specific type or
+		subtype of that type. For example, If we want to write a method that accepts
+		List<Number> and its subtypes i.e. List<Double> and List<Integer>, etc then
+		we can use Upper bounded wildcard. Below is the sample signature of upper
+		bounded wildcard method.
+		
+		public static void process(List<? extends Number> list) { /* ... */ }
+		
+	Lower Bounded Wildcards:
+		Lower bounded wildcard restricts the unknown type to be a specific type or
+		super type of that type. Say you want to write a method that puts Integer
+		objects into a list. To maximize flexibility, you may like the method to work on
+		List<Integer>, List<Number>, but not List<Double> - 
+		anything that can hold Integer values. The Syntax in that case would be -
+		
+		public static void addNumbers(List<? super Integer> list) {/*.....*/}
+	
 Q) Why to choose generics?
 	Generics gives strong complie-time type Safety to our code. Eliminated explicit type casting and make more readable.
 	Generics allow classes and Interfaces to be paramterized , so that we can implement generic algorithm which works for different types.
@@ -544,7 +718,3 @@ Q) What is Type Erasure ?
 	those generic type information from source and adds casts needed and deliver the byte code. Thus the java
 	byte code will be no different than that the non-generic Java code
 
-Q) 
-
-Q) What is Type References in java?
-	Ans. 

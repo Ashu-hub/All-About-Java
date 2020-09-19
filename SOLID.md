@@ -3,7 +3,7 @@
 	O - Open/Closed Principle
 	L - LisKov's Substitution principle
 	I- Interface Segregation Principle
-	D - Dependency Injection Principle
+	D - Dependency Inversion Principle
 
 ## Single Responsibilty principle - 
 	Every Software Component should have one and only one responsibility.
@@ -12,7 +12,7 @@
 	Software Component in OOPs are- It can be class, method or a module.
 	
 #### **Cohesion**  - 
-	is the degree to which various parts of a software components are related. or it is a degree of relation.
+	is the degree to which various parts of a software components are related. or it is a **degree of relation.**
 	eg:- 
 	Garbage lying at one place vs Garbage segrerated as plastics, papaer, metal, glass. etc.
 	The cohesion is high in plastics as they are related by a relation.
@@ -73,9 +73,9 @@ public class squareUI{
 // Respponsibility :- Rendering of image of square.
 ```
 	So we can safely say that 1st class square has responsibility related to measurement of square.
-	Similary 2nd class is related to 
+	Similary 2nd class is related to rendering images.
 	
-**One aspect of SRP is that- we should always aim to achieve high cohension within the components(class in this case)**	
+	**One aspect of SRP is that- we should always aim to achieve high cohension within the components(class in this case)**	
 
 #### Coupling  - 
 
@@ -194,7 +194,7 @@ public class TaxCalculator{
 # 	Open Closed Principle
 
 	Software components should be closed for modification but open for extension.
-	Closed for modification means- New features getting added to the software component, should NOT have to modify existing code.
+	Closed for modification means- New features getting added to the software component, **should NOT have to modify existing code.**
 	Open for Extension means - Software components should be able to add a new feature
 	
  	Example:- 
@@ -220,7 +220,7 @@ public class HealthInsuranceCustomerProfile{
 
 2. Suppose this company A, accquires Vehicle Insurance company as well. So We need to support vehicle discounts as well.
 	And it has decided that discount calculation is going to be the same as ie. discount is always based on Royality regardless of its Health/Vehicle or anything else.
-	So to adhere this we add new class in out design.
+	So to adhere this we add new class in our design.
 	
 ```java
 public class VehicleInsuranceCustomerProfile{
@@ -259,7 +259,7 @@ public interface CustomerProfile{
 }
 
 public class InsurancePremiunDiscountCalculator{
-	public int calculateDiscount(HealthInsuranceCustomerProfile customer){
+	public int calculateDiscount(CustomerProfile customer){
 		if(customer.isLoyalCustomer()){
 			return 20;
 		}
@@ -474,3 +474,194 @@ public class PricingUtils{
 ```
 	In the above example the Util class does not need to ask anything while in earlier version it asks for Subtype in util class.
 	
+#	Interface Segregation Principle:
+	**No client should  be forced to depend on methods that it does not use.**
+	
+	Suppose you work in an office with 200 employees. You have bunch of printers, scanner, fax machine to help emploee for their needs.
+	As a developer, you have to ask these devices as Object Oriented Concepts in code. You have to design some interfaces too to have certain level of Uniformity.
+	So one day, you come across one multiFunction All-in-One Xerox WorkCentre, that has printer, scanner, copier and Fax machine all built in one.
+	So you decided to start with this.
+	
+	Step1. You created an Interface name IMultiFunction that has methods like print(), getprintSpoolDetials(), scan(), scanPhoto(), fax(), internetFax().
+	Step2. You created an concrete class XeroxWorkCentre which implements this interface.
+	
+```java
+		public interface IMultiFunction{
+			public void print();
+			public void getprintSpoolDetials();
+			public void scan();
+			public void scanPhoto();
+			public void fax();
+			public void internetFax();
+		}
+		
+	public class XeroxWorkCentre implements IMultiFunction{
+		//Overrides/Implemntes all 6 methods.
+	}
+```	
+	
+	Step3: As you move on, you come across another device called HPPrinterNScanner, which can do printing and scanning.
+	Step4: So you created a concrete class called HPPrinterNScanner which implements IMultiFunction. Since you need to implements all the methods, 
+	you implements all of them but since this class does not do fax and related operations you give fax related methods a blank implementation.
+```java
+
+	public class HPPrinterNScanner implements IMultiFunction{
+		//Overrides/Implemntes all 4  methods and gave 2 mehtod blank implementation.
+		
+		@Overrides
+		public void fax(){
+		}
+
+		@Overrides
+		public void internetFax(){
+		
+		}
+	}
+```	
+	Step5: As you move on, you find a canon device which can only print.
+	Step6: So you created a concrete class called CanonPrinter which implements IMultiFunction. Since you need to implements all the methods, 
+	you implements all of them but since this class does not do fax, scanning and related operations you give these methods a blank implementation.
+	
+```java
+	public class CanonPrinter implements IMultiFunction{
+		//Overrides/Implemntes all 2  methods and gave 4 mehtod blank implementation.
+		
+		@Overrides
+		public void scan(){
+		}
+		
+		@Overrides
+		public void scanPhoto(){
+		}	
+		
+		@Overrides
+		public void fax(){
+		}
+
+		@Overrides
+		public void internetFax(){
+		
+		}
+	}
+```
+	Unimplemented methods are always indicative of poor design. This goes against ISP, which says- No client should forced to depend on methods it does not use.
+	Why it is a bad design - As Any other employee can invoke fax() method of CanonPrinter class and end up getting undesireable result.
+	
+	What to do?
+	
+	Step7: Restructure your interfaceand divide this interface into 3 interfaces- IPrint, IFax, IScan and implements whereever neccessary.
+```java
+	public interface IPrint{
+			public void print();
+			public void getprintSpoolDetials();
+			}
+			
+		public interface IFax{
+			public void fax();
+			public void internetFax();
+			}
+			
+		public interface IScan{
+			public void scan();
+			public void scanPhoto();
+			}
+```
+
+```java
+	public class XeroxWorkCentre implements IPrint,IFax,IScan{
+		//Overrides/Implemntes all 6 methods.
+	}
+	
+	public class HPPrinterNScanner implements IPrint,IScan{
+		@Overrides
+		public void print(){
+			//implementation
+		}
+		@Overrides
+		public void getprintSpoolDetials(){
+			//implementation
+		}
+		@Overrides
+		public void scan(){
+		}
+		
+		@Overrides
+		public void scanPhoto(){
+		}	
+		
+	}
+	
+	public class CanonPrinter implements IPrint{
+		@Overrides
+		public void scan(){
+		}
+		
+		@Overrides
+		public void scanPhoto(){
+		}	
+	}
+```
+
+# Dependency Inversion Principle
+	
+	**High Level modules should not depends on Low Level Mocdule. Both should depends on abstractions**
+	**Abstraction should not depends on details. Detials should depends on Abstraction**
+	
+	High Level Modules- Modules that are closer to the Business Function. 
+	Low Level Modules- Modules that deals with Implemntation details are called low level modules.
+							
+	(HLM)ProductCatalogue ----------------------> SQLProductRepository(LLM)
+							(Depends on)
+	
+	
+```java
+	
+	public class ProductCatalogue{
+		public void listAllProducts(){
+			SQLProductRepository sQLProductRepository =new SQLProductRepository();
+			List<String> allProductNames = sQLProductRepository.getAllProductNames();
+		}
+	}
+	
+	
+	
+	public class SQLProductRepository{
+		public List<String>getAllProductNames(){
+			return Arrays.asList("soap", "tootpaste");
+		}
+	}
+```
+		The Above Code is Voilation of DIP.
+		
+		Fix: Create an interface ProductRepository
+```java
+	public interface ProductRepository{
+		public List<String>getAllProductNames();
+	}
+	
+	public class SQLProductRepository implements ProductRepository{
+		
+		@Override
+		public List<String>getAllProductNames(){
+			return Arrays.asList("soap", "tootpaste");
+		}
+	}
+	
+	public class ProductFactory{
+		public static ProductRepository create(){
+			return new SQLProductRepository();
+		}
+	}
+	public class ProductCatalogue{
+		public void listAllProducts(){
+			ProductRepository productRepository = ProductFactory.create();
+			List<String> allProductNames = productRepository.getAllProductNames();
+		}
+	}
+	
+```
+
+
+	The Str looks like
+	ProductCatalogue --------->ProductRepository<--------------SQLProductRepository
+					(Depends on)   					(Depends on)
