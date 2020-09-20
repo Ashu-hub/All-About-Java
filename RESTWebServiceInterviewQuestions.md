@@ -1,44 +1,52 @@
-- Stateless vs StateFul?
+- **Stateless vs StateFul?**
+
 	In Stateless, server is not needed to keep the server information or session details to itself. eg:- HTTP
 	In stateful, a server is required to maintain the current state and session information. eg:- FTP
 	In stateless, server and client are loosely coupled and can act independently.
 	In stateful, server and client are tightly bound.
 	Statelessness means that every HTTP request happens in complete isolation.
 	
-- What Is Restful?
+- **What Is Restful?**
+
 	REST is an acronym for REpresentational State Transfer. It is architectural style for distributed hypermedia systems.
 	
-- Why Rest Is Stateless?
+- **Why Rest Is Stateless?**
+
 	Simply put: In REST applications, each request must contain all of the information necessary to be understood by the server, rather than be dependent on the server remembering prior requests.
 	Storing session state on the server violates the stateless constraint of the REST architecture. So the session state must be handled entirely by the client.
 
-- Why Rest Lightweight?
+- **Why Rest Lightweight?**
+
 	It is lightweighted as it does not have envelope-style of payload transport like SOAP.
 
--	How To Maintain Session in Rest?
+- **How to maintian session in HTTP?**
 
-- How to maintian session in HTTP?
 	HTTPSession?
 	There is something called SpringSession in Spring framework which can be used to creating a ID to every user. So It aatached that ID to particular user.
 
-- When I hit a req I got response in XML,I want it  in JSON, how to modify the request to get that?
+-** When I hit a req I got response in XML,I want it  in JSON, how to modify the request to get that?**
+
 	You need to use Use the Accept: application/json in HTTP Header.
 	HTTP Headers are not part of URL.
 	
 	* One way to do is use Application/Json in Postman or change the API to produces application.json
 	
-- Custom Datatype?
+- **Custom Datatype?**
+
 	Enum
 
-- What is HTTP E-Tag?
+- **What is HTTP E-Tag?**
+
 	Entity Tags. This is an HTTP Response Header. This is used for HTTP Caching or Conditional Requests
 	
-- Idempotent and Non Idempotent:-
+- **Idempotent and Non Idempotent:-**
+
 	Property of Certain operation in Computer Science, that can be applied multiple times without changing the result.
 	like x=1 , if we run multiple time x will remian 1, SO this operation is Idempotent
 	Consider x++, if we run multiple times, x will keep changing its value. So this operation is NON- idempotent.
 	
--	Put Vs Post:-
+-	**Put Vs Post:-**
+
 	PUT request is made to a particular resource. If the Request-URI refers to an already existing resource, an update operation will happen, otherwise create operation should happen.
 	eg:- PUT /article/{article-id}
 	POST method is used to request that the origin server accept the entity enclosed in the request as a new subordinate of the resource identified by the Request-URI in the Request-Line. It essentially means that POST request-URI should be of a collection URI.
@@ -50,17 +58,21 @@
 	Generally, in practice, always use PUT for UPDATE operations.
 	Always use POST for CREATE operations.
 
--	Put Vs Patch?
+- **Can we send POST for Updation?*
+	
+	Yes.
+	
+-	**Put Vs Patch?**
 	When a client needs to replace an existing Resource entirely, they can use PUT. When they're doing a partial update, they can use HTTP PATCH.
 	Put is Idempotent. PATCH is used to make minor updates to resources and it’s not required to be idempotent(If there is no parameters matching for PATCH, it will simply fail, will not create any new like PUT)
 	
-- 	HTTP(Rest) Methods And Which One Is Idempotent?
+- 	**HTTP(Rest) Methods And Which One Is Idempotent?**
 	
 	HTTPS Methods are:
 	GET PUT DELETE - Idempotent
 	POST- Non- Idempotent
 	
--	How Did You Handle CORS?
+-	**How Did You Handle CORS?**
 	Cross Origin Resource Sharing.
 	
 	What is Same Origin? - Two URLs have same origin if they have idetical Schemes, hosts and ports.
@@ -74,17 +86,25 @@
 	How to enable in REST? - Add @CrossOrigin(Origin = "*") in specific method or  add WebMvcCofidurerAdapter method(bean) in Application class, with mapping and allowed origin.
 
 
-- Exception Handling In Rest?
+- **Exception Handling In Rest?**
+
 	1) Create a class with @ControllerAdvice annotation which enables its method to shared among all controller available. And Extends ResponseEntityExceptionHandler, it provide centralized exception handling for all RequestMapping methods.
 	2) Create a method with annotation @ExceptionaHandler(CustomExceptionClass.class) which handle the particular exception(in our case CustomExceptionClass.class)
 	3) Create a class CustomExceptionClass which extends RuntimeException and simply put a paramertized constructor and call super(paramter).
 	4) One can throw this custom exception as throw new CustomExceptionClass(message)
 
-- What is What is the serialVersionUID?
+-** What is What is the serialVersionUID?**
+
 		The serialVersionUID is a universal version identifier for a Serializable class. Deserialization uses this number to ensure that a loaded class corresponds exactly to a serialized object.
 		If no match is found, then an InvalidClassException is thrown
 
-
+-** Whats HTTPS Response status Code?**
+	
+	1. 1xx Informational
+	2. 2xx Success
+	3. 3xx Redirection
+	4. 4xx Client Error
+	5. 5xx Server Error
 	
 	
 Which Framework You Have Used And Why?
