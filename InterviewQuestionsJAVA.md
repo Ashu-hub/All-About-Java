@@ -62,7 +62,7 @@
 
 **10. Can A class be protected?**
 
-		Ans- No, A normal Class can be public, default, abstract or final. Inner Classes can be protected or private.
+		Ans- No, A normal Class can be public, default, abstract or final. **Inner Classes can be protected or private.**
 
 **11	What is the scope of static Variable?
 		Ans- Class level.
@@ -90,10 +90,10 @@
 
 		Ans- finally is not executed when System.exit is called, finally block is also not executed when JVM crashes because of some java.util.Error. 
 		The only times finally won't be called are:
-		if you call System.exit()
-		if the JVM crashes first
-		if there is an infinite loop in the try block
-		if the power turns off
+		1.if you call System.exit()
+		2. if the JVM crashes first
+		3. if there is an infinite loop in the try block
+		4. if the power turns off
 
 **14. 	 What is cloning in java?**
 
@@ -173,10 +173,10 @@ public class Person {
 
 ## OOPS 
 **1. Principal concepts of OOPS?**
-		Ans:- [Ans](https://github.com/Ashu-hub/Books-to-Prepare-Oracle-Java-Certification-Exams/blob/master/interview_questions_java.md#general-answers)
+		Ans:- [Ans](https://github.com/Ashu-hub/Books-to-Prepare-Oracle-Java-Certification-Exams/blob/master/interview_questions_java.md#general-answers )
 
 **2. Can We Overload a function by changing return Type?**
-		Ans: [Yes](https://github.com/Ashu-hub/Books-to-Prepare-Oracle-Java-Certification-Exams/blob/master/interview_questions_java.md#general-answers)
+		Ans: [Yes](https://github.com/Ashu-hub/Books-to-Prepare-Oracle-Java-Certification-Exams/blob/master/interview_questions_java.md#general-answers )
 
 **3. What is Encapsulation and give one example?**
 
@@ -561,12 +561,18 @@ public class GFG {
 		Since null isn't an object, you can't call .equals() or .hashCode() on it, so the Hashtable can't compute a hash to use it as a key.
 		While In hashMap, Hash(null) = 0
 		
+**Q		Why ConcurrentHashMap does not allow null?
+		
+		The main reason that nulls aren't allowed in ConcurrentMaps (ConcurrentHashMaps, ConcurrentSkipListMaps) is that ambiguities that may be just barely tolerable in non-concurrent maps can't be accommodated. 
+		The main one is that if map.get(key) returns null, you can't detect whether the key explicitly maps to null vs the key isn't mapped. 
+		In a non-concurrent map, you can check this via map.contains(key), but in a concurrent one, the map might have changed between calls.
+		
 **10	Internal Working OF TreeMap?**
 		
 		TreeMap Stores elements as Key Value Pair. It extends AbstractMap, implements NavigableMap, cloneable and Serializable.
 		TreeMap Sotores the elements in Sorted manner(natural sorting order). 
 		TreeMap does not using hashing technique for storing the elements, while it uses RED- BLack Tree for storing elements.
-		Red Black Tree Has node str as - 
+		**Red Black Tree** Has node str as - 
 		Parent - key - value pair
 		Left - all elemtns smallar then root
 		Right - all elements greater then root

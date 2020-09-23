@@ -28,7 +28,11 @@
 - Who is configuring error mapping?- Springboot AutoConfiguration. It created default error page for us.
 
 - What is Content negotiaiton?
-
+	As a server you have options to provide data in different format like json/xml.
+	You need to provide the dependency for supporting your data format(like for json - jackson core, xml - jackson dataformat xml).
+	Now client can ask for any format(by Accept application/xml or json in Postman).
+	We can also restrict it by using produces in the RequestMapping attribute.
+	
 - What is Idempotence?
 	Property of Certain operation in Computer Science, that can be applied multiple times without changing the result beyond initial application.
 	So- Get, PUT, DELETE are- **Idempotent**

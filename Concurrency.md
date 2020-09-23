@@ -18,7 +18,7 @@
 	CompareAndSet(int expected, int new)
 	
 # ThreadLocal:
-	ThreadLocal is class which provides Tread local Variables. This is another wat to provide thread safety.
+	ThreadLocal is class which provides Tread local Variables. This is another way to provide thread safety.
 	ThreadLocal enables us for for use:
 	- One Object per Thread.(Thread Confinement)
 	- Per thread context
@@ -83,7 +83,7 @@
 	Java 5 introduced Future interface for handling Asynchronous computation but it does not have any methods to combine these computation or handle possible errors.
 	CompletableFuture is a framework with 50 diff methods for composing, combining, executing Asynchronous computation steps and handling errors
 	
-	It provide a way to execute multiple threads at once, withour blocking the main thread. 
+	It provide a way to execute multiple threads at once, without blocking the main thread. 
 	It provide methods like supplyAsync(Supplier), thenApply(), thenAccept() etc
 	
 ## Differences between execute() and submit() of Executor Service
@@ -102,7 +102,8 @@
 	Lock is an interface in java. It helps in controlling the access to a shared Variable by multiple thread. Only one thread can acquire a lock at a time.
 	A lock is a more flexible and sophisticated thread synchronization mechanism than the standard synchronized block.
 
-## 		Difference between Lock and Synchronized Block:
+## 	Difference between Lock and Synchronized Block:
+
 	A synchronized block is fully contained **within a method** ; we can have Lock API's lock() and unlock() operation in **separate methods.**
 	A synchronized block **doesn't support the fairness**, any thread can acquire the lock once released, no preference can be specified. 
 		We can achieve fairness within the Lock APIs by specifying the fairness property. It makes sure that **longest waiting thread **is given access to the lock
