@@ -94,6 +94,7 @@ In Java there are four types of references differentiated on the way by which th
 	The most known use of these references is the WeakHashMap class. It's the implementation of the Map interface where every key is stored as a weak reference to the given key. When the Garbage Collector removes a key, the entity associated with this key is deleted as well.
 	First off, the Garbage Collector clears a weak reference, so the referent is no longer accessible. Then the reference is placed in a reference queue (if any associated exists) where we can obtain it from.
 
+
 3. **Soft References:- **
 
 	If an object has no strong reference but has a soft reference, then the garbage collector **reclaims this object’s memory when GC needs to free up some memory. **
