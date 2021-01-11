@@ -1,5 +1,5 @@
 # Volatile
-	It is a non-access specifier, used only for variables. This ensures variable visibilty to all other threads.
+	It is a non-access specifier, used only for variables. This ensures **variable visibilty to all other threads.**
 	Visibility: It means that changes made by one thread to shared data are visible to other threads.
 	Volatile variables are loaded in shared memory, not in the local memory, thats how it can able to give Visibility feature.
 	
@@ -10,7 +10,7 @@
 	1) lock
 	2) Synchronization.
 	Both may lead to performance issue.
-	In this case One can use AtomicInteger, which has single methods like increment(), which does the compound operation Atomically.
+	In this case One can use AtomicInteger, which has single methods like increment(), **which does the compound operation Atomically.**
 	Other methods are:-
 	incrementAndGet()
 	decrementAndGet
@@ -133,7 +133,7 @@
 
 1. ReentrantLock:-(literal mean- describes a computer program or routine that is written so that the same copy in memory can be shared by multiple user )
 	Gives Same semantics as **Synchronized with extended functionality.**
-	ReentrantLock locks allow you to call lock multiple times(getHoldCount()- to know the number of lock.)
+	ReentrantLock locks **allow you to call lock multiple times(getHoldCount()- to know the number of lock.)**
 	It allow Fair lock by - new ReentrantLock(true); - It means longest waiting thread can acquire the lock.
 	
 ```java
@@ -209,3 +209,25 @@ public class StampedLockDemo {
 	A CountDownLatch(class in Concurrent pkg) is initialized with a given count. 
 	count specifies the number of events that must occur before latch is released.
 	Every time a event happens count is reduced by 1. Once count reaches 0 latch is released.
+	
+# Fork Join Pool
+	
+	Fork Join Pool enables Parallel programming. Parallel programming means taking advantage of two or more processor in computer.
+	It improves the program performance.
+	It also manages whole life cycle if Threads.
+	
+	**Difference between MultiThreading and Parallel programming?**
+	
+	
+	
+# Cyclic Barirer
+	There might be situation where we might have to trigger event only when one or more threads completes certain operation in java, we can use cyclic barrier in tha case.
+	Two or more threads wait for each other to reach a common barrier point. When all threads have reached common barrier point (i.e. when all threads have called await() method) >
+	All waiting threads are released, and 
+	Event can be triggered as well.
+	
+	Real World example - 
+	Another very interesting question. It will test your real time thread concurrency implementation skills. Let’s say 10 friends (friends are threads) have planned for picnic on place A (Here place A is common barrier point). And they all decided to play certain game (game is event) only on everyones arrival at place A. So, all 10 friends must wait for each other to reach place A before launching event. 
+	Now, when all threads have reached common barrier point (i.e. all friends have reached place A) >
+	All waiting threads are released  (All friends can play game), and 
+	Event can be triggered (they will start playing game).

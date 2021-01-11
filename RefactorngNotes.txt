@@ -1,0 +1,39 @@
+# Generic:
+
+1. What is Refactoring?
+	Ans:- The main idea of refactoring is to fight technical debt. IT transform a mess into a clean code.
+
+2. What is technical debt?
+	Ans:- It is a concept that reflects the implied code of additional rework cause by choosing easy(limited) solution now instead of using a better approach.
+
+3. What is Clean code?
+	Ans:- Clean code has following characteristics:-
+		1) Clean code is obvious for other programmers.
+		2) CC does not contain duplication.
+		3) CC has minimal number of classes.
+		4) CC have and passes all tests.
+		5)} CC is easy to maintain.
+		
+4. What is code smells?
+	Ans:- 	It is any characteristics of code that indicates deeper problem.
+		Comments
+		A method is filled with explanatory comments.
+
+		Duplicate Code
+		Two code fragments look almost identical.
+
+		Lazy Class
+		Understanding and maintaining classes always costs time and money. So if a class doesn’t do enough to earn your attention, it should be deleted.
+
+		Data Class
+		A data class refers to a class that contains only fields and crude methods for accessing them (getters and setters). These are simply containers for data used by other classes. These classes don’t contain any additional functionality and can’t independently operate on the data that they own.
+
+		Dead Code
+		A variable, parameter, field, method or class is no longer used (usually because it’s obsolete).
+
+		Speculative Generality
+		There’s an unused class, method, field or parameter. Sometimes code is created "just in case " to support anticipated future feature thats never gets implemented,as a result code becomes hard to understand and support.
+		
+5. Cyclomatic complexity:-
+		Cyclomatic complexity is a software metric used to indicate the complexity of a program. It is a quantitative measure of the number of linearly independent paths through a program's source code
+		

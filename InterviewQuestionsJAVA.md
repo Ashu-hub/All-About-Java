@@ -175,8 +175,8 @@ public class Person {
 **1. Principal concepts of OOPS?**
 		Ans:- [Ans](https://github.com/Ashu-hub/Books-to-Prepare-Oracle-Java-Certification-Exams/blob/master/interview_questions_java.md#general-answers )
 
-**2. Can We Overload a function by changing return Type?**
-		Ans: [Yes](https://github.com/Ashu-hub/Books-to-Prepare-Oracle-Java-Certification-Exams/blob/master/interview_questions_java.md#general-answers )
+**2. Can We Overload a function by changing only return Type?**
+		Ans: [No](https://github.com/Ashu-hub/Books-to-Prepare-Oracle-Java-Certification-Exams/blob/master/interview_questions_java.md#general-answers )
 
 **3. What is Encapsulation and give one example?**
 
@@ -321,11 +321,11 @@ public class Person {
 ````	
 **4.	Why String pool in java?**
 
-		Ans: Save memory and increase performance. less number number of strings are created in java heap and hence leaving less work for garbage collector to be done.
+		Ans: Save memory and increase performance. less number of strings are created in java heap and hence leaving less work for garbage collector to be done.
 
 **2.	What does Immuatable means?**
 
-		Ans:- It means Constant. Once Created can notbe changed. In java, objects of String are immutable. Immutability is useful in MultiThreadng.
+		Ans:- It means Constant. Once Created can not be changed. In java, objects of String are immutable. Immutability is useful in MultiThreadng.
 		
 **5.	Create a immutable class?**
 		Immutable simply means unmodifiable or unchangeable.
@@ -346,7 +346,7 @@ public class Person {
 		
 		**Passing Mutable Objects to Immutable Class**
 		1. Apart from above creteria, Use clone Object in the constructor for initializing other class reference object.
-		2. For getting the object reference return clonnd object.
+		2. For getting the object reference return cloned object.
 		
 ```java
 public final class ImmutableStudent {
@@ -394,7 +394,7 @@ public final class ImmutableStudent {
 		final means that you can’t change the object’s reference to point to another reference or another object, but you can still mutate its state (using setter methods e.g). 
 		Whereas immutable means that the object’s actual value can’t be changed, but you can change its reference to another one.
 		final ensures that the address of the object remains the same whereas the Immutable suggests that we can’t change the state of the object once created.
-		[FinalVsImmutable](https://github.com/Ashu-hub/All-About-Java/blob/master/InterviewQuestionExplanation/src/JavaOverview/FinalVsImmutable.java)
+		[FinalVsImmutable](https://github.com/Ashu-hub/All-About-Java/blob/master/InterviewQuestionExplanation/src/JavaOverview/FinalVsImmutable.java )
 		
 **7. 	What is the difference between + and concat()?**
 
@@ -551,7 +551,7 @@ public class GFG {
 		Yes. When thread locks one segment for updation it does not block it for retrieval (done by get method) hence some other thread can read the segment (by get method),
 		but it will be able to read the data before locking in java.
 		
-		[ConncurrantHashMap](https://github.com/Ashu-hub/All-About-Java/blob/master/images/ConncurrantHashMap.png)
+		[ConncurrantHashMap](https://github.com/Ashu-hub/All-About-Java/blob/master/images/ConncurrantHashMap.png )
 
 **8 	Satck vs ArrayDeque?**
 		
@@ -589,7 +589,7 @@ public class GFG {
 **13 Why does iterator.remove does not throw ConcurrentModificationException?**
 
 	Ans:- Javadoc says it is permitted way to modify any collection while Iterating.
-	Reason:- before callng .remove(int), remove() checks for modification,ifit found any change in original list it will throw ConcurrentModificationException otherwise it will ececute normally. in a way it has reference to internal State of any object.
+	Reason:- before callng .remove(int), remove() checks for modification, if it found any change in original list it will throw ConcurrentModificationException otherwise it will ececute normally. in a way it has reference to internal State of any object.
 
 **14 Assertion Error is SubClass of Error? Why is it so?**
 
@@ -631,17 +631,20 @@ public class GFG {
 	Object is superclass of all objects and can represent any user defined object. Since all primitives doesn't inherit from "Object" so we can't use it as a generic type.
 
 **19. What is the difference between Serialization and Externalization.
+	Serialization - To serialize an object means to convert its state to a byte stream so that the byte stream can be reverted back into a copy of the object.
+	Externalization - Externalization in Java is used whenever you need to customize the serialization mechanism.
 	
 	1. Serializable is a marker Interface. while Externalizable is having 2 mehotds called writeExternal(), readExternal()
 	2. Default Serialization will take place for classes implementing Serializable interface, while programmer needs to defined the Serilization process for the classes.
-	3. Serializable uses reflection to construct object and does not require no arg constructor. But Externalizable requires public no-arg constructor.
+	3. Serializable uses reflection to construct object and does not require no arg constructor. But Externalizable requires public **no-arg constructor.**
 	
 **20. Discuss Object Serialization with Inheritence in java.
 		
 	Case1: **If superclass is serializable then subclass is automatically serializable.**
 	Case2: **If a superclass is not serializable then subclass can still be serialized :**
+	 Even though superclass doesn’t implements Serializable interface, we can serialize subclass object if subclass itself implements Serializable interface.
 			Serialization: At the time of serialization, if any instance variable is inheriting from non-serializable superclass, then JVM ignores original value of that instance variable and save default value to the file.
-			De- Serialization: At the time of de-serialization, if any non-serializable superclass is present, then JVM will execute instance control flow in the superclass. To execute instance control flow in a class, JVM will always invoke default(no-arg) constructor of that class. 
+			De-Serialization: At the time of de-serialization, if any non-serializable superclass is present, then JVM will execute instance control flow in the superclass. To execute instance control flow in a class, JVM will always invoke default(no-arg) constructor of that class. 
 			So every **non-serializable superclass must necessarily contain default constructor,** otherwise we will get runtime-exception.
 			
 	Case3:	**If the superclass is serializable but we don’t want the subclass to be serialized**
@@ -705,6 +708,35 @@ public class GFG {
 		
 		public static void addNumbers(List<? super Integer> list) {/*.....*/}
 	
+**24 Difference between HashMap and WeakHashMap?
+	
+	1) Strong Ref/ Weak Reference:- 
+	In HashMap, Key Obejcts has Strong Reference.
+	 This is the default type/class of Reference Object. Any object which has an active strong reference are not eligible for garbage collection.
+	 
+	In WeakHashMap, Key Obejcts has Weak Reference.
+	Weak Reference Objects are not the default type/class of Reference Object and they should be explicitly specified while using them.
+	
+	2) Role Of Garbage collection:-
+	In HashMap , entry object(entry object stores key-value pairs) is not eligible for garbage collection i.e Hashmap is dominant over Garbage Collector.
+	In WeakHashmap, wWhen a key is discarded then its entry is automatically removed from the map , in other words, garbage collected.
+	
+	3) Clone Method Implementation:-
+	HashMap implements Cloneable interface .
+	WeakHashMap does not implement Cloneable interface , it only implements Map interface. Hence , there is no clone() method in the WeakHashMap class.
+	
+	
+**Q) How to create demeon Thread?** 
+	
+	It can be created by using setDaemon(boolean isDaemon) method to true.
+
+```java
+	 Thread daemonThread = new Thread(daemonRunner);
+        daemonThread.setDaemon(true);
+        daemonThread.start();
+```
+
+
 Q) Why to choose generics?
 	Generics gives strong complie-time type Safety to our code. Eliminated explicit type casting and make more readable.
 	Generics allow classes and Interfaces to be paramterized , so that we can implement generic algorithm which works for different types.
@@ -723,4 +755,7 @@ Q) What is Type Erasure ?
 	Generics provide compile time safety to our Java code. Type erasure happens at compile time, to remove
 	those generic type information from source and adds casts needed and deliver the byte code. Thus the java
 	byte code will be no different than that the non-generic Java code
+
+**Q) How to analyze thread dump?**
+
 

@@ -34,6 +34,7 @@
 	Or
 	Make Entry cacheable
 	@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
+	//Good practise to implements serializable;
 	
 	The advantages of L2 caching are:
 
@@ -55,6 +56,7 @@
 	
 *****************************************************
 ## N+1 Problems:
+	Hibernate executes too many(exactly N+1) small select query to load data.
 	Solution:-
 	1) EntityGraph
 	2) JOIN FETCH

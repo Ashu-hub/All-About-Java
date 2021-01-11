@@ -2,11 +2,11 @@
 
 	With the introduction of Java 8, **functional Programming**(Style of programming that treats **computation as functions/expressions** and avoid changing state) has been introduced in the Java Langauge.
 	Java 8 has introduce **Lambda Expression** to bring the benefits of functional Programming in java, Lambda is just a **nameless function, which means it does not have name, return Type and access modifier.** 
-	Java 8 has introduce **Functional Interface** to bring the use of lambda expression. Functional Interface is having Single Abstract Method(SAM) in it. To mark an interface Function an annotation has been introduce i.e. @FunctionInterface. 
+	Java 8 has introduce **Functional Interface** to bring the use of lambda expression. Functional Interface is having Single Abstract Method(SAM) in it. To mark an interface Function an **annotation has been introduce i.e. @FunctionInterface.** 
 	Java 8 has also added **method Reference** which enables us to define lambda expressions by referring to methods name directly.
 	Java 8 has also introduce **default concrete methods(extension or defender methods) and static methods inside interface**. 
-	Java 8 has introduce **java.util.function** package which consititue all functional interfaces like Predicate, Function, Supplier, Consumer, BinaryOperator, UnaryOperator.
-	Java 8 has introduce **stream functionality** with java.util.stream package– which contains classes for processing sequence of elements. This is done by Stream pipeline chaining - 
+	Java 8 has introduce **java.util.function** package which consititue **all functional interfaces** like Predicate, Function, Supplier, Consumer, BinaryOperator, UnaryOperator.
+	Java 8 has introduce **stream functionality** with java.util.stream package– which contains classes **for processing sequence of elements.** This is done by Stream pipeline chaining - 
 		Syntax:- "source (.) 0 or more Intermidiate Operation (.) Terminal operation". Intermediate operation like - filter, map, skip, peek, sorted, distinct etc while  Terminal operation like for each(Consumer), reduce, collect, toArray, findFirst, findAny, count etc.
 	Java 8 has added a final class **Optional** in java.util package, which helps us to write **neat code without worrying about too many null checks.**
 	Java 8(HotSpot 1.8) has also **removed PremGen memory space and introduce MetaSpace** just to avoid java.lang.OutOfMemoryError.

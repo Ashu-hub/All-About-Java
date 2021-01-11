@@ -13,6 +13,8 @@
 
 	Flavor of Inversion of Control. Let's look at these two words separately. Here the dependency part translates into an association between two classes. For example, class A is dependent of class B.
 	Now, let's look at the second part, injection. All this means is, class B will get injected into class A by the IoC.
+	
+	Dependency Injection (or sometime called wiring) helps in gluing classes together and at the same time keeping them independent.
 
 -	Circular Depency in Spring?
 	https://www.baeldung.com/circular-dependencies-in-spring
