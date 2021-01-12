@@ -60,7 +60,7 @@ q) Tuning the code cache size?
 ## Heap
 
 	Objects resides in the area called heap. Heap is created when the JVM starts up and may increase or decrease during the applicaton runs.
-	When the heap size is full, garbage is collected. During garbage collecction objects that are no longer used are cleared and making space for the newly created objects.
+	When the heap size is full, garbage is collected. During garbage collection objects that are no longer used are cleared and making space for the newly created objects.
 	 
 	Note that the JVM uses more memory than just the heap. For example Java methods, thread stacks and native handles are allocated in memory separate from the heap, as well as JVM internal data structures.
 	
