@@ -106,7 +106,31 @@
 	4. 4xx Client Error
 	5. 5xx Server Error
 	
+-** SOAP Vs REST**
+	1) SOAP stands for Simple Object Access Protocol
+	2) SOAP is a protocol.
+	3) SOAP can't use REST because it is a protocol.
+	4) SOAP uses services services interfaces like @WebService to expose the business logic.
+	5) SOAP permits XML data format only.
+	6) SOAP requires more bandwidth and resource than REST.(SOAP that uses XML for the creation of Payload and results in the large sized file.)
+	7) SOAP API used Web Services Description language for describing the functionalities being offered by web services.
 	
+	1) REST stands for REpresentational State Transfer.
+	2) REST is an architectural style.
+	3) REST can use SOAP web services because it is a concept and can use any protocol like HTTP, SOAP.
+	4) REST uses URI to expose business logic.
+	5) REST permits different data format such as Plain text, HTML, XML, JSON etc.
+	6) REST requires less bandwidth and resource than SOAP.(As REST API deploys multiple standards, so it takes fewer resources and bandwidth )
+	7) REST API uses Web Application Description Language
+	
+-** Web Application Description Language  Vs Web Services Description language
+	WSDL The Web Service Description Language (WSDL) is an XML vocabulary used to describe SOAP-based web services. 
+	A client can load a WSDL file and know exactly which RPCstyle methods it can call, what arguments those methods expect, and which data types they return.
+
+	WADL The Web Application Description Language (WADL) is an XML vocabulary used to describe RESTful web services. 
+	As with WSDL, a generic client can load a WADL file and be immediately equipped to access the full functionality of the corresponding web service.
+	WADL The Web Application Description Language is an XML vocabulary for expressing the behavior of HTTP resources
+
 Which Framework You Have Used And Why?
 How Did You Configure The Said Framework?
 Implement Security In Rest?
