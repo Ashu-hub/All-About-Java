@@ -37,3 +37,32 @@
 5. Cyclomatic complexity:-
 		Cyclomatic complexity is a software metric used to indicate the complexity of a program. It is a quantitative measure of the number of linearly independent paths through a program's source code
 		
+# Code qality metrics-
+	Sonarqube:- It does standard static code analysis. It anayze code, find bugs, vulnerability and test Code Coverage.
+	
+	eg-
+	Come Smell:-
+	A maintainability issue that makes your code confusing and difficult to maintain.
+					OR
+	IT a charcteristics of code which indicates depper problem.
+	eg:- to many comments, Duplicate codes, Lazy classes etc.
+	
+	Bug – A coding error that will break your code and needs to be fixed immediately.
+	
+	Vulnerability – A point in your code that's open to attack.
+	
+	While Running Analysis, Sonar raises an issues everytime a piece of code breaks a coding rule.
+	Issue type:- Bug, Smell, Vulnerability.
+
+###	Issue Severity:- 
+
+	1) Blocker - Bug with high probablity to impact behaviour of applicaton in prod. The Code must fix immediately.
+	2) Critical - Either Bug with low probablity to impact behaviour of applicaton in prod or issues which represents secutiry flaws. like empty catch block, SQL injection.The code must of Reviewed immediately.
+	3) Major - Quality Flaw that highly impact  developer productivity. eg- uncovered piece of code, duplicate code, unused parameter etc.
+	4) Minor - Quality flaw that slightly impact developer productivity.  eg- lines should not be too long, switch should have atleast 3 cases etc.
+	5) Info - Niether bug or quality flaq, Just a finding.	
+	
+	
+		
+	
+
