@@ -5,6 +5,23 @@
 
 2. What is technical debt?
 	Ans:- It is a concept that reflects the implied code of additional rework cause by choosing easy(limited) solution now instead of using a better approach.
+	
+	Types of Technical debt:-
+	a.	Source code formatting
+	b.	Low test coverage
+	c.	lack of modularity 
+	d.	Bad code design 
+	e.	lack of documentation
+	
+2.1. What causes technical debt?
+
+	a.	poor code review
+	b.	no use of static code analysis tool like sonar or lint
+	c.	poor test coverage
+	d.	bad development practices
+	e.	Use of outdated tools or technology
+
+
 
 3. What is Clean code?
 	Ans:- Clean code has following characteristics:-

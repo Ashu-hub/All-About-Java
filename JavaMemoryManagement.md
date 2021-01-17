@@ -209,3 +209,31 @@ q) Tuning the code cache size?
 
 	To enable the G1 Garbage Collector, we can use the following argument:
 	java -XX:+UseG1GC -jar Application.java
+	
+# Java Profiling tool:-
+	
+	Java VisualVM is a profiling tool used for Java application. By Default it is bundled with JDK.
+	Java VisualVM supports local and remote profiling as well.
+	It is present in jdk/bin folder.
+	It allow us to view details information of our java application while they are executing. 
+
+###	How to detect/debug deadlock?
+	using jvisuwalVM. open Your process id and click on Thread Tab. It will show you with clear meassage about where the deadlock is. 
+	It can be  also seen bt command line tool using - jstack processId. 
+	
+	Heap Dump :- It is a snapshot of memeory of a java process. This snapshot coontians info about java classes, feilds, referece, class loader, superclass, static feilds etc.
+	How to take heap dump.
+	you can take heap dump using monitor tab right side button.
+	You can aslo take heap dump while in debug mode. This will give you clear picture of which line causing error.
+	
+	How to anayze outOfMemory error?
+	Add vm aruguments- -XX:+HeapDumpOnOutOfMemoryError
+	It will generate the heap dump file-> load it in jvisuwalVM UI. Now you can clearly see the details about what went wrong.
+	
+	what is Memory leak?
+	The standard definition of a memory leak is a scenario that occurs when objects are no longer being used by the application, 
+	but the Garbage Collector is unable to remove them from working memory – because they're still being referenced.
+	
+	Using Profiling (memory or CPU) we can monitor and diagonse the memory leaks.
+	
+	

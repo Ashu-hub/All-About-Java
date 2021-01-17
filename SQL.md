@@ -46,13 +46,28 @@ select * from tblCountry
 	Null values not allowed
 
 **Q) What is Foreign Key **
-	
+
+	A Foreign Key is a column or a combination of columns whose values match a Primary Key in a different table.
 	Foreign key maintains referential integrity by enforcing a link between the data in two tables.
 	The foreign key in the child table references the primary key in the parent table.
 	The foreign key constraint prevents actions that would destroy links between the child and parent tables.
-	
-	
-	
+
+**Q DDL, DQL, DML, DCL and TCL Commands**
+	DDL - Data Definition Language -SQL commands that can be used to define the database schema
+		eg:- CREATE. DROP, ALTER, Truncate, COMMENT, RENAME
+		
+	DML - Data Manipulation Language - SQL commands that deals with the manipulation of data
+		eg:- INSERT, UPDATE, Delete
+		
+	DQL - Data Query Language - DML statements are used for performing queries on the data within schema objects.
+		eg:- Select
+		
+	DCL - Data Control Language - which mainly deals with the rights, permissions and other controls of the database system.
+		eg:- GRANT, REVOKE
+		
+	TCL - Transaction Control Language -  commands deals with the transaction within the database.
+		eg:- COMMIT, ROLLBACK, SET Transactions.
+
 **Q) What is the difference between DELETE and TRUNCATE statements?**	
 	
 	DELETE:

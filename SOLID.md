@@ -665,3 +665,5 @@ public class PricingUtils{
 	The Str looks like
 	ProductCatalogue --------->ProductRepository<--------------SQLProductRepository
 					(Depends on)   					(Depends on)
+					
+	Adapter design pattern is an example of dependency inversion
