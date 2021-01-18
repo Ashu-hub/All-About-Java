@@ -173,7 +173,7 @@ ApiSero	questions:
 
 	Metrics are pre-decided parameters which are used to measure how well an organisation is performing and progressing to achieve its objectives. In SAFe, four metrics are considered:
 
-	Portfolio
+	Portfolio - Portfolio SAFe aligns strategy with execution and organizes solution development around the flow of value through one or more value streams
 	Large solution
 	Program
 	Team
