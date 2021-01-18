@@ -73,12 +73,12 @@ ApiSero	questions:
 
 # agile
 
-*Q) What is agile?*
+**Q) What is agile?**
 
 	Agile is an Iterative approach to project management and software development that helps teams deliver values to their customer faster and in effective way.
 	Instead of betting everything on a "big bang" launch, an agile team delivers work in small, but consumable, increments. Requirements, plans, and results are evaluated continuously so teams have a natural mechanism for responding to change quickly.
 	
-*Q) Which thing you like and dnt like about Agile?*
+**Q) Which thing you like and dnt like about Agile?**
 
 	 3 things like primirly:-
 	 a) Flexibility- Agile ensures continuous product delivery and improvement. It helps rapidly adapt products to changing market requirements
@@ -90,30 +90,30 @@ ApiSero	questions:
 	 b) Control and documentation. - There is less focus on documentation in Agile. Thus, in some cases, nobody knows what (and why) was developed.
 	 c) 
 	 
-*Q)  What is Velocity?*
+**Q)  What is Velocity?**
 
 	 It is rate at which team progress sprint by sprint.
 	 
-*Q) What do you know about Impediments in Scrum?*
+**Q) What do you know about Impediments in Scrum?**
 
 	Obstacles or issues faces by scrum team which slow down their speeed of work.
 	eg:- Resource missing or sick team member, Technical, operational, organizational problems, Lack of Infrastructure(not Laptop issue).
 	
 	way to remove Impediements:- 
 	
-*Q) What is the difference and similarity between Agile and Scrum?*
+**Q) What is the difference and similarity between Agile and Scrum?**
 
 	Agile is the methodology used for project management, while Scrum is the ust a form  of the Agile the describe the process and its steps more concisely. Agile is a **practice** whereas scrum is a procedure to **pursue this practice**.	
 	
-*Q)  What is the increment?*
+**Q)  What is the increment?**
 
 	An increment is the total of all the product backlogs items completed during a sprint.
 
-*Q) What is the “build-breaker”?*
+**Q) What is the “build-breaker”?**
 
 	The build-breaker is a situation that arises when there is a bug in the software. Due to this sudden unexpected bug, compilation process stops or execution fails or a warning is generated.
 	
-*Q) What are the values of Agile?*
+**Q) What are the values of Agile?**
 
 	(WRIC)
 	Individuals and interactions over processes and tools
@@ -121,13 +121,13 @@ ApiSero	questions:
 	Customer collaboration over contract negotiation
 	Responding to change over following a plan
 	
-*Q) Define Zero Sprint and Spike in Agile?*
+**Q) Define Zero Sprint and Spike in Agile?**
 
 	Spike – Spike is the type of story that can be taken between the sprints. Spikes are commonly used for the activities related to the design or technical issues such as research, design, prototyping, and exploration. There are two types of spikes – functional spikes and technical spikes.
 	
 	Zero sprint – Zero Sprint can be defined as the preparation step of the first sprint in Agile. There are some activities that are required to be done before actually starting the project. These activities are considered as the Zero sprint; the examples of such activities are – setting the environment for development, preparation of backlogs etc.
 	
-*Q) What do you know about “Planning Poker” technique?*
+**Q) What do you know about “Planning Poker” technique?**
 
 	Planning poker, also known as **Scrum Poker.**
 	All participants use numbered playing cards and estimate the items.
@@ -136,28 +136,28 @@ ApiSero	questions:
 	Planning poker works well when you have to estimate a relative small number of items (max 10) in a small team (5-8 people).
 	Tip: try to keep the voting between affordable numbers. Maximize the highest card to 13 points.
 	
-*Q) Is it ever suggested to use waterfall over Scrum? If yes, explain when?*
+**Q) Is it ever suggested to use waterfall over Scrum? If yes, explain when?**
 
 	Yes, sometimes it is suggested to use a waterfall model over Scrum. It is done when the customer requirements are simple, well-defined, fully understood, predictable, and are not subjected to change until the completion of the projec
 
-*Q) What is the difference between the agile & traditional way of working?*
+**Q) What is the difference between the agile & traditional way of working?**
 
 	The traditional way is sequential where design->Development->Testing etc. happens one after another whereas in agile all of this is done in every iteration/sprint
 	Changes are welcomed in agile as Scope is flexible whereas in traditional manner scope is fixed in the beginning due to which changes have to follow change request path
 	Progress is measured with % completion traditionally whereas working software is the measure of progress in agile
 	Project Manager as a central controlling authority is traditionally driving the project whereas Self-motivated and self-organizing teams drive the projects in agile.
 	
-*Q) 	You are the SM on the project. PO wants to put a large story into the sprint in the middle. How would you handle it?*
+**Q) 	You are the SM on the project. PO wants to put a large story into the sprint in the middle. How would you handle it?**
 
 	Identify What and Why(Why now, why not in next)
 	Identify its Buisness criticality. If it is very critical - whether this large can be divided into smallar chunks. If not atlease try to divide it into 2.
 	So that onecan deliver in this spirint and another in next.
 	
-*Q) What is SAFE (Scaled Agile Framework)?*
+**Q) What is SAFE (Scaled Agile Framework)?**
 
 	The Scaled Agile Framework (SAFe) is a set of organization and workflow patterns intended to guide enterprises in scaling lean and agile practices.
 	
-*Q)  How do Agile and SAFe Frameworks differ? What are the four core values of SAFe? *
+**Q)  How do Agile and SAFe Frameworks differ? What are the four core values of SAFe? *
 
 	Agile is a broad term that covers several frameworks, out of which one is SAFe. This framework, established by Dean Leffingwell, is specifically for large-scale enterprise projects as it scales up other models like Scrum to an enterprise level. 
 	It is based on three fundamental principles: Agile Development, Lean Product Development and Systems Thinking. 
@@ -169,7 +169,7 @@ ApiSero	questions:
 	Transparency - Trust and reliability
 	Program Execution - Deliver continuously and efficiently
 	
-*Q) What metrics are used in SAFe? *
+**Q) What metrics are used in SAFe? *
 
 	Metrics are pre-decided parameters which are used to measure how well an organisation is performing and progressing to achieve its objectives. In SAFe, four metrics are considered:
 
@@ -178,18 +178,57 @@ ApiSero	questions:
 	Program
 	Team
 	
-*Q)  What is the role of a Release Train Engineer (RTE)?*
+**Q)  What is the role of a Release Train Engineer (RTE)?**
 
 	he RTE is the coach of an Agile Release Train (ART). Their primary responsibility is to accelerate the ART events and assist in delivering the value. RTEs must have excellent communication skills, and they are the ones who usually interact with the stakeholders as well. 
 	
-*Q) What do you know about the Innovation and Planning (IP) Iteration in SAFe?*
+**Q) What do you know about the Innovation and Planning (IP) Iteration in SAFe?**
 
 	IP is also aided by constant learning. This way, the people get time to innovate and explore beyond the iterations dedicated towards the delivery of the product
 	
-*Q)  What's the difference between user stories and enabler stories? *
+**Q)  What's the difference between user stories and enabler stories?**
 
 	User stories are stories which deliver functionality directly to the end-user. These are usually written in simple language that the user can understand, and this language will also help the Agile team appreciate what the user wants. 
 
      Enabler stories give an insight into the work items needed to support exploration, architecture, infrastructure and compliance. These may never be seen by the end-user, and are often written in technical language.
 	
-*Q) What is epic?*
+**Q) What is epic?**
+
+
+**Q) Could you please explain the process you used for designing a solution? What kind of artifacts, materials have been created by you? **
+	
+	
+**Q) Explain Test Pyramid?**	
+	The "Test Pyramid" is a metaphor that tells us to group software tests into buckets of different granularity.
+	(Base of Triangle)Unit Tests -> Integration Test -> System Tests -> Functional Tests -> UAT -> UI Test	(Tipof Triangle)
+	
+**Q) Please describe the way of adaptation of new employees on your project. What is the main steps of this process. How do you know that candidate is ready for production?**
+	
+
+**Q) Describe the most challenging work that you ghave done in the recent past?**
+	Use STAR Technique to answer most challenging work you did
+
+	Situation or Task :
+	We were assigned Open banking project with very less time to analyze and a lot of unknowns. Over the top it had a lot of interaction involved as simulatneously 3 teams were working from EPAM side. 
+
+	Action Taken :
+	We divided the part assigned to us in granular tasks. To tackle the unknownsdivivding the task first into the granular level helped us in dentifying them and then in turn clarification. We implemented the polling mechanism for the transaction that were processed by the gateway to get the latest status.
+
+	Although polling is not an efficient solution and ideal solution would have been to get a call back from the OBC but as the client were also in the dev phase it was not possible for them to integrate via callback
+	Results achieved :
+	We have successfully delivered the OBC feature and My contribution was very well received.
+	
+**Q) Distributed vs Centralized Version Control System?**
+	[Ref](https://www.geeksforgeeks.org/centralized-vs-distributed-version-control-which-one-should-we-choose/)
+	
+	1. Centralized version control is easier to learn than distributed
+	2. DVCS has the biggest advantage that it allows you to work offline and gives flexibility. 
+		You have the entire history of the code in your own hard drive, so all the changes you will be making in your own server or to your own repository which doesn’t require internet connection, but this is not in case of CVCS.
+	3. Working on branches is easy in DVCS
+	4. If the project has long history or the project contain large binary files in that case downloading the entire project in DVCS can take more time and space than usual
+	5. If the main server goes down or it crashes in DVCS, you can still get the backup or entire history of the code from your local repository or server 
+		where the full revision of the code is already saved. This is not in case of CVCS, there is just a single remote server which has entire code history.
+	6. Merge conflicts with other developers code are less in DVCS. Because of every developer work on their own piece of code. Merge conflicts are more in CVCS in comparison of DVCS.
+
+**Q) Which branching strategy have you used and why?**
+	

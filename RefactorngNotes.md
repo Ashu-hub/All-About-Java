@@ -21,7 +21,7 @@
 	d.	bad development practices
 	e.	Use of outdated tools or technology
 
-
+2.2. Tools to find technical debts - Sonar, Jacoco
 
 3. What is Clean code?
 	Ans:- Clean code has following characteristics:-
@@ -69,7 +69,7 @@
 	Vulnerability – A point in your code that's open to attack.
 	
 	While Running Analysis, Sonar raises an issues everytime a piece of code breaks a coding rule.
-	Issue type:- Bug, Smell, Vulnerability.
+	**Issue type:- Bug, Smell, Vulnerability.**
 
 ###	Issue Severity:- 
 
@@ -79,7 +79,35 @@
 	4) Minor - Quality flaw that slightly impact developer productivity.  eg- lines should not be too long, switch should have atleast 3 cases etc.
 	5) Info - Niether bug or quality flaq, Just a finding.	
 	
+# What is DRY.
+	DRY stand for "Don't Repeat Yourself," a basic principle of software development aimed at reducing repetition of information.
+	The DRY principle is stated as, **"Every piece of knowledge or logic must have a single, unambiguous representation within a system."**
 	
-		
+	How to Achieve DRY
+	To avoid violating the DRY principle, divide your system into pieces. 
+	Divide your code and logic into smaller reusable units and use that code by calling it where you want. 
+	Don't write lengthy methods, but divide logic and try to use the existing piece in your method.
+	
+	DRY Benefits:-
+	Less code is good: It saves time and effort, is easy to maintain, and also reduces the chances of bugs
+	
+	Is code duplication always bad?
+	No. Sometimes code duplication can be allowed in situations when you want to remove dependencies between modules. 
+	Removing every duplication in your codebase introduces dependencies in your project. 
+	
+# KISS: Keep It Simple, Stupid
+	The KISS principle is descriptive to keep the code simple and clear, making it easy to understand. 
+	After all, programming languages are for humans to understand — computers can only understand 0 and 1 — so keep coding simple and straightforward. Keep your methods small. 
+	Each method should never be more than 40-50 lines
+	Each method should only solve one small problem, not many use cases
+	
+	How to Achieve KISS
+	Try to write simple code.
+	Whenever you find lengthy code, divide that into multiple methods
+	
+	Benefit of KISS
+	Easy To understand, debug, maintain. 
+	Increased readibility
+	
 	
 

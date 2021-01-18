@@ -216,6 +216,9 @@ q) Tuning the code cache size?
 	Java VisualVM supports local and remote profiling as well.
 	It is present in jdk/bin folder.
 	It allow us to view details information of our java application while they are executing. 
+	
+**Q) What are the two modes in JProfiler for CPU Profiling?**
+	sampling and instrumentation.
 
 ###	How to detect/debug deadlock?
 	using jvisuwalVM. open Your process id and click on Thread Tab. It will show you with clear meassage about where the deadlock is. 

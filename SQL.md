@@ -94,7 +94,7 @@ select * from tblCountry
 	CHECK Constraint − The CHECK constraint ensures that all the values in a column satisfies certain conditions.
 	INDEX − Used to create and retrieve data from the database very quickly.
 
-**Q). What is the difference between CHAR and VARCHAR2 datatype in SQL?**
+**Q) What is the difference between CHAR and VARCHAR2 datatype in SQL?**
 
 	Both Char and Varchar2 are used for characters datatype but varchar2 is used for character strings of variable length whereas Char is used for strings of fixed length.
 	
@@ -158,14 +158,21 @@ select * from tblCountry
 		
 	Types of Indexes:-
 	Unique Index: This index does not allow the field to have duplicate values if the column is unique indexed. If a primary key is defined, a unique index can be applied automatically.
-	Clustered Index: This index reorders the **physical order** of the table and searches based on the basis of key values. Each table can only have one clustered index.
-	Non-Clustered Index: Non-Clustered Index does not alter the physical order of the table and maintains a **logical order** of the data. Each table can have many nonclustered indexes.
 	
+	Clustered Index: This index reorders the **physical order** of the table and searches based on the basis of key values. Each table can only have one clustered index.
+	IT determines how the data is stored in the table. 
+	
+	eg:- If ID is a Primary key column in a table and you insert record in random order. like first you insert Id=3 then id =5 , id =1 id=2. Since CLusteredindex is automaticaly created in clustered index, it will store the data in sequential order. like now the table has id=1 then id=2 then id=3 then id=5.
+	eg:- Analogous to telephone directory
+	
+	Non-Clustered Index: Non-Clustered Index does not alter the physical order of the table and maintains a **logical order** of the data. Each table can have many nonclustered indexes. Can have more than 1 non-clustered Index. 
+	eg:- Analogous to text Book Index.
+	[Ref](https://www.youtube.com/watch?v=NGslt99VOCw)
 	
 **Q) What is the difference between clustered and non clustered index in SQL?**
 	
 	Clustered Index:			
-	Its created on primary key.
+	Its created on primary key automatically.
 	Store data physically according to the order.
 	Only one clustered index can be there in a table.
 	No extra space is required to store logical structure.
@@ -178,7 +185,8 @@ select * from tblCountry
 	Extra space is required to store logical structure.
 	Data update is faster than clustered index.
 	
-				
+**Q) What problem happens if I create index on each column in a table which has 50 columns.**				
+
 **Q)	Difference between FetchType LAZY and EAGER in Java Persistence API?**
 
 		 The FetchType defines when Hibernate gets the related entities from the database.
@@ -210,3 +218,5 @@ select * from tblCountry
 	select ename, sal, dense_rank() 
 	over(order by sal desc)r from Employee) 
 	where r=&n;
+	
+	here n= nth high salary.

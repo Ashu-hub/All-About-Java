@@ -388,6 +388,12 @@ public final class ImmutableStudent {
     }*/
 }
 ```
+
+	Advantages of using immutable objects:- 
+		Thread safety
+		Prevention of identity mutation
+		Better encapsulation
+		Simpler to test
 		
 **6.	What is difference between final vs Immutability in Java?**
 
@@ -395,6 +401,8 @@ public final class ImmutableStudent {
 		Whereas immutable means that the object’s actual value can’t be changed, but you can change its reference to another one.
 		final ensures that the address of the object remains the same whereas the Immutable suggests that we can’t change the state of the object once created.
 		[FinalVsImmutable](https://github.com/Ashu-hub/All-About-Java/blob/master/InterviewQuestionExplanation/src/JavaOverview/FinalVsImmutable.java )
+		
+	
 		
 **7. 	What is the difference between + and concat()?**
 
@@ -737,25 +745,176 @@ public class GFG {
 ```
 
 
-Q) Why to choose generics?
+**Q) Why to choose generics?**
 	Generics gives strong complie-time type Safety to our code. Eliminated explicit type casting and make more readable.
 	Generics allow classes and Interfaces to be paramterized , so that we can implement generic algorithm which works for different types.
 	eg: className<T1,T2....Tn>
 	
-Q) Why List<String> can not be assigned to List<Object> ?
+**Q) Why List<String> can not be assigned to List<Object> ?**
 	List<String> stringList =null ;
 	List<Object> objectList = stringList; //ERROR	
 	Here List<String> is not a sub type of List<Object>, hence as per inheritance rule, this is not allowed.
 
-Q)	Inheritance in Generics - Can we assign List<String> to Collection<String> ?
+**Q) Inheritance in Generics - Can we assign List<String> to Collection<String> ?**
 	If the type parameter is same, then we can very well extend the classes as per Java Inheritance rules. So it is
 	perfectly legal to assign List<String> to Collection<String> reference.
 	
-Q) What is Type Erasure ?
+**Q) What is Type Erasure ?**
 	Generics provide compile time safety to our Java code. Type erasure happens at compile time, to remove
 	those generic type information from source and adds casts needed and deliver the byte code. Thus the java
 	byte code will be no different than that the non-generic Java code
 
-**Q) How to analyze thread dump?**
+**Q) Oracle JDK Vs OpenJDK?**
+	Release Schedule:
+	Oracle will deliver releases every three years.
+	OpenJDK will be released every six months.
+	
+	Licenses:-
+	Public updates for Oracle Java SE 8 released after January 2019 will not be available for business, commercial, or production use without a commercial license. 
+	However, OpenJDK is completely open source and can be used it freely.
+	
+	Oracle JDK 11 will continue to include installers, branding, and JRE packaging, whereas OpenJDK builds are currently available as zip and tar.gz files.
+	The output of the java –version and java -fullversion commands will distinguish Oracle's builds from OpenJDK builds
+	
 
+**Q) How to implement case insensitive map?**
+	like -
+	Map m = new MyMap();
+	m.put("Russia", "VALUE");
+	m.get("russiA"); --> this should return "VALUE". If we use HashMap instead of MyMap it will return null
+	
+```java	
+	import java.util.HashMap;
 
+	public class CaseInsensitiveMap extends HashMap<String, String> {
+
+    @Override
+    public String put(String key, String value) {
+       return super.put(key.toLowerCase(), value);
+    }
+
+    // not @Override because that would require the key parameter to be of type Object
+    public String get(String key) {
+       return super.get(key.toLowerCase());
+    }
+	}	
+```
+	OR
+```java
+	Map<String, String> nodeMap = 
+		new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+```
+
+**Q) Compare IO vs NIO**
+	IO:-
+	Java IO stands for Java Input Output
+	Java IO operates inside java.io package
+	Java IO is Stream oriented
+	Blocking IO operation
+	Channels are not available
+	It deals with data in stream
+	Does not contain the concept of Selectors
+	
+	NIO:-
+	Java NIO stands for Java New Input Output
+	Java NIO operates inside java.nio package
+	Java NIO is Buffer oriented
+	Non-blocking IO operation
+	Channels are available
+	It deals with data in blocks
+	Contains the concept of Selectors
+	[Ref](https://www.geeksforgeeks.org/difference-between-java-io-and-java-nio/)
+	
+**Q) When to throw checked Exception and when to throw Unchecked Exception?
+	If a client can reasonably be expected to recover from an exception, make it a checked exception. 
+	If a client cannot do anything to recover from the exception, make it an unchecked exception.
+	
+	Checked Exception **must** be handled.
+	like FileNotFoundException 
+	
+	Handling unchecked exceptions is not mandatory
+	like NullPointerException.
+	
+	[Ref](https://howtodoinjava.com/java/exception-handling/throw-vs-throws/)
+	
+**Q) Java  11 features?**
+	1. New String methods: -
+		isBlank() return boolean, 
+		lines():return a collection of strings which are divided by line terminators
+		repeat(n): repeats the given String n times.
+		strip() : remove the white-spaces which are in-front and back of the string
+		
+	2. Optional.isEmpty(): This method returns true if the value of any object is null and else returns false.
+	3. Local-Variable Syntax for Lambda Parameters:
+		JDK 11 allows ‘var’ to be used in lambda expressions.
+		 IntStream.of(1, 2, 3, 5, 6, 7) 
+               .filter((var i) -> i % 2 == 0) 
+               .forEach(System.out::println); 
+	4. Epsilon Garbage Collector: 
+	This handles memory allocation but does not have actual memory reclamation mechanism. Once the available Java heap is exhausted, JVM will shut down.
+		Its goals are:-
+		Performance testing
+		Memory pressure testing
+		last drop latency improvements
+		
+**Q) Java  14 features?**	
+	
+	1. Switch Expressions :-
+	eg : 
+```java
+	boolean isTodayHoliday = switch (day) {
+    case "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY" -> false;
+    case "SATURDAY", "SUNDAY" -> true;
+    default -> throw new IllegalArgumentException("What's a " + day);
+}```
+	
+	2. Text Blocks:
+	text blocks now have two new escape sequences:-
+	\	: to indicate the end of the line, so that a new line character is not introduced
+	\s	: to indicate a single space
+	
+	**3. Now Java has made this easier by adding the capability to point out what exactly was null in a given line of code.**
+	For example, consider this simple snippet:
+```java
+	int[] arr = null;
+	arr[0] = 1;
+	```
+	Earlier, on running this code, the log would say:
+	
+```java
+	Exception in thread "main" java.lang.NullPointerException
+	at com.baeldung.MyClass.main(MyClass.java:27)
+	```
+	But now, given the same scenario, the log might say:
+```java
+	java.lang.NullPointerException: Cannot store to int array because "arr" is null
+	```
+	
+	4. Concurrent Mark Sweep (CMS) Garbage Collector (JEP 363) – deprecated by Java 9, 
+	this GC has been succeeded by G1 as the default GC. Also, there are other more performant alternatives to use now, such as ZGC and Shenandoah, hence the removal
+	
+**Q) Java  16 features?**
+	
+	1. Text block: 
+		is to provide clarity by way of minimizing the Java syntax required to render a string that spans multiple lines.
+	```java 
+	// ORIGINAL
+	String message = "'The time has come,' the Walrus said,\n" +
+                 "'To talk of many things:\n" +
+                 "Of shoes -- and ships -- and sealing-wax --\n" +
+                 "Of cabbages -- and kings --\n" +
+                 "And why the sea is boiling hot --\n" +
+                 "And whether pigs have wings.'\n";
+				 ```
+				 
+```java
+	// BETTER
+	String message = """
+    'The time has come,' the Walrus said,
+    'To talk of many things:
+    Of shoes -- and ships -- and sealing-wax --
+    Of cabbages -- and kings --
+    And why the sea is boiling hot --
+    And whether pigs have wings.'
+    """;
+```
