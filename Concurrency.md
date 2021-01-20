@@ -217,6 +217,10 @@ public class StampedLockDemo {
 	It also manages whole life cycle if Threads.
 	
 	**Difference between MultiThreading and Parallel programming?**
+	MultiThreading primirly designed to work with single CPU and utilize the idea time of CPU.
+	Parallel programming using Fork Join Framework can utilize multiple processors available in the CPU.
+	
+	The Fork Join framework recursively divide a task into smaller subtask until subtask is not small enough to be solved independently.This is called **Divide and Conquer** strategy
 	
 	
 	

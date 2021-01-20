@@ -33,6 +33,9 @@
 		
 4. What is code smells?
 	Ans:- 	It is any characteristics of code that indicates deeper problem.
+				OR
+		A maintainability issue that makes your code confusing and difficult to maintain.
+		
 		Comments
 		A method is filled with explanatory comments.
 
@@ -69,6 +72,7 @@
 	Vulnerability – A point in your code that's open to attack.
 	
 	While Running Analysis, Sonar raises an issues everytime a piece of code breaks a coding rule.
+	
 	**Issue type:- Bug, Smell, Vulnerability.**
 
 ###	Issue Severity:- 
@@ -92,6 +96,7 @@
 	Less code is good: It saves time and effort, is easy to maintain, and also reduces the chances of bugs
 	
 	Is code duplication always bad?
+	
 	No. Sometimes code duplication can be allowed in situations when you want to remove dependencies between modules. 
 	Removing every duplication in your codebase introduces dependencies in your project. 
 	
@@ -108,6 +113,9 @@
 	Benefit of KISS
 	Easy To understand, debug, maintain. 
 	Increased readibility
-	
+
+# The Hollywood Principle
+
+# YAGNI principle	
 	
 

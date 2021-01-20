@@ -14,7 +14,7 @@
 
 **3. Is main() compulsory in java?
 
-		Ans: Brfore Java 7, it is not mandatory to write main(). You canhave full code inside static block and run that,
+		Ans: Brfore Java 7, it is not mandatory to write main(). You can have full code inside static block and run that,
 		However after Java 7, main() is compulsory in java, if not presenet ,Complier will throw an error saying- 'main method not found in the class'
 
 **4.  Explain Implicit casting/promotion of primitive Data type in java?**
@@ -66,26 +66,10 @@
 
 **11	What is the scope of static Variable?
 		Ans- Class level.
+		
+**12 What are native methods in java**
+	A native method is a Java method whose implementations are written in another language such as C/C++.
 	
-**12	What is Cyclomatic Complexity of a code in java?**
-		Ans- Cyclomatic complexity of a code section is the quantitative measure of the number of linearly independent paths in it. It is a software metric used to indicate the complexity of a program.
-		It is computed using the Control Flow Graph of the program.
-		For example, if source code contains no control flow statement then its cyclomatic complexity will be 1 and source code contains a single path in it.
-		Similarly, if the source code contains one if condition then cyclomatic complexity will be 2 because there will be two paths one for true and the other for false
-		**Formula- M = E – N + 2P**
-		where,
-		E = the number of edges in the control flow graph
-		N = the number of nodes in the control flow graph
-		P = the number of connected components
-		
-		**Use of Cyclomatic Complexity?**
-		
-		Determining the independent path executions thus proven to be very helpful for Developers and Testers.
-		It can make sure that every path have been tested at least once.
-		Thus help to focus more on uncovered paths.
-		Code coverage can be improved.
-		Risk associated with program can be evaluated.
-
 **13. 	Does finally block always execute? Will finally block execute when System.exit is called?**
 
 		Ans- finally is not executed when System.exit is called, finally block is also not executed when JVM crashes because of some java.util.Error. 
@@ -97,18 +81,18 @@
 
 **14. 	 What is cloning in java?**
 
-		Cloning is done for copying the object, cloning can be done using shallow or deep copy.
+		Cloning is done for **copying the object**, cloning can be done using shallow or deep copy.
 		1) Definition of clone method -
 			protected native Object clone() throws CloneNotSupportedException;
 			Clone is a protected method - clone method can’t be called outside class without inheritance.
 			Clone is native method, if not overridden its implementation is provided by JVM.
 			It returns Object - Means explicitly cast is needed to convert it to original object.
-		2)  By default clone method do shallow copy
+		2)  By default clone method do shallow copy.
 		3)  Class must implement marker interface java.lang.Cloneable. If class doesn’t implement Cloneable than calling clone method on its object will throw CloneNotSupportedException.
 		
 		[ShallowVsDeepCopy](https://www.javamadesoeasy.com/2015/05/cloning-in-java-using-clone-shallow-and.html )
 		
-	**Shallow Copy**- A shallow copy of an object copies the ‘main’ object, but doesn’t copy the inner objects. The ‘inner objects’ are shared between the original object and its copy.
+	**Shallow Copy**- A shallow copy of an object copies the **‘main’ object, but doesn’t copy the inner objects.** The ‘inner objects’ are shared between the original object and its copy.
 					The default implementation of the clone method creates a shallow copy of the source object.
 ```java
 	public class Person {
@@ -147,7 +131,7 @@ public class Person {
 […]
 }
 ```	
-	For Primitive value, it is simple a value that can't be shared, So By creating second instance variable, we are automatically creating an independent copy.	
+	For Primitive value, it is simple, a value that can't be shared, So By creating second instance variable, we are automatically creating an independent copy.	
 		
 **15	What is reflection in java? Have you ever used reflection directly or directly?**
 
@@ -176,7 +160,8 @@ public class Person {
 		Ans:- [Ans](https://github.com/Ashu-hub/Books-to-Prepare-Oracle-Java-Certification-Exams/blob/master/interview_questions_java.md#general-answers )
 
 **2. Can We Overload a function by changing only return Type?**
-		Ans: [No](https://github.com/Ashu-hub/Books-to-Prepare-Oracle-Java-Certification-Exams/blob/master/interview_questions_java.md#general-answers )
+		Ans: [Yes](https://github.com/Ashu-hub/Books-to-Prepare-Oracle-Java-Certification-Exams/blob/master/interview_questions_java.md#general-answers )
+		Overloaded method can change the return type.
 
 **3. What is Encapsulation and give one example?**
 
@@ -249,7 +234,7 @@ public class Person {
 		In Object-Oriented programming, an Object communicates to other Object to use functionality and services provided by that object. Composition and Aggregation are the two forms of association.
 		
 		Composition:-
-		Composition is a restricted form of Aggregation in which two entities are highly dependent on each other.
+		Composition is a restricted form of Aggregation in which two entities are *highly dependent on each other.*
 		It represents **part-of relationship.**
 		In composition, both the entities are dependent on each other.
 		When there is a composition between two entities, the composed object **cannot exist without the other entity**.
@@ -332,10 +317,10 @@ public class Person {
 		Like Once string object is created its data or state can't be changed but a new string object is created.
 		
 		1. Make Class as FINAL.
-		2. make class variable as private- so that it cant be accessed outside the world.
+		2. Make class variable as private- so that it cant be accessed outside the world.
 		3. Constructor:- to iniitalized all class variables
 		4. Don't provide setter methods in class/ provide only getter methods.
-		6.  object of immutable class - Any change made to object of immutable class produces new object.
+		6. Object of immutable class - Any change made to object of immutable class produces new object.
    			object of mutable class -  Any change made to object of mutable class doesn't produces new object.
 			 - **Integer, String** are immutable class, 
 				   any changes made to object of these classes produces new object.
@@ -579,7 +564,7 @@ public class GFG {
 		
 		TreeMap Stores elements as Key Value Pair. It extends AbstractMap, implements NavigableMap, cloneable and Serializable.
 		TreeMap Sotores the elements in Sorted manner(natural sorting order). 
-		TreeMap does not using hashing technique for storing the elements, while it uses RED- BLack Tree for storing elements.
+		TreeMap does not using hashing technique for storing the elements, while it uses **RED- BLack Tree** for storing elements.
 		**Red Black Tree** Has node str as - 
 		Parent - key - value pair
 		Left - all elemtns smallar then root
@@ -658,7 +643,14 @@ public class GFG {
 	Case3:	**If the superclass is serializable but we don’t want the subclass to be serialized**
 			There is no direct way to prevent subclass from serialization in java. One possible way by which a programmer can achieve this is by implementing the **writeObject() and readObject()** methods in the subclass and needs to throw NotSerializableException from these methods. 
 			These methods are executed during serialization and de-serialization respectively. By overriding these methods, we are just implementing our own custom serialization.
-
+	```java
+	private void writeObject(ObjectOutputStream out) throws IOException 
+	{ 
+		throw new NotSerializableException(); 
+	}
+	```
+	[Ref](https://www.geeksforgeeks.org/object-serialization-inheritance-java/)
+	
 **	What is Custom Serialization in java?
 	During serialization, there may be data loss if we use the ‘transient’ keyword. ‘Transient’ keyword is used on the variables which we don’t want to serialize. But sometimes, 
 	it is needed to serialize them in a different manner than the default serialization (such as encrypting before serializing etc.), in that case, we have to use custom serialization and deserialization.
@@ -669,7 +661,12 @@ public class GFG {
 **22 What is equals and hascode Contract?**
 		
 		It says that- If two objects are equal according to the equals(Object) method, then calling the hashCode method on each of the two objects must produce the same integer result.
-	
+
+**22a Why Immutable classes are prefereable as a key in Hashmap?**
+
+ 	Immutability allows you to get same hash code every time, for a key object. Also These classes must honor the equals and hashCode Contract.
+	If immutable, the object's hashcode wont change and it allows caching the hashcode of different keys which makes the overall retrieval process very fast. Also for mutable objects ,the hashCode() might be dependent on fields that could change, if this happens you wont be able to find the key (and its value) in the HashMap since hashCode() returns different value.
+
 **23 Discuss Generics in java?**
 	
 	**Why to Choose Generics?**
@@ -727,7 +724,7 @@ public class GFG {
 	
 	2) Role Of Garbage collection:-
 	In HashMap , entry object(entry object stores key-value pairs) is not eligible for garbage collection i.e Hashmap is dominant over Garbage Collector.
-	In WeakHashmap, wWhen a key is discarded then its entry is automatically removed from the map , in other words, garbage collected.
+	In WeakHashmap, when a key is discarded then its entry is automatically removed from the map , in other words, garbage collected.
 	
 	3) Clone Method Implementation:-
 	HashMap implements Cloneable interface .
@@ -845,11 +842,13 @@ public class GFG {
 		strip() : remove the white-spaces which are in-front and back of the string
 		
 	2. Optional.isEmpty(): This method returns true if the value of any object is null and else returns false.
+	
 	3. Local-Variable Syntax for Lambda Parameters:
 		JDK 11 allows ‘var’ to be used in lambda expressions.
 		 IntStream.of(1, 2, 3, 5, 6, 7) 
                .filter((var i) -> i % 2 == 0) 
                .forEach(System.out::println); 
+	
 	4. Epsilon Garbage Collector: 
 	This handles memory allocation but does not have actual memory reclamation mechanism. Once the available Java heap is exhausted, JVM will shut down.
 		Its goals are:-
@@ -893,7 +892,7 @@ public class GFG {
 	4. Concurrent Mark Sweep (CMS) Garbage Collector (JEP 363) – deprecated by Java 9, 
 	this GC has been succeeded by G1 as the default GC. Also, there are other more performant alternatives to use now, such as ZGC and Shenandoah, hence the removal
 	
-**Q) Java  16 features?**
+**Q) Java 16 features?**
 	
 	1. Text block: 
 		is to provide clarity by way of minimizing the Java syntax required to render a string that spans multiple lines.

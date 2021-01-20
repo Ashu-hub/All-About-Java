@@ -185,7 +185,9 @@ select * from tblCountry
 	Extra space is required to store logical structure.
 	Data update is faster than clustered index.
 	
-**Q) What problem happens if I create index on each column in a table which has 50 columns.**				
+**Q) What problem happens if I create index on each column in a table which has 50 columns.**	
+
+				
 
 **Q)	Difference between FetchType LAZY and EAGER in Java Persistence API?**
 
@@ -199,6 +201,7 @@ select * from tblCountry
 		 To Clear the Dirt which is created in unit Test like Update or insert.
 		 To leave the data in consistent state.
 		 
+**Q) Triggers in sql?**
 		 
 *******************************************************
 

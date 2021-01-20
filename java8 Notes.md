@@ -2,9 +2,9 @@
 
 	With the introduction of Java 8, **functional Programming**(Style of programming that treats **computation as functions/expressions** and avoid changing state) has been introduced in the Java Langauge.
 	Java 8 has introduce **Lambda Expression** to bring the benefits of functional Programming in java, Lambda is just a **nameless function, which means it does not have name, return Type and access modifier.** 
-	Java 8 has introduce **Functional Interface** to bring the use of lambda expression. Functional Interface is having Single Abstract Method(SAM) in it. To mark an interface Function an **annotation has been introduce i.e. @FunctionInterface.** 
+	Java 8 has introduce **Functional Interface** to bring the use of lambda expression. Functional Interface is having *Single Abstract Method(SAM)* in it. To mark an interface Function an **annotation has been introduce i.e. @FunctionalInterface.** 
 	Java 8 has also added **method Reference** which enables us to define lambda expressions by referring to methods name directly.
-	Java 8 has also introduce **default concrete methods(extension or defender methods) and static methods inside interface**. 
+	Java 8 has also introduce **default concrete methods(extension method or defender methods) and static methods inside interface**. 
 	Java 8 has introduce **java.util.function** package which consititue **all functional interfaces** like Predicate, Function, Supplier, Consumer, BinaryOperator, UnaryOperator.
 	Java 8 has introduce **stream functionality** with java.util.stream package– which contains classes **for processing sequence of elements.** This is done by Stream pipeline chaining - 
 		Syntax:- "source (.) 0 or more Intermidiate Operation (.) Terminal operation". Intermediate operation like - filter, map, skip, peek, sorted, distinct etc while  Terminal operation like for each(Consumer), reduce, collect, toArray, findFirst, findAny, count etc.
@@ -23,7 +23,6 @@
 	Anonymous class is an inner class without a name, which means that we can declare and instantiate class at the same time.
 	 A lambda expression is a short form for writing an anonymous class.
 	
-
 # Method Reference
 	
 	In place of lambda expression we can use Method Reference. Syntax - By using "::" operator. 
@@ -526,7 +525,7 @@ public class OptionalDemo{
 ## Diff bet orElse and orElseGet() :-
 	orElse takes a parameter T and orElseGet takes Supplier as Paramter.
 	
-###get():- If a value is present in this {@code Optional}, returns the value, otherwise throws {@code NoSuchElementException}
+###get():- If a value is present in this {@code Optional}, returns the value, otherwise throw {@code NoSuchElementException}
 
 	Optional<String> opt = Optional.of("baeldung");
     String name = opt.get();
@@ -558,16 +557,16 @@ public class OptionalDemo{
 
 	Until Java 7 there was an area in JVM memory called PermGen, where JVM used to keep its classes or metaInformation. In Java 8 it was removed and replaced by area called Metaspace.
 	What are the most important differences between PermGen and Metaspace?
-	The only difference I know is that java.lang.OutOfMemoryError: PermGen space error can no longer be thrown and the VM parameter MaxPermSize is ignored.
+	The only difference I know is that **java.lang.OutOfMemoryError: PermGen space error** can no longer be thrown and the VM parameter **MaxPermSize** is ignored.
 
 	The main difference from a user perspective - which I think the previous answer does not stress enough - is that Metaspace **by default auto increases its size** (up to what the underlying OS provides), 
-	while PermGen always has a fixed maximum size. You can set a fixed maximum for Metaspace with JVM parameters, but you cannot make PermGen auto increase.
+	while PermGen always has a **fixed maximum size.** You can set a fixed maximum for Metaspace with JVM parameters, but you cannot make PermGen *auto increase.*
 	To a large degree it is just a change of name. Back when PermGen was introduced, there was no Java EE or dynamic class(un)loading, so once a class was loaded it was stuck in memory until the JVM shut down - thus Permanent Generation. Nowadays classes may be loaded and unloaded during the lifespan of the JVM, so Metaspace makes more sense for the area where the metadata is kept.
 	Both of them contain the java.lang.Class instances and both of them suffer from ClassLoader leaks. Only difference is that with Metaspace default settings, it takes longer until you notice the symptoms (since it auto increases as much as it can), i.e. you just push the problem further away without solving it. OTOH I imagine the effect of running out of OS memory can be more severe than just running out of JVM PermGen, so I'm not sure it is much of an improvement.
 	Whether you're using a JVM with PermGen or with Metaspace, if you are doing dynamic class unloading, you should to take measures against classloader leaks,
 
 # Internal Vs External Iterator-
-	External Iterators- This Iterator is also known as **active iterator or explicit iterator.** For this type of iterator the control over iteration of elements is with the programmer. Which means that the programmer define when and how the next element of iteration is called.
+	External Iterators- This Iterator is also known as **active iterator or explicit iterator.** For this type of iterator the **control over iteration of elements** is with the programmer. Which means that the programmer define when and how the next element of iteration is called.
 ```java
 	for (String item : items) {
 				System.out.println(item);
@@ -575,20 +574,51 @@ public class OptionalDemo{
 	
 ```
 
-	Internal Iterators- This Iterator is also known as **passive iterator, implicit iterator or callback iterator.** For this type of iterator the control over the iteration of elements lies with the iterator itself. The programmer only tells the iterator "What operation is to be performed on the elements of the collection". Thus the programmer only declares what is to be done and does not manage and control how the iteration of individual elements take place.
+	Internal Iterators- This Iterator is also known as **passive iterator, implicit iterator or callback iterator.** For this type of iterator the control over the iteration of elements lies with the iterator itself. The programmer only tells the iterator "What operation is to be performed on the elements of the collection". Thus the programmer **only declares** what is to be done and does not manage and control how the iteration of individual elements take place.
 ```java
 items.forEach(item -> System.out.println(item));
 ```
 # Diff between iterator() and spilIterator()
 		1. iterator was interoduce in 1.2 while spilIterator was in 1.8.
-		2. spilIterator can be used with steams while iterator can only be used with collections.
-		3. spiltIterator used Internal Iterator to iterate over stream.Iterator used Extenal Iterator.
+		2. spilIterator can be used with steams while iterator can *only* be used with collections.
+		3. spiltIterator used Internal Iterator to iterate over stream. Iterator used Extenal Iterator.
 		4. spilIterator can iterate Steam in Paralllel as well as Sequential, Iterator iterate only Sequential manner.
 		
+
+
+# Java 8 changes w.r.t Collection API?
+
+
+	Added stream() method in Collection Interface.
+	
+	1) Introduction of **forEach() and spiltIterator()** in Iterable Interface.
+	2) Added **removeIf(Predicate), stream()** methods in Collection Interface.
+	3) Introduction of **replaceAll()** in Map Interface - Can replace all the values in a single attempt
+		eg:-  
+```java
+	map.put("C", "c");
+    map.put("B", "b");
+    map.replaceAll((k, v) -> "x"); // values is "x" for all keys.  
+```
+	4) Introduction of **putIfAbsent()** in Map Interface - 
+```java
+	map.put("C", "c");
+	map.put("B", "b");
+	map.putIfAbsent("B", "x");
+	System.out.println(map.get("B")); // prints "b"
+```
+	5) Introduction of **compute()** in Map Interface - Gone are the days when you needed to get the value for specific keys, process it and put them back. Now you can directly modify with help of compute method
+```java
+	map.put("C", "c");
+    map.put("B", "b");
+    map.compute("B", (k, v) -> v.concat(" - new "));
+    System.out.println(map.get("B")); // prints "b - new"
+```
+	
 ====================================
 
 # Collectors Class in java
-	This is implementation class of Collector Interface( which perform reduction operation.) that implements various  useful reduction operations.
+	This is implementation class of Collector Interface( which perform reduction operation.) that implements various useful reduction operations.
 	egs:-
 
 ```java
@@ -635,17 +665,4 @@ items.forEach(item -> System.out.println(item));
 				));
 ```
 
-# Java 8 CollectionEnhanceent:
 
-	Added forEach(Consumer) method in Iterable interface.
-	Added removeIf(Predicate) method in Collection Interface.
-	
-	List:-
-	Added repalceALL(UnaryOperator)
-	Added sort(Comparator) 
-	
-	Map:-
-	Added V getOrDefault(Object key, V defaultValue) - Returns the value to which the specified key is mapped or a defalut value if  this map contain no mapping.
-	..
-	
-	

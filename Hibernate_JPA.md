@@ -1,3 +1,43 @@
+# Mock Rest Template 
+[Ref](https://www.baeldung.com/spring-mock-rest-template)
+```java
+@Service
+public class EmployeeService {
+    
+    @Autowired
+    private RestTemplate restTemplate;
+
+    public Employee getEmployee(String id) {
+	ResponseEntity resp = 
+          restTemplate.getForEntity("http://localhost:8080/employee/" + id, Employee.class);
+        
+	return resp.getStatusCode() == HttpStatus.OK ? resp.getBody() : null;
+    }
+}
+
+@RunWith(MockitoJUnitRunner.class)
+public class EmployeeServiceTest {
+
+    @Mock
+    private RestTemplate restTemplate;
+
+    @InjectMocks
+    private EmployeeService empService = new EmployeeService();
+
+    @Test
+    public void givenMockingIsDoneByMockito_whenGetIsCalled_shouldReturnMockedObject() {
+        Employee emp = new Employee(“E001”, "Eric Simmons");
+        Mockito
+          .when(restTemplate.getForEntity(
+            “http://localhost:8080/employee/E001”, Employee.class))
+          .thenReturn(new ResponseEntity(emp, HttpStatus.OK));
+
+        Employee employee = empService.getEmployee(id);
+        Assert.assertEquals(emp, employee);
+    }
+}
+```
+
 # Hibernate Caching:-
 
 ## First level cache:- 
