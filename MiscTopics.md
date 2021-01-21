@@ -240,6 +240,12 @@
 	EPAM’s Engineering Excellence (in short EngX) in devising several tools and services aimed to encourage and develop best engineering practices at EPAM.
 	eg: Events like Coding DOJO, Technical Session between different teams/locations.
 
+**Q) Buddy Program?**
+	Explain who is who, how to use office equipments, who is the right person for the query resolution.
+	Address any query raised on Organization guidelines, culture, norms.
+	Sharing insight how things are done in Org level
+	Helping in making their journey comfortable and happy.
+	
 **Q) BurnDown Chart vs Burn up chart?	
 **Q) Which branching strategy have you used and why?**	
 **Q) One Thing that you dnt like in agile(your project)? why? Solution?** - In Sprint changes.- dnt make headache.

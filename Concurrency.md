@@ -1,7 +1,7 @@
 # Volatile
 	It is a non-access specifier, used only for variables. This ensures **variable visibilty to all other threads.**
 	Visibility: It means that changes made by one thread to shared data are visible to other threads.
-	Volatile variables are loaded in shared memory, not in the local memory, thats how it can able to give Visibility feature.
+	Volatile variables are loaded in **shared memory, not in the local memory,** thats how it can able to give Visibility feature.
 	
 # AtomicInteger:
 	Supppose there is a variable, int i = 0;

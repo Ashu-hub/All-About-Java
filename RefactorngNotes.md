@@ -56,7 +56,25 @@
 		
 5. Cyclomatic complexity:-
 		Cyclomatic complexity is a software metric used to indicate the complexity of a program. It is a quantitative measure of the number of linearly independent paths through a program's source code
+
+**1	What is Cyclomatic Complexity of a code in java?**
+		Ans- Cyclomatic complexity of a code section is the quantitative measure of the number of linearly independent paths in it. It is a software metric used to indicate the complexity of a program.
+		It is computed using the Control Flow Graph of the program.
+		For example, if source code contains no control flow statement then its cyclomatic complexity will be 1 and source code contains a single path in it.
+		Similarly, if the source code contains one if condition then cyclomatic complexity will be 2 because there will be two paths one for true and the other for false
+		**Formula- M = E – N + 2P**
+		where,
+		E = the number of edges in the control flow graph
+		N = the number of nodes in the control flow graph
+		P = the number of connected components
 		
+		**Use of Cyclomatic Complexity?**
+		
+		Determining the independent path executions thus proven to be very helpful for Developers and Testers.
+		It can make sure that every path have been tested at least once.
+		Thus help to focus more on uncovered paths.
+		Code coverage can be improved.
+		Risk associated with program can be evaluated.
 # Code qality metrics-
 	Sonarqube:- It does standard static code analysis. It anayze code, find bugs, vulnerability and test Code Coverage.
 	

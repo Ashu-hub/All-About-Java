@@ -19,6 +19,9 @@
 	Java 8 has introduced **StampedLock**, in which the acquisition method return a stamp that is used to release a lock and to check whether lock is still valid or not.
 	java 8 has introduced Concurrent Adders & Accumulators- DoubleAdder, DoubleAccumulator, LongAdder, LongAccumulator
 
+## Why Functional Programming?
+	The basic objective of this style of programming is to make code more concise, less complex, more predictable, and easier to test compared to the legacy style of coding.
+
 #	Difference between anonymous class vs lambda
 	Anonymous class is an inner class without a name, which means that we can declare and instantiate class at the same time.
 	 A lambda expression is a short form for writing an anonymous class.

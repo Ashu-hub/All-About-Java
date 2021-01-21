@@ -890,7 +890,7 @@ public class GFG {
 	```
 	
 	4. Concurrent Mark Sweep (CMS) Garbage Collector (JEP 363) – deprecated by Java 9, 
-	this GC has been succeeded by G1 as the default GC. Also, there are other more performant alternatives to use now, such as ZGC and Shenandoah, hence the removal
+	this GC has been succeeded by **G1 as the default GC.** Also, there are other more performant alternatives to use now, such as ZGC and Shenandoah, hence the removal
 	
 **Q) Java 16 features?**
 	

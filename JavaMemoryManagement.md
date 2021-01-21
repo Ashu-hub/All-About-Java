@@ -68,10 +68,14 @@ q) Tuning the code cache size?
 	1) Nursery(or young space)
 	2) Old space.
 	
-	The nursery is a part of the heap reserved for allocation of new objects. When the nursery becomes full, garbage is collected by running a special young collection, where all objects that have lived long enough in the nursery are promoted (moved) to the old space, thus freeing up the nursery for more object allocation.
-	When the old space becomes full garbage is collected there, a process called an old collection.
-	The reasoning behind a nursery is that most objects are temporary and short lived. A young collection is designed to be swift at finding newly allocated objects that are still alive and moving them away from the nursery. Typically, a young collection frees a given amount of memory much faster than an old collection or a garbage collection of a single-generational heap (a heap without a nursery)
-	 A part of the nursery is reserved as a **keep area**. The keep area contains the most recently allocated objects in the nursery and is not garbage collected until the next young collection. This prevents objects from being promoted just because they were allocated right before a young collection started.
+	The nursery is a part of the heap reserved for allocation of new objects. 
+	When the nursery becomes full, garbage is collected by running a special **young collection**, where all objects that have lived long enough in the nursery are promoted (moved) to the old space, thus freeing up the nursery for more object allocation.
+	When the old space becomes full garbage is collected there, a process called an **old collection.**
+	The reasoning behind a nursery is that most objects are temporary and short lived. 
+	A young collection is designed to be swift at finding newly allocated objects that are still alive and moving them away from the nursery. 
+	Typically, a young collection frees a given amount of memory much faster than an old collection or a garbage collection of a single-generational heap (a heap without a nursery)
+	 A part of the nursery is reserved as a **keep area**. The keep area contains the most recently allocated objects in the nursery and is not garbage collected until the next young collection. 
+	 This prevents objects from being promoted just because they were allocated right before a young collection started.
 
 # Garbage Collection
 
@@ -89,10 +93,11 @@ q) Tuning the code cache size?
 	 The sweep phase:-
 	 During the sweep phase the heap is traversed to find the gaps between the live objects. These gaps are recorded in a free list and are made available for new object allocation.
 	 
-	 JVM uses two improved versions of the mark and sweep model:- One is **mostly concurrent mark and sweep **and the other is **parallel mark and sweep**
+	 JVM uses two improved versions of the mark and sweep model:- 
+	 One is **mostly concurrent mark and sweep **and the other is **parallel mark and sweep**
 	 
-	 Mostly Concurrent Mark and Sweep:- 
-	 The mostly concurrent mark and sweep strategy (often simply called concurrent garbage collection) allows the Java threads to continue running during large portions of the garbage collection. The threads must however be stopped a few times for synchronization.
+	 1. Mostly Concurrent Mark and Sweep:- 
+	 The mostly concurrent mark and sweep strategy (often simply called **concurrent garbage collection**) allows the Java threads to continue running during large portions of the garbage collection. The threads must however be stopped a few times for synchronization.
 	 
 	 The mostly concurrent mark phase is divided into four parts:
 	 
@@ -110,8 +115,11 @@ q) Tuning the code cache size?
 	
 	Parallel Mark and Sweep:-
 	
-	The parallel mark and sweep strategy (also called the parallel garbage collector) uses all available CPUs in the system for performing the garbage collection as fast as possible. All Java threads are paused during the entire parallel garbage collection.
+	The parallel mark and sweep strategy (also called the parallel garbage collector) uses **all available CPUs in the system** for performing the garbage collection as fast as possible. All Java threads are paused during the entire parallel garbage collection.
 	
+####	Side Note : 
+	Concurrent = Two queues and one coffee machine.
+	Parallel = Two queues and two coffee machines.
 	 
 ##	2) 	Generational Garbage Collection
 	
@@ -178,7 +186,7 @@ q) Tuning the code cache size?
 	
 ## Parallel Garbage Collector:-
 
-	It's the default GC of the JVM and sometimes called Throughput Collectors. 
+	It's the default GC of the JVM and sometimes called **Throughput Collectors.**
 	Unlike Serial Garbage Collector, this uses **multiple threads** for managing heap space. 
 	But it also freezes other application threads while performing GC.	
 	If we use this GC, we can specify maximum garbage collection threads and pause time, throughput, and footprint (heap size).
@@ -189,7 +197,7 @@ q) Tuning the code cache size?
 ## CMS Garbage Collector:-
 
 	The Concurrent Mark Sweep (CMS) implementation uses multiple garbage collector threads for garbage collection. 
-	esigned for applications that prefer shorter garbage collection pauses, and that can afford to share processor resources with the garbage collector while the application is running.
+	Designed for applications that prefer shorter garbage collection pauses, and that can afford to share processor resources with the garbage collector while the application is running.
 	
 	To enable the CMS Garbage Collector, we can use the following flag:
 	java -XX:+UseParNewGC -jar Application.java
@@ -201,7 +209,7 @@ q) Tuning the code cache size?
 
 	G1 (Garbage First) Garbage Collector is designed for applications running on multi-processor machines with large memory space.
 	G1 collector will replace the CMS collector since it's more performance efficient.
-	Unlike other collectors, G1 collector partitions the heap into a set of equal-sized heap regions, each a contiguous range of virtual memory. When performing garbage collections,
+	Unlike other collectors, G1 collector partitions the heap into a **set of equal-sized heap regions**, each a contiguous range of virtual memory. When performing garbage collections,
 	G1 shows a concurrent global marking phase (i.e. phase 1 known as Marking) to determine the liveness of objects throughout the heap.
 
 	After the mark phase is completed, G1 knows which regions are mostly empty. 
@@ -221,7 +229,7 @@ q) Tuning the code cache size?
 	sampling and instrumentation.
 
 ###	How to detect/debug deadlock?
-	using jvisuwalVM. open Your process id and click on Thread Tab. It will show you with clear meassage about where the deadlock is. 
+	using jvisuwalVM. Open Your process id and click on Thread Tab. It will show you with clear meassage about where the deadlock is. 
 	It can be  also seen bt command line tool using - jstack processId. 
 	
 	Heap Dump :- It is a snapshot of memeory of a java process. This snapshot coontians info about java classes, feilds, referece, class loader, superclass, static feilds etc.
