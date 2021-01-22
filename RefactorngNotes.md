@@ -16,7 +16,7 @@
 2.1. What causes technical debt?
 
 	a.	poor code review
-	b.	no use of static code analysis tool like sonar or lint
+	b.	no use of static code analysis tool like sonar 
 	c.	poor test coverage
 	d.	bad development practices
 	e.	Use of outdated tools or technology
@@ -132,6 +132,14 @@
 	Easy To understand, debug, maintain. 
 	Increased readibility
 
+# CAP Theorem:
+	states that it is impossible for a distributed data store to simultaneously provide more than two out of the following three guarantees :-
+	1. Consistency - Every read receives the most recent write or an error.
+	2. Availability - Every request receives a (non-error) response – without guarantee that it contains
+	the most recent write.
+	3. Partition tolerance - the system continues to operate despite arbitrary partitioning due to
+	network failures.
+	
 # The Hollywood Principle
 
 # YAGNI principle	

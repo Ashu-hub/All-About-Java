@@ -2,11 +2,15 @@
 - AOP:
 	Aspect oriented programming(AOP) as the name suggests uses aspects in programming. 
 	It can be defined as the breaking of code into different modules, also known as modularisation, where the aspect is the key unit of modularity.
-	Aspect: The class which implements the JEE application's cross-cutting concerns(transaction, logger etc) is known as the aspect.
+	
+	Aspect: The class which implements the JEE application's cross-cutting concerns(is a concern which is applicable throughout the application- transaction, logger etc) is known as the aspect.
 	Advice: The job which is meant to be done by an Aspect or it can be defined as the action taken by the Aspect at a particular point. 
+	
 	There are five types of Advice namely: Before, After, Around, AfterThrowing and AfterReturning
 
-- IOC -  Inversion of control- It means giving the **control of creating and instantiating the spring beans to the Spring IOC container. **
+- IOC -  Inversion of control- 
+ 	IoC inverts the flow of control as compared to traditional control flow, to achieve loose coupling.Here, controls refer to any additional responsibilities a class has, other than its main responsibility 
+	Like in Spring it means giving the **control of creating and instantiating the spring beans to the Spring IOC container. **
 		and the only work the developer does is configuring the beans in the spring xml file.
 
 - Dependency Injections- 
@@ -56,7 +60,9 @@
                 .paths(regex("/quotes.*"))
                 .build()
 ```
-
+	4) Can user  @ApiOperation(value = "Add a book", response = Book.class) with methods and @ApiParam(value = "Book object store in database table",
+      required = true, with paramaters.
+	  
 - What is Actuator?
 	Spring boot Actuator provides secured endpoints for monitoring and managing you spring boot application.
 	Setps:-

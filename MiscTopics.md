@@ -195,6 +195,26 @@
 **Q) What is epic?**
 	An Epic is a container for a significant Solution development initiative that captures the more substantial investments that occur within a portfolio.
 
+**Q) What is Story points and why not man-hour(time based) is consider in case of estimating task?**
+	A Story Point is a metric used in Agile project management and software development *to estimate the difficulty of implementing a particular User Story.* Story points are typically a unit of measuring three things, that each work item consists of:
+
+	1. The amount of work to do
+	2. The complexity of the work
+	3. Any risk or uncertainty in doing the work
+
+
+	Why not time based  estimation technique?	
+	Some tasks are difficult to estimate precisely
+	If one developer estimates a project but another completes the task, the estimate becomes invalid. The time needed to complete a task will vary based on a developer’s level of experience
+	People generally underestimate obstacles they might face and consider only the best-case scenario
+	
+**Q)Definition of Done Vs Definition of Ready**
+
+	Simply stated, the Definition of Ready defines the criteria that a specific user story has to meet before being considered for estimation or inclusion into a sprint.
+
+	The Definition of Done is an agreement between Development Team and the Product Owner on what needs to be completed for each user story.
+	Essentially, a DoD represents the acceptance criteria for a sprint or release
+	
 **Q) Could you please explain the process you used for designing a solution? What kind of artifacts, materials have been created by you? **
 	
 **Q) Explain Test Pyramid?**	
@@ -204,12 +224,18 @@
 **Q) Please describe the way of adaptation of new employees on your project. What is the main steps of this process. How do you know that candidate is ready for production?**
 	Below are the points by which we make the journey of new joinee comfortable.
 	
-	1) Expalin Who is who, how to use office equipments, who is the right person for the query resolution of each department.
+	1) Explain Who is who, how to use office equipments, who is the right person for the query resolution of each department.
 	2) Address any queries or doubts raised on Organization guidelines, norms, culture and unwritten rules.
 	3) Sharing insight on how things are done in the organisation.
 	4) Introducing the new associate to team members.
 	5) Able to expalin work related tasks.
 	6) Making aware them about the Org level trainings, portals etc.
+	
+	In your project:
+	1. Ensures his Id is created on the portal.
+	2. Ensures we raised all the requests for necessary resources like laptop,headphone etc.
+	3. Ensures he gets all the permission to access to the system.
+	4. Making aware of the all mandatory trainings of the project.
 	
 **Q) Describe the most challenging work that you have done in the recent past?**
 	Use STAR Technique to answer most challenging work you did
@@ -223,6 +249,8 @@
 	Although polling is not an efficient solution and ideal solution would have been to get a call back from the OBC but as the client were also in the dev phase it was not possible for them to integrate via callback
 	Results achieved :
 	We have successfully delivered the OBC feature and My contribution was very well received.
+	
+	We made everthing in the confluence.
 	
 **Q) Distributed vs Centralized Version Control System?**
 	[Ref](https://www.geeksforgeeks.org/centralized-vs-distributed-version-control-which-one-should-we-choose/)
@@ -240,12 +268,6 @@
 	EPAM’s Engineering Excellence (in short EngX) in devising several tools and services aimed to encourage and develop best engineering practices at EPAM.
 	eg: Events like Coding DOJO, Technical Session between different teams/locations.
 
-**Q) Buddy Program?**
-	Explain who is who, how to use office equipments, who is the right person for the query resolution.
-	Address any query raised on Organization guidelines, culture, norms.
-	Sharing insight how things are done in Org level
-	Helping in making their journey comfortable and happy.
-	
 **Q) BurnDown Chart vs Burn up chart?	
 **Q) Which branching strategy have you used and why?**	
 **Q) One Thing that you dnt like in agile(your project)? why? Solution?** - In Sprint changes.- dnt make headache.

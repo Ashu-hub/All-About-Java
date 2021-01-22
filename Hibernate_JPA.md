@@ -337,3 +337,30 @@ public void whenSaveIdClassEntity_thenOk() {
 	
 	** can DO PAging and Sorting in one method?
 	Pageable<Product> page = new PageRequest(0,1, Direction.DESC, "name");
+	
+# Mockito framework and its drawback:
+	Mockito is a framework of choice for most of the java based projects. It is easy to implement, read and understand.
+
+	Some of the drawbacks or limitations in terms of functionality are:
+	Its inability to mock static methods.
+	Constructors, private methods and final classes cannot be mocked.
+	
+	Solution: Frameworks like PowerMockito (extensions of Mockito framework), JMockit, etc. do provide means to mock private and static methods.
+
+### Test Doubles:
+	Used in lieu of External dependency
+	DB, Web, API, Network etc
+
+### Mocks:
+	It is used for whether function is called or not, if yes, how many times, what parameters are called when it is called?
+	In short:
+	Right call,
+	Right number of times,
+	Right number of parameters.
+	
+### Stub:
+	stub checks the behaviour of code if the funtion returns success, failure or error.
+	Stub is like making sure a method returns the correct value.
+	
+	A Mock is just testing behaviour, making sure certain methods are called. A Stub is a testable version (per se) of a particular object.
+		

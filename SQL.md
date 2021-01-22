@@ -123,7 +123,7 @@ select * from tblCountry
 	To check the updated salary use SELECT statement
 	SELECT all(star) FROM emp_table WHERE emp_no = 1002;
 	
-**Q) Discuss Index In sql	**
+**Q) Discuss Index In sql**
 	Indexing is used to efficiently retrieve records from the db, based on the attribute on which indexing has been done.
 	It is used by the server to speed up the retrieval of rows by using a pointer.
 	How you do that ?
@@ -151,7 +151,7 @@ select * from tblCountry
 		
 	The following guidelines indicate when the use of an index should be reconsidered.
 
-	Indexes should not be used on small tables.
+	Indexes should not be used on **small tables.**
 	Tables that have frequent, large batch updates or insert operations.
 	Indexes should not be used on columns that contain a high number of NULL values.
 	Columns that are frequently manipulated should not be indexed.
@@ -176,33 +176,57 @@ select * from tblCountry
 	Store data physically according to the order.
 	Only one clustered index can be there in a table.
 	No extra space is required to store logical structure.
-	Data retrieval is faster than non-cluster index 
+	**Data retrieval is faster than non-cluster index **
 
 	Non-Clustered Index:
 	It can be created on any key.
 	It don’t impact the order.
 	There can be any number of non-clustered indexes in a table.
 	Extra space is required to store logical structure.
-	Data update is faster than clustered index.
+	**Data update is faster than clustered index.**
 	
 **Q) What problem happens if I create index on each column in a table which has 50 columns.**	
-
+	 There is overhead in maintaining the indexes, so indexing all columns would slow down all of your **insert, update and delete operations.**
+	 You should index the columns that you are frequently referencing in WHERE clauses, and you will see a benefit.
 				
-
-**Q)	Difference between FetchType LAZY and EAGER in Java Persistence API?**
+**Q)	Difference between FetchType LAZY and EAGER in Java Persistence API(JPA)?**
 
 		 The FetchType defines when Hibernate gets the related entities from the database.
 		 To load it together with the rest of the fields (i.e. eagerly), -- Eager loading
-		 To load it on-demand (i.e. lazily) when you call the university's getStudents() method.
+		 To load it on-demand (i.e. lazily) when you call the **university's getStudents() method.**
 		 LAZY = fetch when needed
 		 EAGER = fetch immediately
+		 [Ref](https://stackoverflow.com/questions/2990799/difference-between-fetchtype-lazy-and-eager-in-java-persistence-api)
 		 
 **Q)	@DirtiesContext in Unit Test?**
 		 To Clear the Dirt which is created in unit Test like Update or insert.
 		 To leave the data in consistent state.
-		 
+
+**Q) Diff bet JPA and Hibernate?**
+	JPA is just a specification while Hibernate is one of the JPA provider i.e hibernate is implementing various things mentioned in JPA contract. 
+	JPA or Java Persistence API is a standard specification for ORM implementations whereas Hibernate is the actual ORM implementation or framework
+	
 **Q) Triggers in sql?**
-		 
+		 Triggers are stored programs, which are automatically executed or fired when some events occur.
+		 Benefits of Triggers:
+		 Generating some derived column values automatically
+		 Event logging and storing information on table access
+	Syntax:-		 
+		 CREATE [OR REPLACE ] TRIGGER trigger_name  
+			{BEFORE | AFTER | INSTEAD OF }  
+			{INSERT [OR] | UPDATE [OR] | DELETE}  
+			[OF col_name]  
+			ON table_name  
+			[REFERENCING OLD AS o NEW AS n]  
+			[FOR EACH ROW]  
+			WHEN (condition)   
+			DECLARE 
+			   Declaration-statements 
+			BEGIN  
+			   Executable-statements 
+			EXCEPTION 
+			   Exception-handling-statements 
+			END; 
 *******************************************************
 
 **Q Sql Query to find highest salary?**

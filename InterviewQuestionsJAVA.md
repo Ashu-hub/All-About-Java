@@ -730,7 +730,6 @@ public class GFG {
 	HashMap implements Cloneable interface .
 	WeakHashMap does not implement Cloneable interface , it only implements Map interface. Hence , there is no clone() method in the WeakHashMap class.
 	
-	
 **Q) How to create demeon Thread?** 
 	
 	It can be created by using setDaemon(boolean isDaemon) method to true.

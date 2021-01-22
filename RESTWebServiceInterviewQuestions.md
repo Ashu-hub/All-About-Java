@@ -110,7 +110,7 @@
 	1) SOAP stands for Simple Object Access Protocol
 	2) SOAP is a protocol.
 	3) SOAP can't use REST because it is a protocol.
-	4) SOAP uses services services interfaces like @WebService to expose the business logic.
+	4) SOAP uses service interfaces like @WebService to expose the business logic.
 	5) SOAP permits XML data format only.
 	6) SOAP requires more bandwidth and resource than REST.(SOAP that uses XML for the creation of Payload and results in the large sized file.)
 	7) SOAP API used Web Services Description language for describing the functionalities being offered by web services.
@@ -120,7 +120,7 @@
 	3) REST can use SOAP web services because it is a concept and can use any protocol like HTTP, SOAP.
 	4) REST uses URI to expose business logic.
 	5) REST permits different data format such as Plain text, HTML, XML, JSON etc.
-	6) REST requires less bandwidth and resource than SOAP.(As REST API deploys multiple standards, so it takes fewer resources and bandwidth )
+	6) REST requires less bandwidth and resource than SOAP.(As REST API deploys multiple standards, so it takes fewer resources and bandwidth )(does not have envelope-style of payload transport like SOAP.)
 	7) REST API uses Web Application Description Language
 	
 -** Web Application Description Language  Vs Web Services Description language
