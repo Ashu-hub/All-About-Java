@@ -241,7 +241,7 @@
 	Use STAR Technique to answer most challenging work you did
 
 	Situation or Task :
-	We were assigned Open banking project with very less time to analyze and a lot of unknowns. Over the top it had a lot of interaction involved as simulatneously 3 teams were working from EPAM side. 
+	We were assigned Open banking project with very less time to analyze and a lot of unknowns. Over the top it had a lot of interaction involved as simulatneously 3 teams were working from XYZ company side. 
 
 	Action Taken :
 	We divided the part assigned to us in granular tasks. To tackle the unknowns divivding the task first into the granular level helped us in dentifying them and then in turn clarification. We implemented the polling mechanism for the transaction that were processed by the gateway to get the latest status.
@@ -264,9 +264,9 @@
 		where the full revision of the code is already saved. This is not in case of CVCS, there is just a single remote server which has entire code history.
 	6. Merge conflicts with other developers code are less in DVCS. Because of every developer work on their own piece of code. Merge conflicts are more in CVCS in comparison of DVCS.
 	
-**Q) Explain EPAM ENGX practices.**
-	EPAM’s Engineering Excellence (in short EngX) in devising several tools and services aimed to encourage and develop best engineering practices at EPAM.
-	eg: Events like Coding DOJO, Technical Session between different teams/locations.
+**Q) Explain ENGX practices.**
+	Engineering Excellence (in short EngX) in devising several tools and services aimed to encourage and develop best engineering practices at XYZ company.
+	eg: Events like Coding D*J*, Technical Session between different teams/locations.
 
 **Q) BurnDown Chart vs Burn up chart?	
 **Q) Which branching strategy have you used and why?**	

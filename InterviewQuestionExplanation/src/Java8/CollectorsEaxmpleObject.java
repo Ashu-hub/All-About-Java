@@ -1,6 +1,7 @@
 package Java8;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.DoubleSummaryStatistics;
@@ -66,7 +67,8 @@ class Student {
 
 public class CollectorsEaxmpleObject {
 	public static void main(String[] args) {
-		
+		List<Integer> list = Arrays.asList(2,4,6,8);
+		System.out.println("jkhdsbnkladjskbdnskjk "+list.stream().map(e -> e++).collect(Collectors.toList()));
 		List<Student> studentList = new ArrayList<>();
 		
 		studentList.add(new Student("Paul", 11, "Economics", 78.9));
@@ -82,6 +84,11 @@ public class CollectorsEaxmpleObject {
 		
 		
 		System.out.println("*****************************");
+
+		System.out.println("********hhhehehehehe******"+studentList.stream().map(s -> s.getName().compareTo(s.getName())).collect(Collectors.toList()));
+		
+		
+		
 		
 		//0.1 Old Sorting technique,
 		
@@ -95,7 +102,7 @@ public class CollectorsEaxmpleObject {
 
 		// new way
 		studentList.stream().sorted(Comparator.comparing(Student::getName)).forEach(System.out::println);
-		System.out.println("*****************************");
+		System.out.println("NNNNNNEEWWWW*****************************");
 		
 		//0. sorting based on 2 props
 		studentList.stream().sorted(Comparator.comparing(Student::getPercentage).thenComparing(Student::getName)).forEach(System.out::println);

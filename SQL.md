@@ -37,6 +37,12 @@ select * from tblCountry
 ## Self JOIN
 		Joining a Table with Itself.
 	eg:-find the employee details who are getting more salary than the manager's salary.
+```sql	
+		SELECT employee.*
+	FROM your_table_name AS employee
+	JOIN your_table_name AS manager ON manager.EMPNO = employee.MGR AND 
+                                   employee.SAL > manager.SAL 
+								   ```
 	
 ***************************************************************************************************
 **Q) What is a Primary key?**

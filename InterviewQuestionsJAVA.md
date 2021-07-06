@@ -74,7 +74,7 @@
 
 		Ans- finally is not executed when System.exit is called, finally block is also not executed when JVM crashes because of some java.util.Error. 
 		The only times finally won't be called are:
-		1.if you call System.exit()
+		1. If you call System.exit()
 		2. if the JVM crashes first
 		3. if there is an infinite loop in the try block
 		4. if the power turns off
@@ -497,6 +497,11 @@ public class GFG {
 
 		set().
 
+**Q)  Which one of the 2 options is better and faster to clear an ArrayList, and why? -> list.clear() vs list = new ArrayList<Integer>();**
+	
+		List.clear would remove the elements without reducing the capacity of the list
+		Here mylist got cleared, the references to the elements held by it got nulled out, but it keeps the same backing array. Then mylist was reinitialized and got a new backing array, the old one got GCed. So one way holds onto memory, the other one throws out its memory and gets reallocated from scratch (with the default capacity). Which is better depends on whether you want to reduce garbage-collection churn or minimize the current amount of unused memory. Whether the list sticks around long enough to be moved out of Eden might be a factor in deciding which is faster (because that might make garbage-collecting it more expensive).
+		
 **4. 	How CopyOnWriteArrayList not thorw concurrentModificationException?**
 
 		In CopyOnWriteArrayList cursor is maintained on snapshot(it is copy of original CopyOnWriteArrayList), rather than on list as in case of ArrayList
