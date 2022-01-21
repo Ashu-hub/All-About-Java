@@ -19,6 +19,46 @@
 
 	It is lightweighted as it does not have envelope-style of payload transport like SOAP.
 
+- ** What are REST Architectural Constraints?**
+	
+	Uniform interface
+	Client–server
+	Stateless
+	Cacheable
+	Layered system
+	Code on demand (optional)
+	[Ref](https://restfulapi.net/rest-architectural-constraints/)
+
+- **API Design Principle?**
+	
+	Generally, a good API design should meet below 2 requirement:
+	1. Platform Independency. Each client can consume API without knowing how it is implemented. API should follow standard protocol and message format to provide service
+	2. System Reliability. In the circumstance that API has been delivered and non-API version changes, API should be responsible to API contract,  no any changes which might cause destructive data.
+	
+	List some simple design principle:
+
+- **What are principles API- FIRST Design?**
+
+	1. Your API is the first user interface of your application
+	2. Your API comes first, then the implementation
+	3. Your API is described (and maybe even self-descriptive)
+	
+	Description: Supposse 3 different teams are developing 3 different mocroservices, which interact with each other in order to get a valid response.
+	Like 
+	
+	Transaction -----> User ----> db
+		|
+		--------------> Stocks ----> stock API
+	
+	3 different teams should know in advance, what other APIs should look like, in order to work in parrallel. 
+	In this scenerio, API firt Design should work effectively.
+	
+	How do you do that:- swaggerHub (Platform for API design and documentations) ->There you can find template to create basic API design by the help on simple ymal file or you can create one from scratch.
+
+- **REST is not always best, Comment?**
+	
+	
+
 - **How to maintian session in HTTP?**
 
 	HTTPSession?
@@ -131,6 +171,14 @@
 	As with WSDL, a generic client can load a WADL file and be immediately equipped to access the full functionality of the corresponding web service.
 	WADL The Web Application Description Language is an XML vocabulary for expressing the behavior of HTTP resources
 
+**Q) How to pass header parameters as method inputs?**
+
+**Q) Write a simple API to upload a file.**
+
+**Q)Different HTTP codes?**
+
+**Q)How to call Rest Services asynchronously?**
+
 Which Framework You Have Used And Why?
 How Did You Configure The Said Framework?
 Implement Security In Rest?
@@ -138,3 +186,4 @@ Authentication In Rest? OAUTH/OAuth2/Basic
 Custom Response 200 Even If There Is Exception? - No We send HTTP BAD_REQUEST
 Code For Any Of The Rest Call?
 What Are The Annotations That Are From Spring And Which Are Form JAX-RS ?
+

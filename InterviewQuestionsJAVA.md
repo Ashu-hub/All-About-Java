@@ -921,3 +921,10 @@ public class GFG {
     And whether pigs have wings.'
     """;
 ```
+
+**Q) Is it possible to create deadlock without using a thread?**
+
+**Q) Is it possible to create deadlock with using only one thread?**
+
+**Q) Why non static variables are not allowed inside static blocks?**
+

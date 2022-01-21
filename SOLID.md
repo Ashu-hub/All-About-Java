@@ -2,7 +2,7 @@
 	S - Single Responsibilty principle
 	O - Open/Closed Principle
 	L - LisKov's Substitution principle
-	I- Interface Segregation Principle
+	I - Interface Segregation Principle
 	D - Dependency Inversion Principle
 
 ## Single Responsibilty principle - 

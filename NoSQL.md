@@ -30,7 +30,7 @@ Thats why financial systems dont use NoSql dbs.
 
 2. Not Read optimize:- Compartively slower from RDBMS as it need to go through all chunk of data.
 
-3. Relations are not implicit- Means two tables does not havw a constriant for relation.
+3. Relations are not implicit- Means two tables does not have a constriant for relation.
 
 4. Joins are hard.
 
