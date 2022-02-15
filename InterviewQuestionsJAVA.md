@@ -146,7 +146,7 @@ public class Person {
 		
 		// accessing an inner class 
         OuterClass outerObject = new OuterClass(); 
-        OuterClass.InnerClass innerObject = outerObject.new InnerClass(); 
+        OuterClass.InnerClass innerObject = outerObject.new InnerClass();
 
 		
 **17	Difference between Syncronized block and static syncronized block?

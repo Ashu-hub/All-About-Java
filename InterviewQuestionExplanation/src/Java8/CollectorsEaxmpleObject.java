@@ -68,7 +68,7 @@ class Student {
 public class CollectorsEaxmpleObject {
 	public static void main(String[] args) {
 		List<Integer> list = Arrays.asList(2,4,6,8);
-		System.out.println("jkhdsbnkladjskbdnskjk "+list.stream().map(e -> e++).collect(Collectors.toList()));
+		System.out.println("jkhdsbnkladjskbdnskjk "+list.stream().map(e -> e+1).collect(Collectors.toList()));
 		List<Student> studentList = new ArrayList<>();
 		
 		studentList.add(new Student("Paul", 11, "Economics", 78.9));
@@ -86,10 +86,7 @@ public class CollectorsEaxmpleObject {
 		System.out.println("*****************************");
 
 		System.out.println("********hhhehehehehe******"+studentList.stream().map(s -> s.getName().compareTo(s.getName())).collect(Collectors.toList()));
-		
-		
-		
-		
+				
 		//0.1 Old Sorting technique,
 		
 		studentList.stream().sorted(new Comparator<Student>(){
@@ -225,6 +222,9 @@ public class CollectorsEaxmpleObject {
 				);
 		System.out.println("14. "+studentwithMaxPer);
 		System.out.println("**********");
+		
+//		or
+		studentList.stream().sorted(Comparator.comparing(Student::getPercentage).reversed()).map(Student::getName).limit(1).forEach(System.out::println);
 		
 	//15. Example Subject wise Highest Marks
 		Map<String, String> subwiseHighMarks = studentList.stream().collect(Collectors.groupingBy(Student::getSubject,

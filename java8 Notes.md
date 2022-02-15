@@ -76,7 +76,7 @@
 		d)default Predicate<T> or(Predicate<? super T> other) -> eturns a predicate that represents a logical OR of this predicate and another.
 		e)static <T> Predicate<T> isEqual(Object targetRef)-> Returns a predicate that tests if two arguments are equal according given Objects.
 		eg:- 
-		Predicate<String> acquirerMatcher = p -> p.equalsIgnoreCase( "acquirerId" );
+		Predicate<String> acquirerMatcher = p -> p.equalsIgnoreCase( "acquirerId" );	
 		acquirerMatcher.test("acquirerId");
 	
 ## Function<T, R>:- 
@@ -197,7 +197,7 @@
 
 ## What are Intermediate Operations?
 
-	Intermediate operations are not executed unit until some terminal operation is invoked.
+	**Intermediate operations are not executed unit until some terminal operation is invoked.**
 
 	1. filter()
 	2. map()
@@ -668,4 +668,24 @@ items.forEach(item -> System.out.println(item));
 				));
 ```
 
+====================================
+##Java 8 small programs:
 
+	1.	WAP to find number of times a word/numebr got repeated.
+	eg: Input : 5,3,4,1,3,7,2,9,9,4
+		Output: 1-1, 2-1, 3-2, 4-2, 5-1, 9-2
+			or
+		Input: "Amanda", "Rob", "Ram", "ROB", "Amanda" 
+		Output: "Amanda"- 2, ROB-2, Ram-1
+		
+	Ans: List<Interger> numList = Arrays.asList( 5,3,4,1,3,7,2,9,9,4);
+			numList.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+			
+		List<String> strList = Arrays.asList( "Amanda", "Rob", "Ram", "ROB", "Amanda" );
+		 strList.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+	
+	2. WAP to print odd numbers:
+		List<Integer> numbers = Arrays.asList(8,2,5,7,3,6);
+		numbers.stream().filter(i -> i%2 != 0)collect(Colle.toList());
+		Output: [5, 7, 3]
+		

@@ -9,7 +9,7 @@
 	There are five types of Advice namely: Before, After, Around, AfterThrowing and AfterReturning
 
 - IOC -  Inversion of control- 
- 	IoC inverts the flow of control as compared to traditional control flow, to achieve loose coupling.Here, controls refer to any additional responsibilities a class has, other than its main responsibility 
+ 	IoC inverts the flow of control as compared to traditional control flow, to achieve loose coupling. Here, controls refer to any additional responsibilities a class has, other than its main responsibility 
 	Like in Spring it means giving the **control of creating and instantiating the spring beans to the Spring IOC container. **
 		and the only work the developer does is configuring the beans in the spring xml file.
 
@@ -60,8 +60,8 @@
                 .paths(regex("/quotes.*"))
                 .build()
 ```
-	4) Can user  @ApiOperation(value = "Add a book", response = Book.class) with methods and @ApiParam(value = "Book object store in database table",
-      required = true, with paramaters.
+	4) Can user  @ApiOperation(value = "Add a book", response = Book.class) with methods and 
+				@ApiParam(value = "Book object store in database table", required = true, with paramaters.
 	  
 - What is Actuator?
 	Spring boot Actuator provides secured endpoints for monitoring and managing you spring boot application.
