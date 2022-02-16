@@ -689,3 +689,16 @@ items.forEach(item -> System.out.println(item));
 		numbers.stream().filter(i -> i%2 != 0)collect(Colle.toList());
 		Output: [5, 7, 3]
 		
+	3. WAP to find palindrome.:
+		String inpput = "MADAM";
+		boolean result = IntStream.of(0, input.length()/2).noneMatch(index -> input.charAt(index)!= input.charAt(input.length()- 1 -index));
+		
+	4. WAP to reverse a String:
+		Solution 1: Where we use String builder reverse method directly.
+		String result = Stream.of(input).map(word -> new StringBuilder(word).reverse()).collect(Collectors.joining(""));
+		
+		Solution 2: //Hard to understand and remember
+		char[] charArray = "Aniruddh".toCharArray();
+    	IntStream.range(0, charArray.length)
+        	.mapToObj(i -> charArray[(charArray.length - 1) - i])
+        	.forEach(System.out::print);
