@@ -274,3 +274,8 @@
 ​**Q) Design pattern used. **
 **Q) Examples of success stories in troubleshooting.**
 **Q) Project microservice mapping? **
+
+**Q) Tell me about your project you are working on, which server it is using, which regoin it is deloyed on, how docker is implemented in the project, how is load balancer is happening there.?**
+
+**Q) Do you use Single Sign on feature for authentication ?**
+**Q) Tell me one problem that you faced recently. Your solution proposed to that prob, why you have taken that solution?**

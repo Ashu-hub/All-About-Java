@@ -74,3 +74,6 @@
 - How do you handle Logging in the applcation:
 	Inbuilt logging functionality in Springboot.(slf4j)
 	
+**Q) What happen when you write server.port = 0 in application property file?**
+	
+	Spring boot will assign any random available port to the application.

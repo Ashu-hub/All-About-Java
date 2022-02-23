@@ -922,12 +922,21 @@ public class GFG {
     """;
 ```
 
+
 **Q) Is it possible to create deadlock without using a thread?**
 
 **Q) Is it possible to create deadlock with using only one thread?**
 
 **Q) Why non static variables are not allowed inside static blocks?**
 
+**Q) What is sequential consistency.**
+	
+	Note that writing of normal variables without any synchronization actions, might not be visible to any reading thread (this behavior is called sequential consistency)
+	[Ref](https://www.geeksforgeeks.org/volatile-keyword-in-java/)
+	
+**Q) Volatile vs Synchronized?**	
+	
+	[Ref](https://www.geeksforgeeks.org/volatile-keyword-in-java/)
 -----------------------------------------------------------------------------------------
 # Architecture
 1. JVM architecture  
@@ -1178,6 +1187,14 @@ Ref: https://www.baeldung.com/java-composition-aggregation-association
 **Composition Over Inheritance?**  
 https://www.journaldev.com/12086/composition-vs-inheritance  
 https://javarevisited.blogspot.com/2013/06/why-favor-composition-over-inheritance-java-oops-design.html  
+
+**Q) Why is there no SortedList in Java?**
+
+**Q) Difference between size(), length, length()?**
+	
+	size() is a method of java.util.Collection framework,
+	length is feild on Array((arrays are objects, you just don't see the class normally))
+	lenght() is method on java.util.String
 -------------------------------------------------------------
 
 	These Questions may look bogus, as it is primarly from my mind. 
