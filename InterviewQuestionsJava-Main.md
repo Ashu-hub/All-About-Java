@@ -3,7 +3,7 @@
 
 		 Ans. 
 		 JDK(Java Development Kit) : JDK is intended for software developers and includes development tools such as the Java compiler, Javadoc, Jar, and a debugger.
-		 JRE(Java Runtime Environment) : JRE contains the parts of the Java libraries required to run Java programs and is intended for end users. JRE can be view as a subset of JDK.
+		 JRE(Java Runtime Environment) : JRE contains the parts of the Java libraries required **to run Java programs** and is intended for end users. JRE can be view as a subset of JDK.
 		 JVM: JVM (Java Virtual Machine) is an abstract machine. It is a specification that provides runtime environment in which java bytecode can be executed. JVMs are available for many hardware and software platforms. 
 			JDK = JRE + Development Tools(Java compiler, Javadoc, Jar, debugger.)
 			JRE = JVM + Library Classes(JDBC, AWT, JNDI, class library lke rt.jar)
@@ -14,7 +14,7 @@
 
 **3. Is main() compulsory in java?
 
-		Ans: Brfore Java 7, it is not mandatory to write main(). You can have full code inside static block and run that,
+		Ans: Before Java 7, it is not mandatory to write main(). You can have full code inside static block and run that,
 		However after Java 7, main() is compulsory in java, if not presenet ,Complier will throw an error saying- 'main method not found in the class'
 
 **4.  Explain Implicit casting/promotion of primitive Data type in java?**
@@ -28,7 +28,7 @@
 		Static blocks are also called Static initialization blocks in java.
 		Static block **executes when class is loaded in java.**
 		static blocks executes before instance blocks in java.
-		Only static variables can be accessed inside static block in java
+		**Only static variables** can be accessed inside static block in java
 		static blocks can be used for initializing static variables or calling any static method in java.
 		this keyword cannot be used in static block in java.
 
@@ -43,6 +43,13 @@
 		this keyword can be used in instance block in java.
 
 		**Flow of Calling:- Static Blocks-> Instance blocks-> Construtors**
+
+**5A	Why non-static variables are not allowed inside static block? **
+	
+		Non static variables are associated with Instance/Object of a class. We can create multile objects by assinging different values  to that non-static variables.
+		So Diff objects may have different values of the same varable. When there is a call from static method, there is a ambiguity for the complier to understand what value of the non-static variable should be called upon.
+		In order to avoid ambiguity, the java compiler throws a compile time error.
+		[Ref](https://www.geeksforgeeks.org/why-non-static-variable-cannot-be-referenced-from-a-static-method-in-java/)
 
 **6. How to define your own data type in java?**
 
@@ -66,7 +73,7 @@
 
 **11	What is the scope of static Variable?
 		Ans- Class level.
-		
+
 **12 What are native methods in java**
 	A native method is a Java method whose implementations are written in another language such as C/C++.
 	
@@ -106,7 +113,7 @@
 	}
 	
 ```	
-	The problem with the shallow copy is that the two objects are not independent. If you modify the Name object of one Person, the change will be reflected in the other Person object.	
+	The problem with the shallow copy is that the **two objects are not independent.** If you modify the Name object of one Person, the change will be reflected in the other Person object.	
 	
 ```java
 Person mother = new Person(new Name(…), new Address(…));
@@ -118,7 +125,7 @@ son.moveOut(new Street(…), new City(…));
 	This occurs because our mother and son objects share the same Address object, as you can see in above example . When we change the Address in one object, it changes in both!
 	
 	**Deep Copy**- A deep copy is a fully independent copy of an object.  If we copied our Person object, we would copy the entire object structure.
-	A change in the Address object of one Person wouldn’t be reflected in the other object
+	A change in the Address object of one Person wouldn’t be reflected in the other object.
 ```java
 public class Person {
     private Name name;
@@ -133,7 +140,7 @@ public class Person {
 ```	
 	For Primitive value, it is simple, a value that can't be shared, So By creating second instance variable, we are automatically creating an independent copy.	
 		
-**15	What is reflection in java? Have you ever used reflection directly or directly?**
+**15	What is reflection in java? Have you ever used reflection directly or indirectly?**
 
 		Reflection is used to load java classes at runtime.
 		Frameworks like struts, spring and hibernate uses reflection for loading classes at runtime.
@@ -206,7 +213,19 @@ public class Person {
 		} 
 		//Output: Derived fun() called
 ```
-
+	Properties of an Abstract Classes:
+	
+	1. An abstract can have an abstract and a non-abstract method.
+	2. It must be declared with an abstract keyword.
+	3. It can have a constructor, static method.
+	4. It can have a final method that prevents child class of abstract class not to change the body of the method
+	5. The abstract method contains no-body or in simple words, you can say that you can’t define an abstract method inside an abstract class. We can define 	an abstract method inside the derived class of its abstract class.
+	6. The object of the abstract class can’t be instantiated it means you can’t create an abstract class object directly but you can create its object by 		reference to its child class.
+	
+**Q) **	How to call Constructor of an Abstract classes ?
+		
+		https://www.baeldung.com/java-abstract-classes-constructors#:~:text=We%20can%20declare%20a%20constructor,first%20in%20the%20construction%20chain.
+		
 **7. Is it possible to create abstract and final class in Java?** - No, Final and Abstract Can't be used Together.
 
 **8. Is it possible to have an abstract method in a final class?** -  No, for any abstract method inside class, the class must be abstract.
@@ -233,17 +252,28 @@ public class Person {
 		Association is relation between two separate classes which establishes through their Objects. Association can be one-to-one, one-to-many, many-to-one, many-to-many.
 		In Object-Oriented programming, an Object communicates to other Object to use functionality and services provided by that object. Composition and Aggregation are the two forms of association.
 		
-		Composition:-
-		Composition is a restricted form of Aggregation in which two entities are *highly dependent on each other.*
-		It represents **part-of relationship.**
-		In composition, both the entities are dependent on each other.
-		When there is a composition between two entities, the composed object **cannot exist without the other entity**.
-		
 		Aggregation
 		It is a special form of Association where:
 		It represents **Has-A relationship.**
 		It is a unidirectional association i.e. a one way relationship. For example, department can have students but vice versa is not possible and thus unidirectional in nature.
 		In Aggregation, both the **entries can survive individually** which means ending one entity will not effect the other entity
+		
+		When do we use Aggregation ?? 
+			Code reuse is best achieved by aggregation.  
+		
+		Composition:-
+		Composition is a restricted form of **Aggregation** in which two entities are *highly dependent on each other.*
+		It represents **part-of relationship.**
+		In composition, both the entities are dependent on each other.
+		When there is a composition between two entities, the composed object **cannot exist without the other entity**.
+		
+		Aggregation vs Composition :
+		1. Dependency: Aggregation implies a relationship where the child can exist independently of the parent. For example, Bank and Employee, delete the Bank and the Employee still exist. whereas Composition implies a relationship where the child cannot exist independent of the parent. Example: Human and heart, heart don’t exist separate to a Human
+
+		2. Type of Relationship: Aggregation relation is “has-a” and composition is “part-of” relation.
+
+		3. Type of association: Composition is a strong Association whereas Aggregation is a weak Association.
+		
 		eg:
 		[AggregationandCompostionExample](https://github.com/Ashu-hub/All-About-Java/tree/master/InterviewQuestionExplanation/src/JavaOverview/aggregationComposition)
 		
@@ -462,6 +492,51 @@ public class GFG {
 
 		Ans:- StringBuilder is not Thread Safe, StringBuffer is Thread Safe, String is Thread Safe
 
+**Q) How substring can cause memory leak?**
+	
+	How substring() works internally:
+	String is sequence/array of characters. When a new String object is created, it has following fields:
+	- char value[] - Array of Characters
+	- int count - total characters in the String.
+	- int offset - Starting index offset in character array.
+```java
+	eg:
+	String s = “geeksforgeeks”; 
+	value[] = {‘g’, ‘e’, ‘e’, ‘k’, ‘s’, ‘f’, ‘o’, ‘r’, ‘g’, ‘e’, ‘e’, ‘k’, ‘s’} 
+	count = 13 
+	offset = 0
+```
+
+		When we take substring from original String, new String object will be created in SCP.
+		The value[] char array will be shared among two strign object, but count and offset of String object will varry according to substring length and starting index.
+```java
+			String s = “geeksforgeeks”; 
+			String substr = s.substring(5, 8)
+			For substr: 
+			value[] = {‘g’, ‘e’, ‘e’, ‘k’, ‘s’, ‘f’, ‘o’, ‘r’, ‘g’, ‘e’, ‘e’, ‘k’, ‘s’} 
+			count = 3 
+			offset = 5 
+```	
+			Problem caused by subString() in java 6:
+			This method works well with the small Strings. But when it comes with taking substring() from a String with **more characters,** it leads to serious memory issues if you are using JDK 6 or below.
+			
+			```String bigString = new String(new byte[100000])```
+			
+			Now consider when we need to take only first 2 characters from this string.
+			
+			```String substr = bigString.substring(0, 2)```
+			
+			Now we don’t need the original String. So,
+			
+			```bigString = null```
+			
+			we might think that bigString object will be garbage collected but this does not happens.
+			When we call substring(), a new String object is created in memory. But still it refers the char[] array value from original String. This prevents bigString from Garbage collection process and we are unnecessarily storing 100000 bytes in memory (just for 2 characters).
+			
+			**Fix for substring() in JDK 7 **
+			When we invoke substring() in JDK 7, instead of referring char[] array from original String, jvm creates new String objects with its own char[] array.
+			It is worth noting that, new String object from memory is referred when substring() method is invoked in JDK 7, thus making original string eligible for garbage collection.
+			
 ## Collections
 
 **1. 	What is fail-fast and fail-safe?**
@@ -480,7 +555,7 @@ public class GFG {
 **2.	what will happen if add() and remove() methods are called subsequently in java? Will Exception be avoided? Like:- **
 
 ```java
- while(iterator.hasNext()){
+ 			while(iterator.hasNext()){
 	         //iterator.remove(); will throw IllegalStateException
 	         String str = iterator.next();
 	         System.out.print(str+" ");
@@ -504,7 +579,7 @@ public class GFG {
 		
 **4. 	How CopyOnWriteArrayList not thorw concurrentModificationException?**
 
-		In CopyOnWriteArrayList cursor is maintained on snapshot(it is copy of original CopyOnWriteArrayList), rather than on list as in case of ArrayList
+		In CopyOnWriteArrayList cursor is maintained on snapshot(it is copy of original CopyOnWriteArrayList), rather than on list itslef as in case of ArrayList
 		Because when list.iterator() is called, a variable called snapshot is created which is copy of list (not the original list).
 		Hence, iteration does not care about structural modifications made to list.
 		
@@ -665,7 +740,7 @@ public class GFG {
 	
 **22 What is equals and hascode Contract?**
 		
-		It says that- If two objects are equal according to the equals(Object) method, then calling the hashCode method on each of the two objects must produce the same integer result.
+		It says that- **If two objects are equal according to the equals(Object) method, then calling the hashCode method on each of the two objects must produce the same integer result.**
 
 **22a Why Immutable classes are prefereable as a key in Hashmap?**
 
@@ -925,134 +1000,49 @@ public class GFG {
 
 **Q) Is it possible to create deadlock without using a thread?**
 
+	Deadlock is a condition when one thread waiting for another thread to complete is execution and the same is expected by another thread too.
+	It can be achieve by only main thread also:
+```java
+	public class GFG {
+	 
+	  // Main driver method
+	  public static void main(String[] args) {
+	 
+		// Try block to check for exceptions
+		try {
+	 
+		  // Print statement
+		  System.out.println("Entering into Deadlock");
+	 
+		  // Joining the current thread
+		  Thread.currentThread().join();
+	 
+		  // This statement will never execute
+		  System.out.println("This statement will never execute");
+		}
+	 
+		// Catch block to handle the exceptions
+		catch (InterruptedException e) {
+	 
+		  // Display the exception along with line number
+		  // using printStackTrace() method
+		  e.printStackTrace();
+		}
+	  }
+	}
+```
+	The statement “Thread.currentThread().join()”, will tell Main thread to wait for this thread(i.e. wait for itself) to die. Thus Main thread wait for itself to die, which is nothing but a deadlock.
+	
 **Q) Is it possible to create deadlock with using only one thread?**
-
-**Q) Why non static variables are not allowed inside static blocks?**
 
 **Q) What is sequential consistency.**
 	
-	Note that writing of normal variables without any synchronization actions, might not be visible to any reading thread (this behavior is called sequential consistency)
+	 The writing of normal variables without any synchronization actions, might not be visible to any reading thread (this behavior is called sequential consistency)
 	[Ref](https://www.geeksforgeeks.org/volatile-keyword-in-java/)
 	
 **Q) Volatile vs Synchronized?**	
 	
 	[Ref](https://www.geeksforgeeks.org/volatile-keyword-in-java/)
------------------------------------------------------------------------------------------
-# Architecture
-1. JVM architecture  
-2. Where does local, class variables, methods, threads are initialized in memory  
-3. Garbage collection and its changes in different versions of Java  
-4. What if we instantiate the same Object in finalize() method?    
-
-# General
-1. Principal concepts of OOPS?  
-2. Different forms of Polymorphism?  
-3. Difference between Overloading and Overriding?  
-4. Access Modifiers/Specifiers in Java?
-5. Difference between String, StringBuffer and StringBuilder?  
-6. Is java pass by value or pass by reference? swap 2 numbers by passing them in method and changing references
-7. What are the packages that you used in java?     
-8. Methods in Object class?
-9. If Child extends Parent and as every class extends Object, How is it possible? 
-10. Object Lifecycle (from new to garbage collection)  
-11. Can I instantiate Abstract class and Does it have constructor?  
-12. Difference between Interface and Abstract class, and when should I use what?  
-13. Difference between Comparable and Comparator  
-14. final, finally and finalize()?
-
-# Generics
-Bound unbound in generics?  
-```<? extends T>``` vs ```<? super T>```
-
-# Design Related/ Design Patterns
-How many design patterns GOF(Gang of Four) have defined and reason why design patterns are classified into three?  
-SOLID design principles?   
-What is immutable Why do we want an immutable class?  
-How to make class Immutable?  
-How to make class Singleton with clone scenario?  
-Factory Design pattern  
-Facade Design Pattern  
-Publisher and Subscriber code (Producer consumer)  
-Association vs Aggregation vs Composition  
-Composition Over Inheritance?  
-
-# Multi-Threading
-## Normal Threading
-Why object class has wait(), notify(), notiftAll() methods in Java?  
-Difference between yield(), sleep() and wait()?  
-Multi-Threading in Colections?  
-What do you mean by synchronized?
-What is this in synchronized block(this)
-Class level and Object level synchronization  
-BlockingQue?
-What is concurrent counterpart for LinkedBlockingQueue?
-What is dead-lock and write a code to show dead-lock?  
-Difference between process and thread ?  
-Threadlocal?  
-WAP to print even odd numbers using thread (By using two threads)?  
-
-## Executor Framework
-What is Executor framework and Threadpool?  
-Executor vs Executor Service vs ThreadpoolExecutor?  
-Advantages of Executor framework over normal Threading?  
-Difference between execute() and submit() method?  
-Difference between shutDown() and shutDownNow() in Executor?
-Futures?  
-How to handle exception in case call() from Callable has returned exception?  
-Calable vs Runnable?  
-
-# Exception Handling 
-Exception Hierarchy?  
-What is Exception Handling and why do we us it?  
-Use of finally Block?  
-What needs to be done to create my userdefined exception class?  
-Extends Throwable is better or Extends Exception?  
-Custom runtime exceptions and how to call it?  
-
-# Collections
-Difference between array and arrayList?  
-Different implementations of List, Set and Map?  
-When should you use ArrayList and when should you use LinkedList?  
-Write your implementation of LinkedList?  
-Write a List having features(Advantages) of both LinkedList and ArrayList?  
-
-Difference between HashSet and TreeSet?  
-How Treeset Works?  
-
-# Map
-Which datastructure HashMap internally uses to store data?  
-Difference between HashMap and HashTable?  
-Can we have null key in HashMap/TreeMap/HashTable
-Why hash-code is required? why overriding equals is not Sufficient?
-How HashMap works in Java?  
-How LinkedHashMap(it maintains insertion order) works in Java?  
-How ConcurrentHashMap works in Java?  
-How SynchronizedHashMap works in Java?  
-Multimap(Not from Guava, write your implementation)
-How to sort values in HashMap?
-Map having list and objects?  
-Spliterator and listiterator?   
-
-# String
-How many objects will be created for : String s = new String ("ABC"); 
-Count the maximum number of repeated alphabets and print the alphabet with number of occurances?  
-
-# Additional Info:
-use of '_' as an identifier might not be supported in releases after Java SE 8
-
-# Others
-JMS? and why do we use it?  
-Unit test framework?
-
-# JDBC
-Difference between statement and preparedStatement?  
-
-# JSP Servlet
-JSP implicit objects and which object has the shortest scope?  
-forward vs send redirect?  
-Difference between Jsp and Servlet?  
-How to call servlet from another servlet?
-
 
 # General Answers
 **1. Principal concepts of OOPS?**  
@@ -1195,47 +1185,119 @@ https://javarevisited.blogspot.com/2013/06/why-favor-composition-over-inheritanc
 	size() is a method of java.util.Collection framework,
 	length is feild on Array((arrays are objects, you just don't see the class normally))
 	lenght() is method on java.util.String
--------------------------------------------------------------
 
-	These Questions may look bogus, as it is primarly from my mind. 
-Q) Why does iterator.remove does not throw ConcurrentModificationException?
-	Ans:- Javadoc says it is permitted way to modify any collection while Iterating.
-Reason:- before callng .remove(int), remove() checks for modification,ifit found any change in original list it will throw ConcurrentModificationException otherwise it will ececute normally. in a way it has reference to internal State of any object.
+-----------------------------------------------------------------------------------------
+# Architecture
+1. JVM architecture  
+2. Where does local, class variables, methods, threads are initialized in memory  
+3. Garbage collection and its changes in different versions of Java  
+4. What if we instantiate the same Object in finalize() method?    
 
-Q) Assertion Error is SubClass of Error? Why is it so?
-Q) When StackOverFlow Error can come?- I think when the stack is full and there is no other location to store new variable. Generally in case of Recurssion.
-Q) What is Automatic Resource Management?  Order of calling to this.close()?
-	Ans: Java provides a feature to make the code more robust and to cut down the lines of code, this is known as Try with Resource. The try-with-resources statement is a try statement that declares one or more resources.
-		Avaiable after 1.7 version.
-  (a) What is a resource?
-	Ans: A resource is an object that must be closed after the program is finished using it. Any object that implements java.lang.AutoCloseable, which includes all objects which implement java.io.Closeable, can be used as a resource.
-		eg.
-		```java
-		static String readFirstLineFromFile(String path) throws IOException
-{
-    try (BufferedReader br = new BufferedReader(new FileReader(path)))
-    {
-        return br.readLine();
-    }
-}
-```
-Q) What is effective final?
-	Ans. Def.- Objects or primitive values are effectively final if we do not change their values after initialization.
-	 if we remove the final modifier from a method parameter or a local variable without introducing compile-time errors, then it's effectively final
-	```java
-	@FunctionalInterface
-	public interface FunctionalInterface {
-		void testEffectivelyFinal();
-		default void test() {
-			int effectivelyFinalInt = 10;
-			FunctionalInterface functionalInterface 
-				= () -> System.out.println("Value of effectively variable is : " + effectivelyFinalInt);
-		}
-}
-```
-Q) why does generics does not support primitive type?
-	Object is superclass of all objects and can represent any user defined object. Since all primitives doesn't inherit from "Object" so we can't use it as a generic type.
+# General
+1. Principal concepts of OOPS?  
+2. Different forms of Polymorphism?  
+3. Difference between Overloading and Overriding?  
+4. Access Modifiers/Specifiers in Java?
+5. Difference between String, StringBuffer and StringBuilder?  
+6. Is java pass by value or pass by reference? swap 2 numbers by passing them in method and changing references
+7. What are the packages that you used in java?     
+8. Methods in Object class?
+9. If Child extends Parent and as every class extends Object, How is it possible? 
+10. Object Lifecycle (from new to garbage collection)  
+11. Can I instantiate Abstract class and Does it have constructor?  
+12. Difference between Interface and Abstract class, and when should I use what?  
+13. Difference between Comparable and Comparator  
+14. final, finally and finalize()?
 
-Q) What is Type References in java?
-	Ans. 
+# Generics
+Bound unbound in generics?  
+```<? extends T>``` vs ```<? super T>```
 
+# Design Related/ Design Patterns
+How many design patterns GOF(Gang of Four) have defined and reason why design patterns are classified into three?  
+SOLID design principles?   
+What is immutable Why do we want an immutable class?  
+How to make class Immutable?  
+How to make class Singleton with clone scenario?  
+Factory Design pattern  
+Facade Design Pattern  
+Publisher and Subscriber code (Producer consumer)  
+Association vs Aggregation vs Composition  
+Composition Over Inheritance?  
+
+# Multi-Threading
+## Normal Threading
+Why object class has wait(), notify(), notiftAll() methods in Java?  
+Difference between yield(), sleep() and wait()?  
+Multi-Threading in Colections?  
+What do you mean by synchronized?
+What is this in synchronized block(this)
+Class level and Object level synchronization  
+BlockingQue?
+What is concurrent counterpart for LinkedBlockingQueue?
+What is dead-lock and write a code to show dead-lock?  
+Difference between process and thread ?  
+Threadlocal?  
+WAP to print even odd numbers using thread (By using two threads)?  
+
+## Executor Framework
+What is Executor framework and Threadpool?  
+Executor vs Executor Service vs ThreadpoolExecutor?  
+Advantages of Executor framework over normal Threading?  
+Difference between execute() and submit() method?  
+Difference between shutDown() and shutDownNow() in Executor?
+Futures?  
+How to handle exception in case call() from Callable has returned exception?  
+Calable vs Runnable?  
+
+# Exception Handling 
+Exception Hierarchy?  
+What is Exception Handling and why do we us it?  
+Use of finally Block?  
+What needs to be done to create my userdefined exception class?  
+Extends Throwable is better or Extends Exception?  
+Custom runtime exceptions and how to call it?  
+
+# Collections
+Difference between array and arrayList?  
+Different implementations of List, Set and Map?  
+When should you use ArrayList and when should you use LinkedList?  
+Write your implementation of LinkedList?  
+Write a List having features(Advantages) of both LinkedList and ArrayList?  
+
+Difference between HashSet and TreeSet?  
+How Treeset Works?  
+
+# Map
+Which datastructure HashMap internally uses to store data?  
+Difference between HashMap and HashTable?  
+Can we have null key in HashMap/TreeMap/HashTable
+Why hash-code is required? why overriding equals is not Sufficient?
+How HashMap works in Java?  
+How LinkedHashMap(it maintains insertion order) works in Java?  
+How ConcurrentHashMap works in Java?  
+How SynchronizedHashMap works in Java?  
+Multimap(Not from Guava, write your implementation)
+How to sort values in HashMap?
+Map having list and objects?  
+Spliterator and listiterator?   
+
+# String
+How many objects will be created for : String s = new String ("ABC"); 
+Count the maximum number of repeated alphabets and print the alphabet with number of occurances?  
+
+# Additional Info:
+use of '_' as an identifier might not be supported in releases after Java SE 8
+
+# Others
+JMS? and why do we use it?  
+Unit test framework?
+
+# JDBC
+Difference between statement and preparedStatement?  
+
+# JSP Servlet
+JSP implicit objects and which object has the shortest scope?  
+forward vs send redirect?  
+Difference between Jsp and Servlet?  
+How to call servlet from another servlet?

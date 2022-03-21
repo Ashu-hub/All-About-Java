@@ -38,7 +38,7 @@
 	Already available methods can be used. **Code Resuability.**
 	
 ```java
-		class Test {
+		class Test implements Rules{
 		 public static void m1() {
 			 for(int i=0; i<=10; i++) {
 			 System.out.println("Child Thread");
@@ -167,7 +167,7 @@
 ## what's a Streams:-
 
 	One of the major new features in Java 8 is the introduction of the stream functionality – java.util.stream – **which contains classes for processing sequences of elements.**
-	Streams is itself a final class in java.util.stream package. Stream is also a public Interface which extends BaseStream.
+	**Streams **is a final class in java.util.stream package. Stream is also a public Interface which extends BaseStream.
 
 ## Streams Vs Collections:-
 	
@@ -686,11 +686,11 @@ items.forEach(item -> System.out.println(item));
 	
 	2. WAP to print odd numbers:
 		List<Integer> numbers = Arrays.asList(8,2,5,7,3,6);
-		numbers.stream().filter(i -> i%2 != 0)collect(Colle.toList());
+		numbers.stream().filter(i -> i%2 != 0).collect(Collectors.toList());
 		Output: [5, 7, 3]
 		
 	3. WAP to find palindrome.:
-		String inpput = "MADAM";
+		String input = "MADAM";
 		boolean result = IntStream.of(0, input.length()/2).noneMatch(index -> input.charAt(index)!= input.charAt(input.length()- 1 -index));
 		
 	4. WAP to reverse a String:
