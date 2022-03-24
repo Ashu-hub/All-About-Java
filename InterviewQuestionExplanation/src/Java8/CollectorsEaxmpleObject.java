@@ -88,7 +88,7 @@ public class CollectorsEaxmpleObject {
 			Map<String, Student> StudentWithModeThan40Percentage = new HashMap<String, Student>();
 				StudentWithModeThan40Percentage.put("First", new Student("Paul", 11, "Economics", 78.9));
 				StudentWithModeThan40Percentage.put("Second", new Student("John", 10, "Hindi", 39));
-			 StudentWithModeThan40Percentage.entrySet().stream().map(s->s.getValue()).filter(s->s.getPercentage()>40).collect(Collectors.toList()).forEach(System.out::println);;
+			 StudentWithModeThan40Percentage.entrySet().stream().map(s->s.getValue()).filter(s->s.getPercentage()>40).collect(Collectors.toList()).forEach(System.out::println);
 		System.out.println("*****************************");
 
 		 // Old Sorting technique,
@@ -104,18 +104,22 @@ public class CollectorsEaxmpleObject {
 			studentList.stream().sorted(Comparator.comparing(Student::getName)).forEach(System.out::println);
 		
 		System.out.println("*****************************");
+		
 		//sorting based on 2 props
 			studentList.stream().sorted(Comparator.comparing(Student::getPercentage).thenComparing(Student::getName)).forEach(System.out::println);
 		
 		System.out.println("*****************************");		
+		
 		//1. Example : Collecting top 3 performing students into List
-			List<Student> x = studentList.stream().sorted(Comparator.comparing(Student::getPercentage).reversed()).limit(3).collect(Collectors.toList());
+		
+		List<Student> x = studentList.stream().sorted(Comparator.comparing(Student::getPercentage).reversed()).limit(3).collect(Collectors.toList());
 			//List<Student> x = studentList.stream().sorted(Comparator.comparing(Student::getPercentage).reversed()).collect(Collectors.toList());
 			x.stream().forEach(System.out::println);
 			
 			//O/P- [Vijay-19-Mathematics-92.8, Zevin-12-Computer Science-91.2, Asif-16-Mathematics-89.4]
 		
 		System.out.println("*****************************");
+		
 		//2. Example : Collecting subjects offered into Set.
 			Set<String> y = studentList.stream().map(Student::getSubject).collect(Collectors.toSet());
 			y.stream().forEach(System.out::println);
@@ -123,6 +127,7 @@ public class CollectorsEaxmpleObject {
 			//[Economics, Literature, Computer Science, Mathematics, History]
 
 		System.out.println("*****************************");
+		
 		//3. Example : Collecting name and percentage of each student into a Map	
 			Map<String, Double> nameNPer = studentList.stream().collect(Collectors.toMap(Student::getName, Student::getPercentage));
 			System.out.println(nameNPer);
@@ -130,12 +135,14 @@ public class CollectorsEaxmpleObject {
 			//O/P {Asif=89.4, Vijay=92.8, Zevin=91.2, Harry=71.9, Xiano=71.5, Nihira=84.6, Soumya=77.5, Mitshu=73.5, Harish=83.7, Paul=78.9}
 		
 		System.out.println("*****************************");
+		
 		//4 . Example : Collecting first 3 student into LinkedList
 			Collection<Student> first3student = studentList.stream().limit(3).collect(Collectors.toCollection(LinkedList::new));
 			first3student.stream().forEach(System.out::println);
 			//[Paul-11-Economics-78.9, Zevin-12-Computer Science-91.2, Harish-13-History-83.7]
 		
 		System.out.println("*****************************");
+		
 		//5. Example : Collecting the names of all students joined as a comma
 			
 			String nameJoinedByComma = studentList.stream().map(Student::getName).collect(Collectors.joining(", "));
@@ -144,11 +151,13 @@ public class CollectorsEaxmpleObject {
 			//Paul, Zevin, Harish, Xiano, Soumya, Asif, Nihira, Mitshu, Vijay, Harry
 		
 		System.out.println("*****************************");
+		
 		//6.  Counting number of students.
 			Long noOFStudents = studentList.stream().collect(Collectors.counting());
 			System.out.println(noOFStudents);
 
 		System.out.println("*****************************");
+		
 		//7. Example : Collecting highest percentage.
 			Optional<Double> highPer = studentList.stream().map(Student::getPercentage).collect(Collectors.maxBy(Comparator.naturalOrder()));
 			System.out.println(highPer);
@@ -156,6 +165,7 @@ public class CollectorsEaxmpleObject {
 			//Optional[92.8]
 
 		System.out.println("*****************************");
+		
 		//8. Example : Collecting lowest percentage.
 			Optional<Double> lowestPer = studentList.stream().map(Student::getPercentage).collect(Collectors.minBy(Comparator.naturalOrder()));
 			System.out.println(lowestPer);
@@ -163,6 +173,7 @@ public class CollectorsEaxmpleObject {
 		//Optional[71.5]
 		
 		System.out.println("*****************************");
+		
 		//9. Example : Collecting sum of percentages
 			Double sumPer = studentList.stream().collect(Collectors.summingDouble(Student::getPercentage));
 			System.out.println(sumPer);
@@ -170,6 +181,7 @@ public class CollectorsEaxmpleObject {
 			//815.0
 		
 		System.out.println("*****************************");
+		
 		//10. Example : Collecting average percentage
 			Double avgPer = studentList.stream().collect(Collectors.averagingDouble(Student::getPercentage));
 			System.out.println(avgPer);
@@ -177,6 +189,7 @@ public class CollectorsEaxmpleObject {
 			//815.0
 		
 		System.out.println("*****************************");	
+		
 		//11. Example : Extracting highest, lowest and average of percentage of students
 			DoubleSummaryStatistics summaryPer = studentList.stream().collect(Collectors.summarizingDouble(Student::getPercentage));
 			System.out.println("Hihgest Per-"+ summaryPer.getMax());
@@ -190,6 +203,7 @@ public class CollectorsEaxmpleObject {
 			 */
 		
 		System.out.println("*****************************");
+		
 		//12. Example : Grouping the students by subject
 			Map<String, List<Student>> groupBySub = studentList.stream().collect(Collectors.groupingBy(Student::getSubject));
 			System.out.println(groupBySub);
@@ -203,7 +217,8 @@ public class CollectorsEaxmpleObject {
 			 * History=[Student [name=Harish, id=13,subject=History, percentage=83.7], Student [name=Mitshu, id=18, subject=History, percentage=73.5], Student [name=Harry, id=20,subject=History, percentage=71.9]]}
 			 */
 
-		System.out.println("*****************************");		
+		System.out.println("*****************************");	
+		
 		//13. Example : Partitioning the students who got above 80.0% from who don’t.
 			Map<Boolean, List<Student>> above80Per = studentList.stream().collect(Collectors.partitioningBy(student -> student.getPercentage() > 80.0));
 			System.out.println(above80Per);
@@ -212,18 +227,20 @@ public class CollectorsEaxmpleObject {
 			//  true=[Zevin-12-Computer Science-91.2, Harish-13-History-83.7, Asif-16-Mathematics-89.4, Nihira-17-Computer Science-84.6, Vijay-19-Mathematics-92.8]}
 			
 		System.out.println("*****************************");
+		
 		//14. Example : Collection the students Name who got maxPer.
 			String studentwithMaxPer = studentList.stream().collect(
 					Collectors.collectingAndThen(
 							Collectors.maxBy(Comparator.comparing(Student::getPercentage)),
 							(Optional<Student> stu) -> stu.isPresent() ? stu.get().getName(): "None") 
 					);
-			System.out.println("14. "+studentwithMaxPer);
+		System.out.println("14. "+studentwithMaxPer);
 					
 		//OR
 			studentList.stream().sorted(Comparator.comparing(Student::getPercentage).reversed()).map(Student::getName).limit(1).forEach(System.out::println);
 			
-	System.out.println("*****************************");
+		System.out.println("*****************************");
+		
 		//15. Example Subject wise Highest Marks
 			Map<String, String> subwiseHighMarks = studentList.stream().collect(Collectors.groupingBy(Student::getSubject,
 					Collectors.collectingAndThen(
@@ -231,7 +248,7 @@ public class CollectorsEaxmpleObject {
 							( Optional<Student> stu) -> stu.isPresent() ? stu.get().getName() : "None")
 					));
 			
-			System.out.println("15. "+subwiseHighMarks);
+		System.out.println("15. "+subwiseHighMarks);
 			//15. {Economics=Paul, Literature=Xiano, Computer Science=Zevin, Mathematics=Vijay, History=Harish}
 
 	}

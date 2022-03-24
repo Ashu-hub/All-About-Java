@@ -10,7 +10,7 @@ eg:
 		INNER JOIN tblState
 		ON tblCountry.Countryid = tblState.Countryid
 
-Results only matching records.
+	**Results only matching records.**
 
 ## Left JOIN
 	The SQL LEFT JOIN returns all rows from the left table, even if there are no matches in the right table.
@@ -42,7 +42,7 @@ select * from tblCountry
 	FROM your_table_name AS employee
 	JOIN your_table_name AS manager ON manager.EMPNO = employee.MGR AND 
                                    employee.SAL > manager.SAL 
-								   ```
+```								   
 	
 ***************************************************************************************************
 **Q) What is a Primary key?**

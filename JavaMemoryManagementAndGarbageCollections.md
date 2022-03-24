@@ -12,7 +12,7 @@
 	
 *Q) JIT(Just in Time) compilation:- *
 	
-	Way to converting ByteCode to native machine language for execution has a huge amount of impact on the Speed. These ByteCode have to be interpreted further in machine instructions.
+	Way to converting ByteCode to native machine language for execution, it has a huge amount of impact on the Speed. These ByteCode have to be interpreted further in machine instructions.
 	Interpreting the bytecode affects the speed of execution.
 	In order to improve performance JIT compilers interacts with JVM at runtime and complied suitable bytecode sequence into native machine code.
 	Some of the Optimization perfored by JIT are:-
@@ -59,7 +59,7 @@ q) Tuning the code cache size?
 
 ## Heap
 
-	Objects resides in the area called heap. Heap is created when the JVM starts up and may increase or decrease during the applicaton runs.
+	Objects resides in the area called heap. Heap is created when the JVM starts up and **may increase or decrease** during the applicaton runs.
 	When the heap size is full, garbage is collected. During garbage collection objects that are no longer used are cleared and making space for the newly created objects.
 	 
 	Note that the JVM uses more memory than just the heap. For example Java methods, thread stacks and native handles are allocated in memory separate from the heap, as well as JVM internal data structures.
@@ -70,7 +70,7 @@ q) Tuning the code cache size?
 	
 	The nursery is a part of the heap reserved for allocation of new objects. 
 	When the nursery becomes full, garbage is collected by running a special **young collection**, where all objects that have lived long enough in the nursery are promoted (moved) to the old space, thus freeing up the nursery for more object allocation.
-	When the old space becomes full garbage is collected there, a process called an **old collection.**
+	When the old space becomes full, garbage is collected there, a process called an **old collection.**
 	The reasoning behind a nursery is that most objects are temporary and short lived. 
 	A young collection is designed to be swift at finding newly allocated objects that are still alive and moving them away from the nursery. 
 	Typically, a young collection frees a given amount of memory much faster than an old collection or a garbage collection of a single-generational heap (a heap without a nursery)
@@ -233,18 +233,16 @@ q) Tuning the code cache size?
 	It can be  also seen bt command line tool using - jstack processId. 
 	
 	Heap Dump :- It is a snapshot of memeory of a java process. This snapshot coontians info about java classes, feilds, referece, class loader, superclass, static feilds etc.
-	How to take heap dump.
+**Q) How to take heap dump.**
 	you can take heap dump using monitor tab right side button.
 	You can aslo take heap dump while in debug mode. This will give you clear picture of which line causing error.
 	
-	How to anayze outOfMemory error?
+**Q) How to anayze outOfMemory error?**
 	Add vm aruguments- -XX:+HeapDumpOnOutOfMemoryError
 	It will generate the heap dump file-> load it in jvisuwalVM UI. Now you can clearly see the details about what went wrong.
 	
-	what is Memory leak?
+**Q) what is Memory leak?**
 	The standard definition of a memory leak is a scenario that occurs when objects are no longer being used by the application, 
 	but the Garbage Collector is unable to remove them from working memory – because they're still being referenced.
 	
 	Using Profiling (memory or CPU) we can monitor and diagonse the memory leaks.
-	
-	

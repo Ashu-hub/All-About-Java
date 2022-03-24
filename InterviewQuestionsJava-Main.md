@@ -47,7 +47,7 @@
 **5A	Why non-static variables are not allowed inside static block? **
 	
 		Non static variables are associated with Instance/Object of a class. We can create multile objects by assinging different values  to that non-static variables.
-		So Diff objects may have different values of the same varable. When there is a call from static method, there is a ambiguity for the complier to understand what value of the non-static variable should be called upon.
+		So Diff objects may have different values of the same variable. When there is a call from static method, there is a ambiguity for the complier to understand what value of the non-static variable should be called upon.
 		In order to avoid ambiguity, the java compiler throws a compile time error.
 		[Ref](https://www.geeksforgeeks.org/why-non-static-variable-cannot-be-referenced-from-a-static-method-in-java/)
 
@@ -491,7 +491,8 @@ public class GFG {
 **8. What is difference between String, StringBuffer and StringBuilder in java ?**
 
 		Ans:- StringBuilder is not Thread Safe, StringBuffer is Thread Safe, String is Thread Safe
-
+			*StringBuilder and StringBuffer is mutable class while String is Immutable class*
+			
 **Q) How substring can cause memory leak?**
 	
 	How substring() works internally:

@@ -7,7 +7,7 @@
 	Java 8 has also introduce **default concrete methods(extension method or defender methods) and static methods inside interface**. 
 	Java 8 has introduce **java.util.function** package which consititue **all functional interfaces** like Predicate, Function, Supplier, Consumer, BinaryOperator, UnaryOperator.
 	Java 8 has introduce **stream functionality** with java.util.stream package– which contains classes **for processing sequence of elements.** This is done by Stream pipeline chaining - 
-		Syntax:- "source (.) 0 or more Intermidiate Operation (.) Terminal operation". Intermediate operation like - filter, map, skip, peek, sorted, distinct etc while  Terminal operation like for each(Consumer), reduce, collect, toArray, findFirst, findAny, count etc.
+		Syntax:- "source (.) 0 or more Intermidiate Operation (.) Terminal operation". Intermediate operation like - filter, map, skip, peek, sorted, distinct etc while  Terminal operation like forEach(Consumer), reduce, collect, toArray, findFirst, findAny, count etc.
 	Java 8 has added a final class **Optional** in java.util package, which helps us to write **neat code without worrying about too many null checks.**
 	Java 8(HotSpot 1.8) has also **removed PremGen memory space and introduce MetaSpace** just to avoid java.lang.OutOfMemoryError.
 	Java 8 has introduced Nashorn javascript engine, which is a java based engine for executing and evaluting java Script Code.
@@ -60,7 +60,7 @@
 	Constructor Reference - ClassName::new
 
 	In java there is Call By Value. From java8, method reference is Call By method.
-	Like:- list.stream.forEach(println) --> Wait, we need to use ::operator to tell complier that this is method referenc not a variable, so --> list.stream.forEach(::println) --> Wait method Reference can be of a type. Since println is instance method we need to use. -->list.stream.forEach(System.out::println) 
+	Like:- list.stream.forEach(println) --> Wait, we need to use ::operator to tell complier that this is method referenc not a variable, so --> list.stream.forEach(::println) --> Wait method Reference can be of a type. Since println is instance method we need to use. -->list.stream.forEach(System.out::println)
 	
 # Functional Interface:-(SAM)
 
@@ -78,7 +78,7 @@
 		eg:- 
 		Predicate<String> acquirerMatcher = p -> p.equalsIgnoreCase( "acquirerId" );	
 		acquirerMatcher.test("acquirerId");
-	
+
 ## Function<T, R>:- 
 
 		Represents a function that accepts one argument and produces a result. The primary purpose for which Function<T, R> has been created is for mapping scenarios i.e when an object of a type is taken as input and it is converted(or mapped) to another type
@@ -152,7 +152,8 @@
 		//output:-
 		4 2 6
 		
-## Supplier<T>- 
+## Supplier<T> -
+ 
 	It represents a function which does not take in any argument but produces a value of type T.
 	methods:-
 	 a) T get()--> gets a result.
@@ -348,8 +349,8 @@ Q.	What are Terminal Operations?
                                            "GeeksQuiz", "GeeksforGeeks");
 	Optional<String> longestString = words.stream() //returns the longer String
                                    .reduce((word1, word2) 
-                             -> word1.length() > word2.length() 
-                                           ? word1 : word2);
+                             					-> word1.length() > word2.length() 
+                                           				? word1 : word2);
 	[example](https://www.geeksforgeeks.org/stream-reduce-java-examples/)
 
 5. collect():-
@@ -474,7 +475,7 @@ public class OptionalDemo{
 } 
 ```
 
-###Creating Optional Objects:-
+### Creating Optional Objects:-
 
 	a) we simply need to use its empty() static method:-
 	eg:- Optional<String> empty = Optional.empty();
@@ -558,7 +559,7 @@ public class OptionalDemo{
 ------------------
 # Java 8 features regarding memory:-
 
-	Until Java 7 there was an area in JVM memory called PermGen, where JVM used to keep its classes or metaInformation. In Java 8 it was removed and replaced by area called Metaspace.
+	Until Java 7 there was an area in JVM memory called PermGen, where JVM used to keep **its classes or metaInformation.** In Java 8 it was removed and replaced by area called Metaspace.
 	What are the most important differences between PermGen and Metaspace?
 	The only difference I know is that **java.lang.OutOfMemoryError: PermGen space error** can no longer be thrown and the VM parameter **MaxPermSize** is ignored.
 
@@ -570,6 +571,7 @@ public class OptionalDemo{
 
 # Internal Vs External Iterator-
 	External Iterators- This Iterator is also known as **active iterator or explicit iterator.** For this type of iterator the **control over iteration of elements** is with the programmer. Which means that the programmer define when and how the next element of iteration is called.
+	eg:
 ```java
 	for (String item : items) {
 				System.out.println(item);
@@ -578,8 +580,9 @@ public class OptionalDemo{
 ```
 
 	Internal Iterators- This Iterator is also known as **passive iterator, implicit iterator or callback iterator.** For this type of iterator the control over the iteration of elements lies with the iterator itself. The programmer only tells the iterator "What operation is to be performed on the elements of the collection". Thus the programmer **only declares** what is to be done and does not manage and control how the iteration of individual elements take place.
+	eg:
 ```java
-items.forEach(item -> System.out.println(item));
+	items.forEach(item -> System.out.println(item));
 ```
 # Diff between iterator() and spilIterator()
 		1. iterator was interoduce in 1.2 while spilIterator was in 1.8.
@@ -587,15 +590,12 @@ items.forEach(item -> System.out.println(item));
 		3. spiltIterator used Internal Iterator to iterate over stream. Iterator used Extenal Iterator.
 		4. spilIterator can iterate Steam in Paralllel as well as Sequential, Iterator iterate only Sequential manner.
 		
-
-
 # Java 8 changes w.r.t Collection API?
-
 
 	Added stream() method in Collection Interface.
 	
 	1) Introduction of **forEach() and spiltIterator()** in Iterable Interface.
-	2) Added **removeIf(Predicate), stream()** methods in Collection Interface.
+	2) Added **removeIf(Predicate), stream()** & **parallelStream()**, methods in Collection Interface.
 	3) Introduction of **replaceAll()** in Map Interface - Can replace all the values in a single attempt
 		eg:-  
 ```java
@@ -650,7 +650,7 @@ items.forEach(item -> System.out.println(item));
 ```	
 
 ```java
-// Compute sum of salaries by departmen
+// Compute sum of salaries by department
 	Map<Department, Integer> totalByDept = employee.stream().collect(Collectors.groupBy(Employee::getDepartment), Collectors.SummingInt(Employee::getSalary));
 ```	
 
