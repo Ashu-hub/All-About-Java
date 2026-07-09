@@ -216,7 +216,49 @@ public class HealthInsuranceCustomerProfile{
  	return true;// or false
  }
 }
-```	
+```
+	Another Example:
+	// BAD approach
+	class PaymentService {
+
+    public void pay(String type) {
+
+        if(type.equals("UPI")) {
+            // UPI payment
+        }
+        else if(type.equals("CARD")) {
+            // Card payment
+        }
+    }
+
+	}
+
+	== With OCP ==
+	interface Payment {
+    	void pay();
+	}
+	
+	class UpiPayment implements Payment {
+    public void pay() {
+        System.out.println("UPI Payment");
+    	}
+	}
+
+	class CardPayment implements Payment {
+    public void pay() {
+        System.out.println("Card Payment");
+    	}
+	}
+
+	Payment payment = new UpiPayment();
+		payment.pay();
+	
+	// Tomorrow other method came call wallet
+	class WalletPayment implements Payment {
+    public void pay() {
+        System.out.println("Wallet Payment");
+    	}
+	}
 
 2. Suppose this company A, accquires Vehicle Insurance company as well. So We need to support vehicle discounts as well.
 	And it has decided that discount calculation is going to be the same as ie. discount is always based on Royality regardless of its Health/Vehicle or anything else.
