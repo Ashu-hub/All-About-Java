@@ -221,9 +221,40 @@
 
 	Stream map(Function mapper) returns a stream consisting of the results of applying the given function to the elements of this stream.
 	Signature:- Stream<R> map(Function<? super T, ? extends R> mapper);
-	eg:-list.stream().map(number -> number * 3).forEach(System.out::println); 
+	eg:-list.stream().map(number -> number * 3).forEach(System.out::println);
 
-3. flatMap():-
+## When to use map() and when to use filter()?
+	- Use map() when you want to convert each element into another form.
+
+	Example 1: Lowercase → Uppercase
+	List<String> names = List.of("john", "alice", "bob");
+	
+	List<String> upper = names.stream()
+	        .map(String::toUpperCase)
+	        .toList();
+	
+	System.out.println(upper);
+	
+	Output
+	
+	[JOHN, ALICE, BOB]
+
+	- Use filter() when you want to remove unwanted elements.
+
+	Example 1: Even Numbers
+	List<Integer> numbers = List.of(1, 2, 3, 4, 5, 6);
+	
+	List<Integer> evenNumbers = numbers.stream()
+	        .filter(n -> n % 2 == 0)
+	        .toList();
+	
+	System.out.println(evenNumbers);
+	
+	Output
+	
+	[2, 4, 6]
+
+4. flatMap():-
 
 	Returns a stream consisting of the results of replacing each element of this stream with the contents of a mapped stream produced by applying the provided mapping function to each element.
 	Signature:- Stream<R> flatMap(Function<? super T, ? extends Stream<? extends R>> mapper);
