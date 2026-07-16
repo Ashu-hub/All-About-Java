@@ -702,3 +702,21 @@ public class OptionalDemo{
     	IntStream.range(0, charArray.length)
         	.mapToObj(i -> charArray[(charArray.length - 1) - i])
         	.forEach(System.out::print);
+
+
+## Collectors class:
+	| Collector             | Purpose                       | Example                      |
+	| --------------------- | ----------------------------- | ---------------------------- |
+	| `toList()`            | Convert to List               | `Collectors.toList()`        |
+	| `toSet()`             | Convert to Set                | `Collectors.toSet()`         |
+	| `toMap()`             | Convert to Map                | `Collectors.toMap()`         |
+	| `joining()`           | Join strings                  | `"A,B,C"`                    |
+	| `counting()`          | Count elements                | `3`                          |
+	| `summingInt()`        | Sum values                    | Total salary                 |
+	| `averagingInt()`      | Average                       | Avg salary                   |
+	| `maxBy()`             | Maximum                       | Highest salary               |
+	| `minBy()`             | Minimum                       | Lowest salary                |
+	| `groupingBy()`        | Group elements                | Employees by department      |
+	| `partitioningBy()`    | Split into true/false         | Even vs odd                  |
+	| `mapping()`           | Transform grouped values      | Employee names by department |
+	| `collectingAndThen()` | Post-process collected result | Make list unmodifiable       |
