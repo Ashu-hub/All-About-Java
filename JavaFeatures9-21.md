@@ -599,6 +599,187 @@ Compiler automatically creates
 
 ---
 
+# What does the compiler generate?
+
+For the following Record:
+
+```java
+public record Employee(int id, String name) {}
+```
+
+The compiler automatically generates:
+
+- Private final fields
+- Constructor
+- Accessor methods (`id()`, `name()`)
+- `equals()`
+- `hashCode()`
+- `toString()`
+
+---
+
+# Generated Methods
+
+```java
+Employee employee = new Employee(101, "John");
+
+System.out.println(employee.id());
+System.out.println(employee.name());
+```
+
+Output
+
+```
+101
+John
+```
+
+Notice:
+
+Records do **not** generate getters like:
+
+```java
+getId()
+getName()
+```
+
+Instead, the accessor methods have the same name as the field.
+
+---
+
+# Records are Immutable
+
+Fields are automatically `final`.
+
+```java
+public record Employee(int id, String name) {}
+```
+
+Trying to modify a field:
+
+```java
+employee.name = "Alice";
+```
+
+Compilation Error
+
+Because the fields are final.
+
+---
+
+# Generated toString()
+
+```java
+Employee employee = new Employee(101, "John");
+
+System.out.println(employee);
+```
+
+Output
+
+```
+Employee[id=101, name=John]
+```
+
+No need to override `toString()`.
+
+---
+
+# Generated equals()
+
+```java
+Employee e1 = new Employee(1, "John");
+Employee e2 = new Employee(1, "John");
+
+System.out.println(e1.equals(e2));
+```
+
+Output
+
+```
+true
+```
+
+Records compare values, not object references.
+
+---
+
+# Generated hashCode()
+
+Since `equals()` is generated, `hashCode()` is also generated correctly.
+
+This makes Records ideal as keys in `HashMap` or elements in `HashSet`.
+
+---
+
+# Custom Constructor
+
+You can still perform validation.
+
+```java
+public record Employee(int id, String name) {
+
+    public Employee {
+        if (id <= 0) {
+            throw new IllegalArgumentException("Invalid ID");
+        }
+    }
+}
+```
+
+This is called a **Compact Constructor**.
+
+Notice there are **no parameters** in the constructor declaration.
+
+---
+
+# Can Records have methods?
+
+Yes.
+
+```java
+public record Employee(int id, String name) {
+
+    public String display() {
+        return id + " - " + name;
+    }
+}
+```
+
+Records can contain business methods.
+
+---
+
+# Can Records implement interfaces?
+
+Yes.
+
+```java
+public record Employee(int id, String name)
+        implements Serializable {
+}
+```
+
+---
+
+# Can Records extend another class?
+
+No.
+
+```java
+class Person { }
+
+record Employee(int id) extends Person { }
+```
+
+Compilation Error
+
+A Record **cannot extend any class** because it already extends `java.lang.Record`.
+
+However, it **can implement interfaces**.
+
+---
+
 ## Helpful NullPointerException
 
 Old
