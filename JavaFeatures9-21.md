@@ -380,7 +380,157 @@ Advantages
 
 | Feature | Purpose |
 |----------|----------|
-| Switch Expressions | Cleaner and safer switch statements |
+| Switch Expressions | Cleaner and safer switch statements | Now it returns a value, before it only was statement
+
+Switch can now return a value.
+
+```
+String type = switch (day) {
+    case "MONDAY" -> "Weekday";
+    case "SATURDAY", "SUNDAY" -> "Weekend";
+    default -> "Unknown";
+};
+
+```
+Much cleaner and easier to read.
+
+1. Arrow (->) Syntax
+
+Instead of
+```
+case "MONDAY":
+    type = "Weekday";
+    break;
+```
+Use
+```
+case "MONDAY" -> "Weekday";
+```
+Benefits
+No break
+No fall-through
+Less code
+
+2. Switch as an Expression
+
+Before Java 12, switch was only a statement.
+```
+switch(day){
+   ...
+}
+```
+After Java 12, it can return a value.
+```
+String result = switch(day) {
+    case "MONDAY" -> "Work";
+    default -> "Holiday";
+};
+```
+This is called a Switch Expression.
+
+3. Multiple Labels in One Case
+
+Before
+```
+switch(day) {
+    case "SATURDAY":
+    case "SUNDAY":
+        System.out.println("Weekend");
+        break;
+}
+```
+After
+```
+switch(day) {
+    case "SATURDAY", "SUNDAY" ->
+        System.out.println("Weekend");
+}
+```
+Cleaner and avoids duplicate cases.
+
+4. Using Blocks
+
+If multiple statements are needed, use a block.
+
+```
+String result = switch(day) {
+
+    case "MONDAY" -> {
+        System.out.println("Working...");
+        yield "Weekday";
+    }
+
+    default -> "Holiday";
+};
+```
+
+Why yield?
+
+When a case contains multiple statements, Java needs to know which value should be returned.
+
+yield "Weekday";
+
+Think of yield as:
+
+"Return this value from the switch expression."
+
+```
+Example
+int marks = 85;
+
+String grade = switch (marks / 10) {
+
+    case 10, 9 -> "A";
+
+    case 8 -> {
+        System.out.println("Good Score");
+        yield "B";
+    }
+
+    default -> "C";
+};
+
+System.out.println(grade);
+```
+Output
+
+Good Score
+B
+Fall-through Problem Solved
+Traditional Switch
+```
+int day = 1;
+
+switch(day){
+
+    case 1:
+        System.out.println("Monday");
+
+    case 2:
+        System.out.println("Tuesday");
+}
+```
+Output
+
+Monday
+Tuesday
+
+Because there is no break, execution falls through to the next case.
+
+New Switch
+```
+switch(day){
+
+    case 1 -> System.out.println("Monday");
+
+    case 2 -> System.out.println("Tuesday");
+}
+```
+Output
+
+Monday
+
+No accidental fall-through.
 
 ---
 
