@@ -109,6 +109,9 @@ Example
 Stream.of(1,2,3,4,5)
       .takeWhile(i -> i < 4);
 ```
+When it encounters 4, it stops immediately.
+
+The remaining elements (4, 5) are not processed, even though they satisfy the condition.
 
 Output
 
@@ -117,6 +120,52 @@ Output
 2
 3
 ```
+- dropWhile()
+
+The opposite of takeWhile().
+
+It skips elements from the beginning while the condition is true, then returns the rest of the stream
+
+```
+List<Integer> numbers = List.of(1, 2, 3, 4, 2, 1);
+
+numbers.stream()
+       .dropWhile(n -> n < 4)
+       .forEach(System.out::println);
+```
+o/p: 
+4
+2
+1
+
+- Stream.ofNullable()
+  Sometimes an object may be null.
+
+    Before Java 9
+    ```
+    String name = null;
+    
+    Stream.of(name);
+    ```
+    Throws
+    
+    NullPointerException
+
+  Java 9
+  ```
+    String name = null;
+    
+    Stream.ofNullable(name)
+          .forEach(System.out::println);
+    ```
+    Output
+    
+    (no output)
+    
+    If the object is
+    
+    not null → creates a stream with one element
+    null → creates an empty stream
 
 ---
 
@@ -151,6 +200,17 @@ interface Calculator {
 ```
 
 Helps avoid duplicate code inside interfaces.
+
+- Access rule:
+  
+    | Method Type      | Can be called by implementing class?  | Can be called inside interface? |
+    | ---------------- | ------------------------------------- | ------------------------------- |
+    | `abstract`       | ✅ Yes                                 | ❌ No implementation             |
+    | `default`        | ✅ Yes                                 | ✅ Yes                           |
+    | `static`         | ❌ (must use `InterfaceName.method()`) | ✅ Yes                           |
+    | `private`        | ❌ No                                  | ✅ Yes                           |
+    | `private static` | ❌ No                                  | ✅ Yes                           |
+
 
 ---
 
