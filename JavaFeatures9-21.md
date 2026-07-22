@@ -254,8 +254,9 @@ The variable type is fixed at compile time.
 
 ---
 
-var is a reserved type name, not a primitive type or a class. It tells the compiler to infer the type at compile time.
-var can only be used for local variables, loop variables, and try-with-resources variables, and it requires an initializer because the compiler must determine the type at compile time.
+    var is a reserved type name, not a primitive type or a class. It tells the compiler to infer the type at compile time.
+    var can only be used for local variables, loop variables, and try-with-resources variables, and it requires an initializer because the compiler must determine the type at compile time.
+
 ---
 
 ## Java 10 Summary
