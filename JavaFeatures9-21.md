@@ -1039,6 +1039,80 @@ Benefits
 - Low memory
 - High scalability
 
+Virtual Threads are lightweight threads managed by the JVM instead of the operating system.
+```
+    100,000 Virtual Threads
+           │
+           ▼
+     Few Platform Threads
+           │
+           ▼
+      Operating System
+```
+Instead of creating an OS thread for every task, the JVM schedules many Virtual Threads on a small number of Platform Threads.
+
+This scheduling is called M:N Scheduling.
+```
+    100000 Virtual Threads
+        │
+        ▼
+      20 Platform Threads
+        │
+        ▼
+      Operating System
+```
+
+- Creating a Virtual Thread:
+  ```
+  Thread.startVirtualThread(() -> {
+    System.out.println("Virtual Thread");
+    });
+
+  ```
+
+- Spring Boot 3.2+ supports Virtual Threads.
+```
+spring.threads.virtual.enabled=true
+```
+---
+
+1. What is a Virtual Thread?
+
+A Virtual Thread is a lightweight thread managed by the JVM rather than the operating system. Many Virtual Threads are multiplexed onto a small number of Platform Threads, enabling high concurrency with low memory usage.
+---
+2. How is a Virtual Thread different from a Platform Thread?
+
+Platform Threads map 1:1 to OS threads. Virtual Threads use an M:N model, where many Virtual Threads share a few Platform Threads.
+---
+3. Why are Virtual Threads more scalable?
+
+They consume much less memory and release Platform Threads while waiting for blocking I/O, allowing those Platform Threads to execute other Virtual Threads.
+---
+4. Do Virtual Threads replace asynchronous programming?
+
+Not completely. They simplify writing concurrent code because you can use familiar blocking APIs while still achieving high scalability. However, asynchronous programming may still be appropriate in some scenarios.
+---
+5. Should Virtual Threads replace thread pools?
+
+For task execution, yes—many applications can replace fixed thread pools with Executors.newVirtualThreadPerTaskExecutor().
+
+However, thread pools may still be needed for:
+
+Limiting concurrency
+Rate limiting
+Resource management
+---
+6. Do Virtual Threads make applications faster?
+
+Not necessarily.
+
+They improve throughput and scalability, not the speed of individual tasks.
+---
+7. Are Virtual Threads suitable for CPU-intensive tasks?
+
+No. They are most beneficial for I/O-bound workloads. CPU-bound tasks are limited by the number of available processor cores.
+
+  
 ---
 
 ## 2. Record Patterns
