@@ -68,6 +68,21 @@
 	Class implementing Callable interface must override call() method. call() method **returns computed result or throws an exception if unable to do so.**
 	Class implementing Runnable interface must override run() method. A Runnable **does not return a result and can neither throw a checked exception**
 
+## Diff between submit() and execute()
+
+| Feature             | `execute()`                                                    | `submit()`                                                                  | Example                     |
+| ------------------- | -------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------- |
+| Declared In         | `Executor`                                                     | `ExecutorService`                                                           | -                           |
+| Accepts             | `Runnable`                                                     | `Runnable` & `Callable`                                                     | `executor.submit(callable)` |
+| Return Type         | `void`                                                         | `Future<T>`                                                                 | `Future<Integer>`           |
+| Can Return Result   | ❌ No                                                           | ✅ Yes                                                                       | `future.get()`              |
+| Supports `Callable` | ❌ No                                                           | ✅ Yes                                                                       | `Callable<String>`          |
+| Exception Handling  | Uncaught exception goes to thread's `UncaughtExceptionHandler` | Exception is captured inside `Future`; thrown when `future.get()` is called | `ExecutionException`        |
+| Cancel Task         | ❌ No                                                           | ✅ Yes                                                                       | `future.cancel(true)`       |
+| Check Completion    | ❌ No                                                           | ✅ Yes                                                                       | `future.isDone()`           |
+| Best Use            | Fire-and-forget tasks                                          | Tasks with results or status tracking                                       |                             |
+
+
 ## Future
 	A Future represents the result of an asynchronous computation.
 	Methods are provided to check if the computation is complete(isDone()), to wait for its completion, and to retrieve the result of the computation(get().
