@@ -27,7 +27,8 @@
 	 A lambda expression is a short form for writing an anonymous class.
 
 # Diff between Default methods and static methods:
-	Static methods are introduces to allow interfaces to provide utility methods related to the interface itself. eg: List.of(), Comparable.comparing() etc
+Static methods are introduces to allow interfaces to provide utility methods related to the interface itself. eg: List.of(), Comparable.comparing() etc
+
 #Difference
 
 | Feature                         | Abstract Method                            | Default Method                                  | Static Method                                                       | Example                                                             |
