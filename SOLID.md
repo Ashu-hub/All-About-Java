@@ -708,3 +708,181 @@ public class PricingUtils{
 					(Depends on)   					(Depends on)
 					
 	*Adapter design pattern is an example of dependency inversion*
+
+	# Dependency Inversion Principle (DIP) - Database Example
+
+## Problem (Violates DIP)
+
+`UserService` directly depends on a concrete implementation (`MySQLDatabase`).
+
+```java
+class MySQLDatabase {
+
+    public void save() {
+        System.out.println("Saving to MySQL");
+    }
+}
+```
+
+```java
+class UserService {
+
+    private MySQLDatabase database = new MySQLDatabase();
+
+    public void saveUser() {
+        database.save();
+    }
+}
+```
+
+### Dependency
+
+```text
+UserService
+      │
+      ▼
+MySQLDatabase
+```
+
+### Problem
+
+If tomorrow you switch to PostgreSQL:
+
+```text
+UserService ❌
+      │
+      ▼
+Need Code Change
+```
+
+This violates the **Dependency Inversion Principle** because the high-level module (`UserService`) depends on a low-level module (`MySQLDatabase`).
+
+---
+
+# Solution (Follows DIP)
+
+## Step 1: Create an Abstraction
+
+```java
+interface Database {
+
+    void save();
+}
+```
+
+---
+
+## Step 2: Implement the Interface
+
+### MySQL Implementation
+
+```java
+class MySQLDatabase implements Database {
+
+    @Override
+    public void save() {
+        System.out.println("Saving to MySQL");
+    }
+}
+```
+
+### PostgreSQL Implementation
+
+```java
+class PostgreSQLDatabase implements Database {
+
+    @Override
+    public void save() {
+        System.out.println("Saving to PostgreSQL");
+    }
+}
+```
+
+---
+
+## Step 3: Depend on the Abstraction
+
+```java
+class UserService {
+
+    private final Database database;
+
+    public UserService(Database database) {
+        this.database = database;
+    }
+
+    public void saveUser() {
+        database.save();
+    }
+}
+```
+
+---
+
+## Step 4: Usage
+
+### Using MySQL
+
+```java
+Database db = new MySQLDatabase();
+
+UserService service = new UserService(db);
+
+service.saveUser();
+```
+
+**Output**
+
+```text
+Saving to MySQL
+```
+
+---
+
+### Switching to PostgreSQL
+
+```java
+Database db = new PostgreSQLDatabase();
+
+UserService service = new UserService(db);
+
+service.saveUser();
+```
+
+**Output**
+
+```text
+Saving to PostgreSQL
+```
+
+Notice that **`UserService` did not change**.
+
+---
+
+# Dependency Diagram
+
+```text
+             UserService
+                  │
+                  ▼
+        Database (Interface)
+          ▲              ▲
+          │              │
+ MySQLDatabase   PostgreSQLDatabase
+```
+
+---
+
+# Benefits
+
+- ✅ Loose Coupling
+- ✅ Easy to switch database implementations
+- ✅ Easy to unit test (can inject a mock database)
+- ✅ Follows SOLID principles
+- ✅ Supports the Open/Closed Principle (OCP)
+
+---
+
+# Interview One-Liner
+
+> **The Dependency Inversion Principle states that high-level modules should depend on abstractions rather than concrete implementations. By introducing a `Database` interface, `UserService` becomes independent of specific databases like MySQL or PostgreSQL, making the code more flexible, testable, and maintainable.**
