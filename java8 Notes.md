@@ -28,16 +28,18 @@
 
 # Diff between Default methods and static methods:
 	Static methods are introduces to allow interfaces to provide utility methods related to the interface itself. eg: List.of(), Comparable.comparing() etc
-	| Feature                         | Abstract Method                            | Default Method                                  | Static Method                                                       | Example                                                             |
-	| ------------------------------- | ------------------------------------------ | ----------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-	| Has implementation              | ❌ No                                       | ✅ Yes                                           | ✅ Yes                                                               | `void start();` / `default void start(){}` / `static void info(){}` |
-	| Must be implemented             | ✅ Yes                                      | ❌ No                                            | ❌ No                                                                | `Car implements Vehicle` must implement abstract method             |
-	| Can be overridden               | ✅ Yes                                      | ✅ Yes                                           | ❌ No                                                                | `Car.start()` overrides abstract/default method                     |
-	| Called using object             | ✅ Yes                                      | ✅ Yes                                           | ❌ No                                                                | `car.start()`                                                       |
-	| Called using interface name     | ❌ No                                       | ❌ No                                            | ✅ Yes                                                               | `Vehicle.info()`                                                    |
-	| Inherited by implementing class | ✅ Yes                                      | ✅ Yes                                           | ❌ No                                                                | `Car` inherits `drive()` but not `info()`                           |
-	| Purpose                         | Defines a contract                         | Provides a default implementation               | Utility/Factory methods                                             | `List.of()`, `Map.of()`, `Comparator.comparing()`                   |
-	| Real Java Examples              | `Runnable.run()`<br>`Comparator.compare()` | `Collection.removeIf()`<br>`Iterable.forEach()` | `List.of()`<br>`Set.of()`<br>`Map.of()`<br>`Comparator.comparing()` |                                                                     |
+#Difference
+
+| Feature                         | Abstract Method                            | Default Method                                  | Static Method                                                       | Example                                                             |
+| ------------------------------- | ------------------------------------------ | ----------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| Has implementation              | ❌ No                                       | ✅ Yes                                           | ✅ Yes                                                               | `void start();` / `default void start(){}` / `static void info(){}` |
+| Must be implemented             | ✅ Yes                                      | ❌ No                                            | ❌ No                                                                | `Car implements Vehicle` must implement abstract method             |
+| Can be overridden               | ✅ Yes                                      | ✅ Yes                                           | ❌ No                                                                | `Car.start()` overrides abstract/default method                     |
+| Called using object             | ✅ Yes                                      | ✅ Yes                                           | ❌ No                                                                | `car.start()`                                                       |
+| Called using interface name     | ❌ No                                       | ❌ No                                            | ✅ Yes                                                               | `Vehicle.info()`                                                    |
+| Inherited by implementing class | ✅ Yes                                      | ✅ Yes                                           | ❌ No                                                                | `Car` inherits `drive()` but not `info()`                           |
+| Purpose                         | Defines a contract                         | Provides a default implementation               | Utility/Factory methods                                             | `List.of()`, `Map.of()`, `Comparator.comparing()`                   |
+| Real Java Examples              | `Runnable.run()`<br>`Comparator.compare()` | `Collection.removeIf()`<br>`Iterable.forEach()` | `List.of()`<br>`Set.of()`<br>`Map.of()`<br>`Comparator.comparing()` |                                                                     |
 
 	
 # Method Reference
