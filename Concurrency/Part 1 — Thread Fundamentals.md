@@ -129,6 +129,91 @@ executor.shutdown();
 
 ---
 
+## 🧵 Thread, Runnable & Callable
+
+> [!NOTE]
+> These are the three core APIs used to execute tasks concurrently in Java.
+
+---
+
+### 🟦 Thread Class
+
+Represents a **thread of execution**.
+
+```java
+public class Thread implements Runnable
+```
+
+**Commonly Used Methods**
+
+| Method | Purpose |
+|---------|---------|
+| ▶️ `start()` | Starts a new thread |
+| ⚙️ `run()` | Task executed by the thread |
+| ⏸️ `sleep(ms)` | Pause current thread |
+| 🤝 `join()` | Wait for another thread |
+| 🔄 `yield()` | Hint scheduler to switch threads |
+| 🚫 `interrupt()` | Interrupt the thread |
+| ❤️ `isAlive()` | Check if thread is running |
+| 🏷️ `getName()` / `setName()` | Get/Set thread name |
+| 📌 `currentThread()` | Get current thread *(static)* |
+| 👻 `setDaemon(true)` | Create a daemon thread |
+| ⭐ `setPriority(int)` | Set priority (1–10) |
+
+---
+
+### 🟩 Runnable Interface
+
+Represents a task **without a return value**.
+
+```java
+public interface Runnable {
+    void run();
+}
+```
+
+✅ Used with:
+- `Thread`
+- `ExecutorService`
+
+---
+
+### 🟨 Callable Interface
+
+Represents a task **that returns a value**.
+
+```java
+public interface Callable<V> {
+    V call() throws Exception;
+}
+```
+
+✅ Used with:
+- `ExecutorService`
+- Returns a `Future`
+
+---
+
+## 📊 Quick Comparison
+
+| Feature | 🧵 Thread | 🟩 Runnable | 🟨 Callable |
+|----------|-----------|-------------|-------------|
+| Represents | Thread | Task | Task |
+| Method | `run()` | `run()` | `call()` |
+| Return Value | ❌ | ❌ | ✅ |
+| Checked Exception | ❌ | ❌ | ✅ |
+| Used With | Directly | Thread / Executor | ExecutorService |
+
+---
+
+> [!TIP]
+> **Interview Recommendation**
+>
+> 🥇 **ExecutorService + Callable/Runnable** → Preferred in real-world applications.
+>
+> ❌ Avoid creating threads manually unless specifically required.
+
+---
 # 4. start() vs run()
 
 | start() | run() |
