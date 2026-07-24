@@ -1,0 +1,255 @@
+# 1. Executor Framework
+
+## Table of Contents
+
+- [1.1 Why do we need Executor?](#11-why-do-we-need-executor)
+- [1.2 Executor Framework Overview](#12-executor-framework)
+- [1.3 Interface Hierarchy](#13-interface-hierarchy)
+- [1.4 Executor (Interface)](#14-executor-interface)
+- [1.5 ExecutorService (Interface)](#15-executorservice-interface)
+- [1.6 Main Methods of ExecutorService](#16-main-methods-of-executorservice)
+- [1.7 Common Implementations](#17-common-implementations)
+- [1.8 Executors (Factory Class)](#18-executors-factory-class)
+- [1.9 Interview Summary](#19-interview-summary)
+- [1.10 Typical Flow](#110-typical-flow)
+- [1.11 Top Interview Questions](#111-top-interview-questions)
+---
+
+## 1.1 Why do we need Executor?
+
+Before Java 5, we used to create threads manually.
+
+```java
+Thread t = new Thread(() -> {
+    System.out.println("Task");
+});
+t.start();
+```
+
+### Problems
+
+- Creating a thread is expensive.
+- Too many threads can exhaust memory.
+- No thread reuse.
+- Difficult to manage thread lifecycle.
+
+Java introduced the **Executor Framework** (`java.util.concurrent`) to separate:
+
+- **What to execute** (Task)
+- **How to execute** (Thread Management)
+
+Instead of creating threads yourself, you submit tasks to an executor, which decides **when**, **where**, and **how** to execute them.
+
+---
+
+## 1.2 Executor Framework
+
+```
+Task (Runnable/Callable)
+          │
+          ▼
+      Executor Framework
+          │
+          ▼
+     Thread Pool / Threads
+```
+
+---
+
+## 1.3 Interface Hierarchy
+
+```
+Executor (Interface)
+        │
+        ▼
+ExecutorService (Interface)
+        │
+        ▼
+ScheduledExecutorService (Interface)
+        │
+        ▼
+-------------------------------------
+Implementations
+-------------------------------------
+ThreadPoolExecutor
+ScheduledThreadPoolExecutor
+ForkJoinPool
+```
+
+The `Executors` class is a **factory class** that creates these implementations.
+
+Example:
+
+```java
+ExecutorService service = Executors.newFixedThreadPool(4);
+```
+
+Here:
+
+- `ExecutorService` → Interface
+- `Executors` → Factory Class
+- `ThreadPoolExecutor` → Actual implementation returned
+
+---
+
+## 1.4 Executor (Interface)
+
+`Executor` is the **base interface** of the Executor Framework.
+
+```java
+public interface Executor
+```
+
+It contains only one method:
+
+```java
+void execute(Runnable task);
+```
+
+### Responsibility
+
+Its only responsibility is:
+
+> Accept a task and execute it.
+
+It **does not** provide:
+
+- Returning results
+- Thread pool shutdown
+- Task cancellation
+- Task status
+- Waiting for task completion
+
+It simply defines **how tasks are submitted**.
+
+---
+
+## 1.5 ExecutorService (Interface)
+
+`ExecutorService` **extends** `Executor`.
+
+```java
+public interface ExecutorService extends Executor
+```
+
+It inherits `execute()` and adds thread pool management capabilities.
+
+### Responsibilities
+
+- Execute tasks
+- Submit tasks that return results
+- Manage thread pool lifecycle
+- Cancel running tasks
+- Wait for task completion
+- Execute multiple tasks together
+
+This is the interface you'll use in **95% of real-world applications**.
+
+---
+
+## 1.6 Main Methods of ExecutorService
+
+### Task Submission
+
+| Method | Description |
+|---------|-------------|
+| `execute(Runnable)` | Executes a task; no return value |
+| `submit(Runnable)` | Executes a task and returns a `Future<?>` |
+| `submit(Callable<T>)` | Executes a task that returns a value |
+
+### Lifecycle Management
+
+| Method | Description |
+|---------|-------------|
+| `shutdown()` | Stops accepting new tasks and finishes existing ones |
+| `shutdownNow()` | Attempts to stop running tasks immediately |
+| `awaitTermination()` | Waits until all tasks complete or timeout occurs |
+
+### Batch Execution
+
+| Method | Description |
+|---------|-------------|
+| `invokeAll()` | Executes all tasks and waits for all to finish |
+| `invokeAny()` | Returns the result of the first successful task |
+
+---
+
+## 1.7 Common Implementations
+
+| Class | Purpose |
+|--------|---------|
+| `ThreadPoolExecutor` | General-purpose thread pool |
+| `ScheduledThreadPoolExecutor` | Executes delayed or periodic tasks |
+| `ForkJoinPool` | Optimized for recursive and parallel tasks |
+
+---
+
+## 1.8 Executors (Factory Class)
+
+```java
+ExecutorService fixed =
+        Executors.newFixedThreadPool(4);
+
+ExecutorService single =
+        Executors.newSingleThreadExecutor();
+
+ExecutorService cached =
+        Executors.newCachedThreadPool();
+
+ScheduledExecutorService scheduled =
+        Executors.newScheduledThreadPool(2);
+```
+
+---
+
+## 1.9 Interview Summary
+
+| Type | Kind | Responsibility |
+|------|------|----------------|
+| `Executor` | Interface | Execute tasks |
+| `ExecutorService` | Interface | Execute tasks and manage thread pool |
+| `ScheduledExecutorService` | Interface | Schedule delayed and periodic tasks |
+| `Executors` | Factory Class | Creates executor implementations |
+| `ThreadPoolExecutor` | Class | Main implementation of `ExecutorService` |
+| `ScheduledThreadPoolExecutor` | Class | Main implementation of `ScheduledExecutorService` |
+| `ForkJoinPool` | Class | Specialized pool for recursive and parallel tasks |
+
+---
+
+## 1.10 Typical Flow
+
+```
+Create ExecutorService
+        │
+        ▼
+Submit Runnable/Callable
+        │
+        ▼
+Executor picks an available thread
+        │
+        ▼
+Task executes
+        │
+        ▼
+(Optional) Future returns result
+        │
+        ▼
+Shutdown ExecutorService
+```
+
+---
+
+## 1.11 Top Interview Questions
+
+| Interview Question | 1-Liner Answer |
+|--------------------|----------------|
+| **What is the difference between `Executor` and `ExecutorService`?** | `Executor` only executes tasks, whereas `ExecutorService` adds task management, lifecycle control, and result handling. |
+| **What is the difference between `execute()` and `submit()`?** | `execute()` is fire-and-forget (`void`), while `submit()` returns a `Future` to retrieve results or exceptions. |
+| **What is the difference between `Runnable` and `Callable`?** | `Runnable` cannot return a value or throw checked exceptions; `Callable` can do both. |
+| **What is `Future`, and what are its limitations?** | `Future` represents an asynchronous result, but `get()` blocks until completion and it cannot be chained like `CompletableFuture`. |
+| **Explain `shutdown()` vs `shutdownNow()`.** | `shutdown()` finishes submitted tasks, whereas `shutdownNow()` attempts to interrupt running tasks and returns pending tasks. |
+| **What are `invokeAll()` and `invokeAny()`, and when would you use each?** | `invokeAll()` waits for every task; `invokeAny()` returns the first successful result and cancels the rest. |
+| **What types of thread pools does the `Executors` class provide, and what are their trade-offs?** | Fixed (stable), Cached (unbounded), Single (sequential), Scheduled (timed), Work-Stealing (parallel), Virtual Thread Per Task (I/O-bound, Java 21+). |
+| **What happens if tasks are submitted faster than a fixed-size thread pool can execute them?** | Tasks are queued, increasing latency, and may eventually be rejected if the queue is bounded and full. |
+| **Why is creating a new thread for every request considered a bad practice in high-throughput applications?** | Thread creation is expensive and excessive threads increase memory usage and context switching, reducing scalability. |
+| **What is the lifecycle of an `ExecutorService`?** | **Created → Accepts Tasks → Executes Tasks → Shutdown → Terminated.** |
