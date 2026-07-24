@@ -294,10 +294,11 @@ t.start();
 1. Process vs Thread?
 2. Thread Lifecycle?
 3. Runnable vs Callable?
-4. start() vs run()?
-5. sleep() vs wait()?
-6. sleep() vs join()?
-7. Why ExecutorService?
-8. What is a Daemon Thread?
+4. Why cant we use Callable Interface with thread class?
+5. start() vs run()?
+6. sleep() vs wait()?
+7. sleep() vs join()?
+8. Why ExecutorService?
+9. What is a Daemon Thread?
 
 **Next:** Part 2 – Synchronization & Java Memory Model
