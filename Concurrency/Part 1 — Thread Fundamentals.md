@@ -197,6 +197,58 @@ Java provides three common approaches:
 3. Implement Callable
 4. Executor Framework (Recommended)
 
+## Creating Threads - Examples
+
+### 1. Extending Thread
+
+```java
+class MyThread extends Thread {
+    public void run() {
+        System.out.println("Running...");
+    }
+}
+
+new MyThread().start();
+```
+
+---
+
+### 2. Implementing Runnable ⭐ (Preferred)
+
+```java
+Runnable task = () -> System.out.println("Running...");
+new Thread(task).start();
+```
+
+---
+
+### 3. Using Callable (Returns Result)
+
+```java
+ExecutorService executor = Executors.newSingleThreadExecutor();
+
+Future<Integer> future = executor.submit(() -> 100);
+
+System.out.println(future.get());
+
+executor.shutdown();
+```
+
+---
+
+### 4. Using ExecutorService ⭐⭐⭐ (Best Practice)
+
+```java
+ExecutorService executor = Executors.newFixedThreadPool(2);
+
+executor.execute(() -> System.out.println("Running..."));
+
+executor.shutdown();
+```
+
+> **Interview Tip:** In real applications, prefer **ExecutorService** over creating threads manually.
+
+
 ---
 
 ### Q2. Why is Runnable preferred over Thread?
