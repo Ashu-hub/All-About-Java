@@ -19,6 +19,7 @@
 - [14. Starvation](#14-starvation)
 - [15. Thread Safety](#15-thread-safety)
 - [16. Immutable Objects](#16-immutable-objects)
+- [17. Atomic Interger](#17-AtomicInterger)
 
 ---
 
@@ -827,6 +828,316 @@ Benefits
 
 ---
 
+17. AtomicInteger:
+
+> [!NOTE]
+> `AtomicInteger` is a thread-safe class (`java.util.concurrent.atomic`) that performs atomic operations **without using `synchronized`**.
+
+---
+
+## Why do we need it?
+
+Consider:
+
+```java
+int count = 0;
+
+count++;
+```
+
+This is **not thread-safe**.
+
+Internally:
+
+```text
+Read
+  ↓
+Increment
+  ↓
+Write
+```
+
+If two threads execute these steps simultaneously, one update may be lost.
+
+---
+
+## Solution
+
+```java
+AtomicInteger count = new AtomicInteger(0);
+
+count.incrementAndGet();
+```
+
+Now every increment is **atomic**.
+
+---
+
+## How does AtomicInteger work?
+
+`AtomicInteger` uses **CAS (Compare-And-Swap)**, a CPU-supported atomic instruction.
+
+Instead of locking the entire code, it says:
+
+```text
+"If the current value is still what I expect,
+update it.
+Otherwise, try again."
+```
+
+---
+
+## CAS Flow
+
+Suppose:
+
+```text
+count = 10
+```
+
+Thread A wants to increment.
+
+```
+Read Current Value = 10
+
+↓
+
+Expected = 10
+
+↓
+
+New Value = 11
+
+↓
+
+Is Current Value still 10?
+
+↓
+
+YES
+
+↓
+
+Update to 11 ✅
+```
+
+---
+
+Now suppose Thread B also read **10**.
+
+```
+Current Value = 11
+
+↓
+
+Expected = 10
+
+↓
+
+Match?
+
+↓
+
+NO ❌
+
+↓
+
+Read Again
+
+↓
+
+Retry
+```
+
+Eventually Thread B updates:
+
+```
+11
+
+↓
+
+12 ✅
+```
+
+Final Result:
+
+```
+12
+```
+
+No update is lost.
+
+---
+
+## Why is it Thread-Safe?
+
+Because **only one thread can successfully update the value for a given expected value**.
+
+Other threads automatically retry until they succeed.
+
+No data corruption occurs.
+
+---
+
+## Why is it Faster than synchronized?
+
+### synchronized
+
+```
+Thread A
+
+↓
+
+Acquire Lock
+
+↓
+
+Execute
+
+↓
+
+Release Lock
+
+↓
+
+Thread B waits
+```
+
+Only one thread executes while others are blocked.
+
+---
+
+### AtomicInteger
+
+```
+Thread A
+
+↓
+
+CAS
+
+↓
+
+Success
+
+Thread B
+
+↓
+
+CAS Failed
+
+↓
+
+Retry
+```
+
+No thread is blocked.
+
+---
+
+## Common Methods
+
+| Method | Purpose |
+|---------|---------|
+| `get()` | Returns current value |
+| `set()` | Updates value |
+| `incrementAndGet()` | Increment then return |
+| `getAndIncrement()` | Return then increment |
+| `decrementAndGet()` | Decrement then return |
+| `addAndGet(n)` | Add and return |
+| `compareAndSet(old, new)` | Update only if current value equals `old` |
+
+---
+
+## compareAndSet()
+
+```java
+AtomicInteger count = new AtomicInteger(10);
+
+boolean updated = count.compareAndSet(10, 20);
+
+System.out.println(updated); // true
+System.out.println(count.get()); // 20
+```
+
+If the current value were **11**, the update would fail.
+
+---
+
+## Real Project Example
+
+Count the number of API requests safely.
+
+```java
+AtomicInteger requestCount = new AtomicInteger();
+
+public void processRequest() {
+    requestCount.incrementAndGet();
+}
+```
+
+Thousands of threads can increment the counter safely without explicit locks.
+
+---
+
+## Interview Questions
+
+### Why is AtomicInteger thread-safe?
+
+Because it uses **CAS (Compare-And-Swap)** to update the value atomically without locks.
+
+---
+
+### Does AtomicInteger use synchronized?
+
+❌ No.
+
+It relies on CPU-level atomic instructions.
+
+---
+
+### Is AtomicInteger lock-free?
+
+✅ Yes.
+
+It is **lock-free**, but it may retry multiple times if CAS fails.
+
+---
+
+### AtomicInteger vs synchronized
+
+| AtomicInteger | synchronized |
+|---------------|--------------|
+| Lock-free | Uses monitor lock |
+| Faster for simple operations | Better for complex critical sections |
+| Uses CAS | Uses locking |
+| Suitable for counters | Suitable for multiple shared variables |
+
+---
+
+> [!WARNING]
+> `AtomicInteger` makes **a single variable** atomic.
+>
+> It **cannot** make multiple operations or multiple variables atomic together.
+
+Example:
+
+```java
+if (count.get() > 10) {
+    count.incrementAndGet();
+}
+```
+
+This entire block is **not atomic**.
+
+Use `synchronized` or `Lock` if multiple operations must execute together.
+
+---
+
+## One-Line Revision
+
+> **AtomicInteger uses CAS (Compare-And-Swap) to perform lock-free, thread-safe atomic operations on a single integer.**
+---
 # 📝 Part 2 Summary
 
 - Understand why synchronization is required.
