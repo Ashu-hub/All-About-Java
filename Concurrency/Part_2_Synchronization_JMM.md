@@ -828,7 +828,7 @@ Benefits
 
 ---
 
-17. AtomicInteger:
+# 17. AtomicInteger:
 
 > [!NOTE]
 > `AtomicInteger` is a thread-safe class (`java.util.concurrent.atomic`) that performs atomic operations **without using `synchronized`**.
