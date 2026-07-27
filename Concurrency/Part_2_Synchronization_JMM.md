@@ -256,8 +256,8 @@ Thread-2 enters
 |----------|-----------|
 | Mutual Exclusion | ✅ |
 | Visibility | ✅ |
-| Atomicity | ✅ |
-| Reentrant | ✅ |
+| Atomicity | ✅ | Atomicity means an operation is executed as one indivisible unit—it either completes entirely or doesn't happen at all.|
+| Reentrant | ✅ | Reentrant means the same thread can acquire the same lock multiple times without blocking itself |
 
 ---
 
