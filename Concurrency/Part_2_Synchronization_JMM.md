@@ -1,33 +1,222 @@
 # Java Concurrency Interview Handbook
 # Part 2 – Synchronization & Java Memory Model (JMM)
 
-> **Goal:** Understand how Java safely shares data between multiple threads.
-
----
-
 # 📚 Table of Contents
 
-- [1. Synchronization (`synchronized`)](#1-synchronization-synchronized)
-- [2. Monitor Lock](#2-monitor-lock)
-- [3. Object Lock vs Class Lock](#3-object-lock-vs-class-lock)
-- [4. volatile](#4-volatile)
-- [5. Java Memory Model (JMM)](#5-java-memory-model-jmm)
-- [6. Happens-Before Relationship](#6-happens-before-relationship)
-- [7. Visibility vs Atomicity vs Ordering](#7-visibility-vs-atomicity-vs-ordering)
-- [8. Race Condition](#8-race-condition)
-- [9. Deadlock](#9-deadlock)
-- [10. Livelock & Starvation](#10-livelock--starvation)
-- [11. Thread Safety](#11-thread-safety)
-- [12. Immutable Objects](#12-immutable-objects)
+- [1. Why Synchronization?](#1-why-synchronization)
+- [2. Critical Section](#2-critical-section)
+- [3. Race Condition](#3-race-condition)
+- [4. synchronized Keyword](#4-synchronized-keyword)
+- [5. Monitor Lock](#5-monitor-lock)
+- [6. Reentrant Synchronization](#6-reentrant-synchronization)
+- [7. Object Lock vs Class Lock](#7-object-lock-vs-class-lock)
+- [8. volatile](#8-volatile)
+- [9. Java Memory Model (JMM)](#9-java-memory-model-jmm)
+- [10. Happens-Before Relationship](#10-happens-before-relationship)
+- [11. Visibility vs Atomicity vs Ordering](#11-visibility-vs-atomicity-vs-ordering)
+- [12. Deadlock](#12-deadlock)
+- [13. Livelock](#13-livelock)
+- [14. Starvation](#14-starvation)
+- [15. Thread Safety](#15-thread-safety)
+- [16. Immutable Objects](#16-immutable-objects)
 
 ---
 
-# 1. Synchronization (`synchronized`)
+# 1. Why Synchronization?
 
 > [!NOTE]
-> Ensures **only one thread** executes the critical section at a time.
+> **Synchronization ensures that only one thread accesses a critical section at a time**, preventing inconsistent or corrupted data.
 
-### Common Usage
+## Problem
+
+Suppose two threads update the same bank account balance.
+
+```java
+balance = balance - 100;
+```
+
+If both threads execute simultaneously, the final balance may become incorrect.
+
+```
+Thread A                Thread B
+
+Read 1000
+                      Read 1000
+Write 900
+                      Write 900
+```
+
+Expected Balance = **800**
+
+Actual Balance = **900**
+
+This problem is called a **Race Condition**.
+
+---
+
+## Why do we need Synchronization?
+
+Synchronization provides:
+
+- ✅ Data Consistency
+- ✅ Thread Safety
+- ✅ Visibility
+- ✅ Mutual Exclusion
+
+---
+
+## Real Project
+
+Updating:
+
+- Inventory
+- Bank Account
+- In-memory Cache
+- Order Status
+
+should never happen concurrently without synchronization.
+
+---
+
+## Interview Questions
+
+### Why is synchronization needed?
+
+To prevent multiple threads from modifying shared data simultaneously.
+
+### Does synchronization improve performance?
+
+❌ No.
+
+It improves **correctness**, sometimes at the cost of performance.
+
+---
+
+> [!TIP]
+> Synchronization is required only when **multiple threads share mutable data**.
+
+---
+
+# 2. Critical Section
+
+> [!NOTE]
+> A **Critical Section** is the part of code that accesses shared mutable resources.
+
+Example:
+
+```java
+count++;
+```
+
+Only one thread should execute this code at a time.
+
+```
+Thread A
+     │
+     ▼
+Critical Section
+     ▲
+     │
+Thread B waits
+```
+
+---
+
+## Interview Question
+
+### What is a Critical Section?
+
+A block of code that accesses shared resources and therefore must not be executed by multiple threads simultaneously.
+
+---
+
+## Real Project
+
+```
+Updating account balance
+
+↓
+
+Critical Section
+
+↓
+
+Needs synchronization
+```
+
+---
+
+# 3. Race Condition
+
+> [!NOTE]
+> A **Race Condition** occurs when multiple threads access and modify shared data concurrently, and the final result depends on the execution order.
+
+Example
+
+```java
+count++;
+```
+
+Internally
+
+```
+Read
+
+↓
+
+Increment
+
+↓
+
+Write
+```
+
+If two threads perform these steps together:
+
+```
+Thread A : Read 10
+
+Thread B : Read 10
+
+Thread A : Write 11
+
+Thread B : Write 11
+```
+
+Expected = **12**
+
+Actual = **11**
+
+---
+
+## How to Prevent?
+
+- synchronized
+- Lock
+- AtomicInteger
+- Concurrent Collections
+
+---
+
+> [!WARNING]
+> Race Condition = Shared Data + Multiple Threads + No Synchronization
+
+---
+
+# 4. synchronized Keyword
+
+> [!NOTE]
+> `synchronized` allows only **one thread** to execute a critical section at a time.
+
+Example
+
+```java
+public synchronized void increment() {
+    count++;
+}
+```
+
+Or
 
 ```java
 synchronized(this){
@@ -35,210 +224,448 @@ synchronized(this){
 }
 ```
 
-### Interview Questions
+---
 
-**Q. Why use synchronization?**
+## How it Works
 
-To prevent race conditions while accessing shared mutable data.
+```
+Thread-1
 
-**Q. Does synchronized guarantee visibility?**
+↓
 
-✅ Yes.
+Acquire Monitor Lock
 
-**Q. Is it reentrant?**
+↓
 
-✅ Yes.
+Execute
 
-> [!WARNING]
-> `synchronized` doesn't prevent deadlocks.
+↓
+
+Release Lock
+
+↓
+
+Thread-2 enters
+```
 
 ---
 
-# 2. Monitor Lock
+## Guarantees
+
+| Feature | Supported |
+|----------|-----------|
+| Mutual Exclusion | ✅ |
+| Visibility | ✅ |
+| Atomicity | ✅ |
+| Reentrant | ✅ |
+
+---
+
+## Interview Questions
+
+### Why use synchronized?
+
+To make shared data thread-safe.
+
+### Does synchronized guarantee visibility?
+
+✅ Yes.
+
+### Is synchronized reentrant?
+
+✅ Yes.
+
+### Can constructors be synchronized?
+
+❌ No.
+
+### Can synchronized methods deadlock?
+
+✅ Yes.
+
+---
+
+> [!WARNING]
+> `synchronized` prevents race conditions but **cannot prevent deadlocks**.
+
+---
+
+# 5. Monitor Lock
 
 > [!NOTE]
 > Every Java object has an **intrinsic monitor lock**.
 
-- Enter synchronized → Acquire monitor
-- Exit synchronized → Release monitor
+Entering a synchronized block:
 
-> [!TIP]
-> Monitor locks are managed automatically by JVM.
+```
+Acquire Monitor
+
+↓
+
+Execute
+
+↓
+
+Release Monitor
+```
+
+Only one thread owns a monitor at a time.
 
 ---
 
-# 3. Object Lock vs Class Lock
+## Example
+
+```java
+synchronized(this){
+    count++;
+}
+```
+
+Here,
+
+```
+this
+
+↓
+
+Monitor Lock
+```
+
+---
+
+## Interview Question
+
+### Is the monitor lock explicit?
+
+No.
+
+JVM manages it automatically.
+
+---
+
+# 6. Reentrant Synchronization
+
+> [!NOTE]
+> A thread holding a lock can acquire the **same lock again** without blocking itself.
+
+Example
+
+```java
+class Demo {
+
+    public synchronized void methodA() {
+        methodB();
+    }
+
+    public synchronized void methodB() {
+        System.out.println("Inside B");
+    }
+}
+```
+
+```
+methodA()
+
+↓
+
+Lock Count = 1
+
+↓
+
+methodB()
+
+↓
+
+Lock Count = 2
+
+↓
+
+Exit
+
+↓
+
+Lock Count = 0
+```
+
+---
+
+## Why?
+
+Without reentrancy, the thread would deadlock waiting for its own lock.
+
+---
+
+# 7. Object Lock vs Class Lock
 
 | Object Lock | Class Lock |
 |-------------|------------|
-| `synchronized` instance method | `static synchronized` method |
-| One lock per object | One lock per class |
+| Instance method | Static method |
+| One lock/object | One lock/class |
+
+Example
+
+```java
+public synchronized void m1(){}
+```
+
+```
+Locks
+
+this
+```
+
+```java
+public static synchronized void m2(){}
+```
+
+```
+Locks
+
+Demo.class
+```
 
 ---
 
-# 4. volatile
+# 8. volatile
 
 > [!NOTE]
-> Guarantees **visibility** and prevents **instruction reordering**.
+> `volatile` guarantees **Visibility**, not **Atomicity**.
+
+Without volatile
+
+```
+Thread A
+
+↓
+
+CPU Cache
+
+↓
+
+Main Memory
+
+↓
+
+Thread B
+
+May read stale value
+```
+
+With volatile
+
+```
+Main Memory
+
+↓
+
+Latest value
+
+↓
+
+All Threads
+```
+
+---
+
+## Guarantees
+
+✅ Visibility
+
+✅ Prevents Instruction Reordering
+
+❌ Atomicity
+
+---
+
+## Example
 
 ```java
 volatile boolean running = true;
 ```
 
-### Interview Questions
+---
 
-**Q. Does volatile provide atomicity?**
+## Interview Trap
 
-❌ No
+❌ volatile makes `count++` thread-safe.
 
-**Q. When should you use it?**
-
-- Stop flags
-- Configuration refresh
-- Status indicators
-
-> [!WARNING]
-> `count++` is **not** thread-safe even if `count` is volatile.
+✔ No.
 
 ---
 
-# 5. Java Memory Model (JMM)
+# 9. Java Memory Model (JMM)
 
 > [!NOTE]
-> Defines how threads interact through memory.
+> JMM defines how threads read and write shared variables.
 
-JMM guarantees:
+It guarantees:
+
 - Visibility
 - Ordering
-- Synchronization rules
+- Synchronization
+
+```
+Thread
+
+↓
+
+Working Memory
+
+↓
+
+Main Memory
+
+↓
+
+Another Thread
+```
 
 ---
 
-# 6. Happens-Before Relationship
+# 10. Happens-Before Relationship
 
-If **A Happens-Before B**, then B sees all changes made by A.
+> [!NOTE]
+> If **A Happens-Before B**, then B sees all changes made by A.
 
-Examples:
+Examples
 
 - Unlock → Lock
 - volatile Write → volatile Read
-- `Thread.start()`
-- `Thread.join()`
-
-> [!TIP]
-> Happens-Before guarantees **visibility**, not execution order.
+- Thread.start()
+- Thread.join()
 
 ---
 
-# 7. Visibility vs Atomicity vs Ordering
+# 11. Visibility vs Atomicity vs Ordering
 
 | Property | Meaning |
-|----------|---------|
+|-----------|---------|
 | Visibility | Latest value is visible |
-| Atomicity | Operation cannot be interrupted |
-| Ordering | Execution order is preserved |
+| Atomicity | Complete operation or nothing |
+| Ordering | Instructions execute in expected order |
 
 ---
 
-# 8. Race Condition
-
-> [!NOTE]
-> Two or more threads modify shared data simultaneously, causing unpredictable results.
-
-```java
-count++;
-```
-
-Actually performs:
-
-```text
-Read → Increment → Write
-```
-
----
-
-# 9. Deadlock
+# 12. Deadlock
 
 > [!WARNING]
 > Two or more threads wait forever for each other's locks.
 
+```
+Thread A
+
+Lock1
+
+↓
+
+Waiting Lock2
+
+Thread B
+
+Lock2
+
+↓
+
+Waiting Lock1
+```
+
 ### Prevention
 
-- Consistent lock ordering
-- `tryLock()`
+- Lock ordering
+- tryLock()
 - Timeout
 
 ---
 
-# 10. Livelock & Starvation
-
-| Problem | Meaning |
-|----------|---------|
-| Livelock | Threads keep responding but make no progress |
-| Starvation | Thread never gets CPU/lock |
-
----
-
-# 11. Thread Safety
-
-A class is thread-safe if multiple threads can use it safely without data corruption.
-
-### Achieved By
-
-- Synchronization
-- Immutable objects
-- Concurrent collections
-- Atomic classes
-
----
-
-# 12. Immutable Objects
+# 13. Livelock
 
 > [!NOTE]
-> Immutable objects cannot change after creation.
+> Threads keep responding to each other but never make progress.
 
-Examples:
+Example:
 
-- `String`
-- Java Records
-- Custom immutable classes
-
-### Benefits
-
-- Thread-safe
-- No synchronization required
+Both threads repeatedly release locks to let the other proceed, so neither finishes.
 
 ---
 
-# Part 2 Summary
+# 14. Starvation
+
+> [!NOTE]
+> A thread never gets CPU time or the required lock because other threads continuously take precedence.
+
+Example:
+
+A low-priority thread waits indefinitely while higher-priority threads keep running.
+
+---
+
+# 15. Thread Safety
+
+A class is **Thread-Safe** if multiple threads can use it safely without corrupting data.
+
+Achieved by:
 
 - synchronized
-- Monitor Lock
-- Object vs Class Lock
-- volatile
-- JMM
-- Happens-Before
-- Visibility / Atomicity / Ordering
-- Race Condition
-- Deadlock
-- Livelock
-- Starvation
-- Thread Safety
+- Lock
+- Atomic Classes
+- Concurrent Collections
 - Immutable Objects
 
 ---
 
-# Top Interview Questions
+# 16. Immutable Objects
 
-1. synchronized vs volatile?
-2. What is a monitor lock?
-3. Object lock vs Class lock?
-4. What is Happens-Before?
-5. Explain JMM.
-6. Visibility vs Atomicity?
-7. Why isn't `count++` atomic?
-8. How do you prevent deadlocks?
-9. What is a race condition?
-10. Why are immutable objects thread-safe?
+> [!NOTE]
+> Immutable objects cannot change after creation.
 
-**Next:** Part 3 – Locks & Atomic Operations
+Examples
+
+- String
+- Record
+- LocalDate
+
+Benefits
+
+- Thread-safe
+- No synchronization required
+- Easy to share across threads
+
+---
+
+# 📝 Part 2 Summary
+
+- Understand why synchronization is required.
+- Identify critical sections.
+- Prevent race conditions.
+- Know how `synchronized` and monitor locks work.
+- Understand reentrancy.
+- Differentiate object lock and class lock.
+- Know when to use `volatile`.
+- Understand JMM and Happens-Before.
+- Distinguish visibility, atomicity and ordering.
+- Recognize deadlock, livelock and starvation.
+- Write thread-safe code.
+
+---
+
+# ⭐ Top Interview Questions
+
+1. Why do we need synchronization?
+2. What is a critical section?
+3. Explain race condition with an example.
+4. How does `synchronized` work internally?
+5. What is a monitor lock?
+6. Why is `synchronized` reentrant?
+7. Object lock vs Class lock?
+8. `volatile` vs `synchronized`?
+9. Explain Java Memory Model.
+10. What is Happens-Before?
+11. Visibility vs Atomicity?
+12. Why is `count++` not atomic?
+13. How do you prevent deadlocks?
+14. Thread-safe vs Immutable?
+15. Why is `String` thread-safe?
+
+---
+
+➡️ **Next Part:** Locks, Atomic Classes & Concurrent Collections
