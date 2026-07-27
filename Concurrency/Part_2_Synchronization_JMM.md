@@ -641,6 +641,104 @@ Examples
 | Atomicity | Complete operation or nothing |
 | Ordering | Instructions execute in expected order |
 
+# Visibility vs Atomicity
+
+| Visibility | Atomicity |
+|------------|-----------|
+| Ensures a thread sees the **latest value** of a variable. | Ensures an operation completes as **one indivisible unit**. |
+| Solved by `volatile`, `synchronized`. | Solved by `synchronized`, `Lock`, `AtomicInteger`. |
+| Concerned with **reading the latest value**. | Concerned with **preventing partial/interleaved execution**. |
+
+### Example
+
+```java
+volatile boolean running = true;
+```
+
+If one thread changes `running` to `false`, all other threads immediately see the latest value.
+
+---
+
+```java
+count++;
+```
+
+Although it looks like one statement, it is **not atomic**.
+
+It actually performs:
+
+```text
+Read count
+    ↓
+Increment
+    ↓
+Write count
+```
+
+Another thread can interrupt between these steps, leading to incorrect results.
+
+---
+
+## Interview Question
+
+### Why is `count++` not atomic?
+
+Because `count++` is a **Read → Modify → Write** operation.
+
+Suppose `count = 10`.
+
+```text
+Thread A               Thread B
+
+Read 10
+                      Read 10
+Increment → 11
+                      Increment → 11
+Write 11
+                      Write 11
+```
+
+### Expected
+
+```text
+12
+```
+
+### Actual
+
+```text
+11 ❌
+```
+
+One update is lost because both threads read the same old value.
+
+---
+
+## How to make it atomic?
+
+### Option 1: synchronized
+
+```java
+synchronized (this) {
+    count++;
+}
+```
+
+### Option 2: AtomicInteger
+
+```java
+AtomicInteger count = new AtomicInteger();
+
+count.incrementAndGet();
+```
+
+---
+
+> [!TIP]
+> **Memory Trick**
+>
+> - **Visibility** → "Can other threads see my latest value?"
+> - **Atomicity** → "Can another thread interrupt this operation?"
 ---
 
 # 12. Deadlock
