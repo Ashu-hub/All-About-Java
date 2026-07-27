@@ -346,53 +346,150 @@ JVM manages it automatically.
 # 6. Reentrant Synchronization
 
 > [!NOTE]
-> A thread holding a lock can acquire the **same lock again** without blocking itself.
+> **Reentrant** means **a thread that already owns a lock can acquire the same lock again without getting blocked.**
 
-Example
+---
+
+## Why is it needed?
+
+Suppose a synchronized method calls another synchronized method of the **same object**.
+
+Without reentrancy, the thread would wait for a lock that it already owns, causing a **self-deadlock**.
+
+With reentrancy, Java allows the same thread to enter the lock multiple times.
+
+---
+
+## Example
 
 ```java
 class Demo {
 
     public synchronized void methodA() {
-        methodB();
+        System.out.println("Inside methodA");
+        methodB();      // Same thread enters the same lock again
     }
 
     public synchronized void methodB() {
-        System.out.println("Inside B");
+        System.out.println("Inside methodB");
     }
 }
 ```
 
-```
+### Execution Flow
+
+```text
+Thread-1
+   │
+   ▼
 methodA()
-
-↓
-
-Lock Count = 1
-
-↓
-
+   │
+Acquire Lock (Count = 1)
+   │
+   ▼
 methodB()
-
-↓
-
-Lock Count = 2
-
-↓
-
-Exit
-
-↓
-
-Lock Count = 0
+   │
+Acquire Same Lock Again (Count = 2)
+   │
+   ▼
+methodB() Returns
+Release Lock (Count = 1)
+   │
+   ▼
+methodA() Returns
+Release Lock (Count = 0)
 ```
+
+The lock is released **only when the hold count becomes 0**.
 
 ---
 
-## Why?
+## How does it work?
 
-Without reentrancy, the thread would deadlock waiting for its own lock.
+Every monitor lock maintains:
 
+- **Owner Thread** → Which thread currently owns the lock.
+- **Hold Count** → Number of times the owner has acquired the lock.
+
+Example:
+
+| Step | Hold Count |
+|------|-----------:|
+| Enter `methodA()` | 1 |
+| Enter `methodB()` | 2 |
+| Exit `methodB()` | 1 |
+| Exit `methodA()` | 0 (Lock Released) |
+
+---
+
+## Why is it useful?
+
+Imagine a service method calling another synchronized helper method.
+
+```java
+public synchronized void processOrder() {
+    validateOrder();    // Also synchronized
+}
+
+public synchronized void validateOrder() {
+    // Validation logic
+}
+```
+
+Without reentrant locks, this code would deadlock because `processOrder()` already holds the lock.
+
+---
+
+## Interview Questions
+
+### Q1. What is a reentrant lock?
+
+A lock that allows the **same thread** to acquire it multiple times without blocking.
+
+---
+
+### Q2. Is `synchronized` reentrant?
+
+✅ Yes.
+
+The JVM keeps a **hold count** for each monitor lock.
+
+---
+
+### Q3. Is `ReentrantLock` also reentrant?
+
+✅ Yes.
+
+It provides the same behaviour as `synchronized`, with additional features like fairness, timeout, and interruptible locking.
+
+---
+
+### Q4. Can another thread acquire the lock while the hold count is greater than 0?
+
+❌ No.
+
+Only the owning thread can re-enter the lock. Other threads remain blocked until the hold count reaches **0**.
+
+---
+
+> [!WARNING]
+> **Reentrant** does **not** mean multiple threads can enter a synchronized block together.
+>
+> It only means **the same thread** can acquire the **same lock** multiple times.
+
+---
+
+> [!TIP]
+> **Remember:**
+>
+> - Same thread + Same lock → ✅ Allowed (Reentrant)
+> - Different thread + Same lock → ❌ Must wait
+
+---
+
+## One-Line Revision
+
+> **Reentrant = A thread can safely acquire the same lock multiple times; the lock is released only after all acquisitions are matched by exits.**
 ---
 
 # 7. Object Lock vs Class Lock
