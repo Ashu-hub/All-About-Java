@@ -252,10 +252,10 @@ Thread-2 enters
 
 ## Guarantees
 
-| Feature | Supported |
-|----------|-----------|
-| Mutual Exclusion | ✅ |
-| Visibility | ✅ |
+| Feature | Supported | Definition |
+|----------|-----------|-----------|
+| Mutual Exclusion | ✅ || 
+| Visibility | ✅ | |
 | Atomicity | ✅ | Atomicity means an operation is executed as one indivisible unit—it either completes entirely or doesn't happen at all.|
 | Reentrant | ✅ | Reentrant means the same thread can acquire the same lock multiple times without blocking itself |
 
