@@ -12,7 +12,87 @@
 - [4. How Concurrent Collections Work](#4-how-concurrent-collections-work)
 - [5. Memory Visibility & Thread Safety](#5-memory-visibility--thread-safety)
 - [6. Summary](#6-summary)
+# Table of Contents
 
+- [5. ConcurrentHashMap ⭐](#5-concurrenthashmap-)
+  - [Package](#package)
+  - [What is it?](#what-is-it)
+  - [Key Features](#key-features)
+  - [Internal Working](#internal-working)
+  - [Time Complexity](#time-complexity)
+  - [Best Use Cases](#best-use-cases)
+
+- [6. CopyOnWriteArrayList ⭐](#6-copyonwritearraylist-)
+  - [What is it?](#what-is-it-1)
+  - [Internal Working](#internal-working-1)
+  - [Advantages](#advantages)
+  - [Disadvantages](#disadvantages)
+  - [Best Use Cases](#best-use-cases-1)
+
+- [7. CopyOnWriteArraySet](#7-copyonwritearrayset)
+  - [What is it?](#what-is-it-2)
+  - [Characteristics](#characteristics)
+  - [Best Use Cases](#best-use-cases-2)
+
+- [8. ConcurrentLinkedQueue](#8-concurrentlinkedqueue)
+  - [What is it?](#what-is-it-3)
+  - [Internal Working](#internal-working-2)
+  - [Characteristics](#characteristics-1)
+  - [Best Use Cases](#best-use-cases-3)
+
+- [9. ConcurrentLinkedDeque](#9-concurrentlinkeddeque)
+  - [What is it?](#what-is-it-4)
+  - [Important Methods](#important-methods)
+  - [Best Use Cases](#best-use-cases-4)
+
+- [10. BlockingQueue Family](#10-blockingqueue-family)
+  - [What is it?](#what-is-it-5)
+  - [Popular Implementations](#popular-implementations)
+  - [Important Methods](#important-methods-1)
+  - [Best Use Cases](#best-use-cases-5)
+
+- [11. ConcurrentSkipListMap](#11-concurrentskiplistmap)
+  - [What is it?](#what-is-it-6)
+  - [Internal Working](#internal-working-3)
+  - [Characteristics](#characteristics-2)
+  - [Best Use Cases](#best-use-cases-6)
+
+- [12. ConcurrentSkipListSet](#12-concurrentskiplistset)
+  - [What is it?](#what-is-it-7)
+  - [Characteristics](#characteristics-3)
+  - [Best Use Cases](#best-use-cases-7)
+
+- [13. Fail-Fast vs Weakly Consistent Iterators](#13-fail-fast-vs-weakly-consistent-iterators)
+  - [Comparison Table](#comparison-table)
+  - [Fail-Fast Collections](#fail-fast-collections)
+  - [Weakly Consistent Collections](#weakly-consistent-collections)
+
+- [14. Atomic Compound Operations](#14-atomic-compound-operations)
+  - [Unsafe Compound Operations](#unsafe-compound-operations)
+  - [Safe Atomic Alternatives](#safe-atomic-alternatives)
+  - [Atomic Methods](#atomic-methods)
+
+- [15. compute(), computeIfAbsent(), computeIfPresent() & merge()](#15-compute-computeifabsent-computeifpresent--merge)
+  - [compute()](#compute)
+  - [computeIfAbsent()](#computeifabsent)
+  - [computeIfPresent()](#computeifpresent)
+  - [merge()](#merge)
+
+- [16. Java 7 vs Java 8 ConcurrentHashMap](#16-java-7-vs-java-8-concurrenthashmap)
+  - [Comparison](#comparison)
+  - [Java 8 Improvements](#java-8-improvements)
+
+- [17. Performance Comparison](#17-performance-comparison)
+
+- [18. Which Concurrent Collection Should You Use?](#18-which-concurrent-collection-should-you-use)
+
+- [19. Real-World Use Cases](#19-real-world-use-cases)
+
+- [20. Top Interview Questions](#20-top-interview-questions)
+
+- [21. Summary](#21-summary)
+
+- [Key Takeaways](#-key-takeaways)
 ---
 
 # 1. Why Concurrent Collections?
