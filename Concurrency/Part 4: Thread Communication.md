@@ -882,20 +882,850 @@ Common use cases:
 
 # 15. BlockingQueue
 
-One of the most important concurrent collections.
+# BlockingQueue in Java (Complete Guide)
 
-It **handles producer-consumer coordination automatically**.
+> **Package:** `java.util.concurrent`
+>
+> **Interface:** `BlockingQueue<E>`
+>
+> A `BlockingQueue` is a **thread-safe queue** that automatically blocks producer or consumer threads when necessary. It eliminates the need for manually using `synchronized`, `wait()`, and `notify()`.
+
+---
+
+# Table of Contents
+
+1. What is BlockingQueue?
+2. Why Do We Need It?
+3. Package & Hierarchy
+4. How BlockingQueue Works
+5. Internal Working
+6. BlockingQueue Implementations
+7. Important Methods
+8. Four Types of Queue Operations
+9. Producer-Consumer Example
+10. BlockingQueue vs Queue
+11. BlockingQueue vs ConcurrentLinkedQueue
+12. Internal Locking
+13. Memory Visibility
+14. Best Practices
+15. Interview Questions
+16. Summary
+
+---
+
+# 1. What is BlockingQueue?
+
+A **BlockingQueue** is a queue designed specifically for concurrent programming.
+
+It provides automatic coordination between:
+
+- Producer threads
+- Consumer threads
+
+without requiring developers to write synchronization code.
+
+Imagine a restaurant.
+
+```
+Chef (Producer)
+      |
+      |  Food
+      ▼
+BlockingQueue
+      |
+      ▼
+Waiter (Consumer)
+```
+
+The chef keeps preparing food.
+
+The waiter keeps serving food.
+
+If there is no food, the waiter waits.
+
+If the kitchen is full, the chef waits.
+
+Java handles all of this automatically.
+
+---
+
+# 2. Why Do We Need It?
+
+Suppose two threads share a normal queue.
+
+```
+Producer
+      |
+      ▼
+Queue
+      |
+      ▼
+Consumer
+```
+
+Problems:
+
+- Multiple threads may modify the queue simultaneously.
+- Queue may become corrupted.
+- Consumer may try to remove from an empty queue.
+- Producer may insert into a full queue.
+- Developers must manually write synchronization logic.
+
+Example using traditional synchronization:
+
+```java
+synchronized(queue) {
+
+    while (queue.isEmpty()) {
+        queue.wait();
+    }
+
+    Integer value = queue.remove();
+
+    queue.notifyAll();
+}
+```
+
+This code is:
+
+- Difficult to read
+- Easy to get wrong
+- Difficult to maintain
+
+With `BlockingQueue`:
+
+```java
+queue.put(value);
+```
+
+and
+
+```java
+Integer value = queue.take();
+```
+
+That's all.
+
+No manual synchronization.
+
+---
+
+# 3. Package & Hierarchy
+
+Package
+
+```java
+java.util.concurrent
+```
+
+Import
+
+```java
+import java.util.concurrent.BlockingQueue;
+```
+
+Hierarchy
+
+```
+Iterable
+    │
+Collection
+    │
+Queue
+    │
+BlockingQueue
+```
+
+Important point:
+
+`BlockingQueue` is an **interface**.
+
+Java provides multiple implementations.
+
+---
+
+# 4. How BlockingQueue Works
+
+Suppose queue capacity is 3.
+
+```
+Queue
+
+A
+B
+C
+```
+
+Producer tries to insert D.
+
+Instead of throwing an exception or continuously checking the queue...
+
+```
+Producer
+
+↓
+
+WAITING
+```
+
+Consumer removes an item.
+
+```
+Queue
+
+B
+C
+```
+
+Producer automatically resumes.
+
+Similarly,
+
+If the queue is empty
+
+```
+Consumer
+
+↓
+
+take()
+
+↓
+
+WAITING
+```
+
+Producer inserts data.
+
+Consumer automatically wakes up.
+
+---
+
+# 5. Internal Working
+
+Developers never need to call:
+
+```java
+wait();
+
+notify();
+
+notifyAll();
+```
+
+Internally, BlockingQueue uses:
+
+- `ReentrantLock`
+- `Condition`
+- `await()`
+- `signal()`
+- Atomic operations
+- Memory visibility guarantees
+
+Simplified internal flow
+
+```
+Producer
+
+↓
+
+Queue Full
+
+↓
+
+await()
+
+↓
+
+Consumer removes
+
+↓
+
+signal()
+
+↓
+
+Producer resumes
+```
+
+Java handles all synchronization internally.
+
+---
+
+# 6. BlockingQueue Implementations
+
+## ArrayBlockingQueue
+
+A fixed-capacity queue backed by an array.
+
+```java
+BlockingQueue<Integer> queue =
+        new ArrayBlockingQueue<>(5);
+```
+
+Characteristics
+
+- Fixed size
+- Predictable memory usage
+- Faster for bounded queues
+
+Example
+
+```
+Capacity = 5
+
+[1]
+
+[2]
+
+[3]
+
+[4]
+
+[5]
+```
+
+When full
+
+```
+put()
+
+↓
+
+Thread waits
+```
+
+---
+
+## LinkedBlockingQueue
+
+Implemented using a linked list.
+
+```java
+BlockingQueue<Integer> queue =
+        new LinkedBlockingQueue<>();
+```
+
+Default capacity
+
+```
+Integer.MAX_VALUE
+```
+
+Can also specify capacity.
+
+```java
+new LinkedBlockingQueue<>(100);
+```
+
+Best suited for
+
+- Producer-consumer applications
+- Dynamic workloads
+
+---
+
+## PriorityBlockingQueue
+
+Orders elements according to their priority.
+
+Insertion order
+
+```
+10
+
+2
+
+50
+
+1
+```
+
+Removal order
+
+```
+1
+
+2
+
+10
+
+50
+```
+
+Useful for
+
+- Task schedulers
+- Priority-based processing
+
+---
+
+## DelayQueue
+
+Stores elements until a specified delay expires.
+
+Useful for
+
+- Retry mechanisms
+- Cache expiration
+- Scheduled processing
+
+---
+
+## SynchronousQueue
+
+Capacity is always zero.
+
+Nothing is stored.
+
+```
+Producer
+
+↓
+
+Direct handoff
+
+↓
+
+Consumer
+```
+
+Used extensively by thread pools.
+
+---
+
+# 7. Important Methods
+
+---
+
+## put(E element)
+
+Inserts an element.
+
+If queue is full
+
+Thread blocks.
+
+```java
+queue.put("A");
+```
+
+Flow
+
+```
+Queue Full
+
+↓
+
+WAITING
+
+↓
+
+Consumer removes
+
+↓
+
+Insertion succeeds
+```
+
+---
+
+## take()
+
+Removes an element.
+
+If queue is empty
+
+Thread blocks.
+
+```java
+String item = queue.take();
+```
+
+Flow
+
+```
+Queue Empty
+
+↓
+
+WAITING
+
+↓
+
+Producer inserts
+
+↓
+
+Returns item
+```
+
+---
+
+## offer(E element)
+
+Attempts insertion.
+
+Never waits.
+
+```java
+queue.offer(item);
+```
+
+Returns
+
+```java
+true
+```
+
+or
+
+```java
+false
+```
+
+---
+
+## offer(E element, timeout)
+
+Waits for a specified time.
+
+```java
+queue.offer(item, 5, TimeUnit.SECONDS);
+```
+
+Meaning
+
+```
+Wait up to 5 seconds.
+
+If queue is still full
+
+Return false.
+```
+
+---
+
+## poll()
+
+Removes head.
+
+Never waits.
+
+Returns
+
+- element
+- null
+
+```java
+Integer value = queue.poll();
+```
+
+---
+
+## poll(timeout)
+
+Waits for a limited duration.
+
+```java
+queue.poll(10, TimeUnit.SECONDS);
+```
+
+Returns
+
+- element
+- null
+
+---
+
+## add()
+
+Adds immediately.
+
+If queue is full
+
+Throws
+
+```
+IllegalStateException
+```
+
+---
+
+## remove()
+
+Removes immediately.
+
+If queue is empty
+
+Throws exception.
+
+---
+
+## peek()
+
+Reads first element.
+
+Does not remove it.
+
+Queue
+
+```
+10
+
+20
+
+30
+```
+
+peek()
+
+```
+10
+```
+
+Queue remains unchanged.
+
+---
+
+## element()
+
+Same as `peek()`.
+
+Difference
+
+Throws exception if queue is empty.
+
+---
+
+## remainingCapacity()
+
+Returns available space.
+
+Example
+
+```
+Capacity = 10
+
+Current = 7
+```
+
+Returns
+
+```
+3
+```
+
+---
+
+## drainTo()
+
+Transfers all available elements to another collection.
+
+```java
+List<Integer> list = new ArrayList<>();
+
+queue.drainTo(list);
+```
+
+Instead of
+
+```java
+while (!queue.isEmpty()) {
+    list.add(queue.take());
+}
+```
+
+Bulk transfer is significantly faster.
+
+---
+
+# 8. Four Types of Queue Operations
+
+Every queue operation has four versions.
+
+| Operation | Throws Exception | Returns Value | Blocks | Timeout |
+|------------|------------------|---------------|---------|----------|
+| Insert | `add()` | `offer()` | `put()` | `offer(timeout)` |
+| Remove | `remove()` | `poll()` | `take()` | `poll(timeout)` |
+| Read Head | `element()` | `peek()` | — | — |
+
+### Easy way to remember
+
+| Method | Behaviour |
+|----------|-----------|
+| add() | Throw exception |
+| offer() | Return `false` |
+| put() | Wait forever |
+| offer(timeout) | Wait for some time |
+
+---
+
+# 9. Producer-Consumer Example
 
 Producer
 
 ```java
-queue.put(item);
+BlockingQueue<Integer> queue =
+        new ArrayBlockingQueue<>(5);
+
+Thread producer = new Thread(() -> {
+
+    try {
+
+        for (int i = 1; i <= 10; i++) {
+
+            queue.put(i);
+
+            System.out.println("Produced : " + i);
+
+        }
+
+    } catch (InterruptedException e) {
+
+        Thread.currentThread().interrupt();
+    }
+
+});
 ```
 
-If full:
+Consumer
+
+```java
+Thread consumer = new Thread(() -> {
+
+    try {
+
+        while (true) {
+
+            Integer value = queue.take();
+
+            System.out.println("Consumed : " + value);
+
+        }
+
+    } catch (InterruptedException e) {
+
+        Thread.currentThread().interrupt();
+    }
+
+});
+```
+
+Notice
+
+No
+
+- `synchronized`
+- `wait()`
+- `notify()`
+- explicit locking
+
+---
+
+# 10. BlockingQueue vs Queue
+
+| Queue | BlockingQueue |
+|--------|---------------|
+| Usually not thread-safe | Thread-safe |
+| No waiting support | Supports blocking |
+| Manual synchronization | Automatic synchronization |
+| Suitable for single-threaded code | Designed for multithreading |
+| `add()` and `remove()` | `put()` and `take()` |
+
+---
+
+# 11. BlockingQueue vs ConcurrentLinkedQueue
+
+| BlockingQueue | ConcurrentLinkedQueue |
+|---------------|-----------------------|
+| Can block threads | Never blocks |
+| Optional bounded capacity | Unbounded |
+| Producer-consumer coordination | High-throughput non-blocking queue |
+| `put()` and `take()` | `offer()` and `poll()` |
+| Uses locks internally | Lock-free CAS implementation |
+
+### When to use ConcurrentLinkedQueue
+
+Use it when:
+
+- maximum throughput is required
+- producers should never wait
+- consumers can handle empty queues
+
+### When to use BlockingQueue
+
+Use it when:
+
+- producers should wait if full
+- consumers should wait if empty
+- task coordination is required
+
+---
+
+# 12. Internal Locking
+
+One common interview question is:
+
+> **Does BlockingQueue use synchronized?**
+
+Mostly **No**.
+
+Most implementations use `ReentrantLock`.
+
+For example, `ArrayBlockingQueue` maintains:
 
 ```
-Producer waits automatically.
+putLock
+takeLock
+```
+
+along with `Condition` objects:
+
+```
+notFull
+
+notEmpty
+```
+
+Producer
+
+```
+Queue Full
+
+↓
+
+await(notFull)
+```
+
+Consumer
+
+```
+Queue Empty
+
+↓
+
+await(notEmpty)
+```
+
+When the queue state changes, waiting threads are signalled.
+
+---
+
+# 13. Memory Visibility
+
+Another interview question:
+
+> **How does the consumer always see the latest data?**
+
+Because all queue operations establish **happens-before** relationships.
+
+Example
+
+Producer
+
+```java
+queue.put(data);
 ```
 
 Consumer
@@ -904,36 +1734,115 @@ Consumer
 queue.take();
 ```
 
-If empty:
+Everything written before `put()` becomes visible to the thread that successfully returns from `take()`.
 
-```
-Consumer waits automatically.
-```
+You don't need `volatile`.
 
-No need for:
+You don't need extra synchronization.
 
-- wait()
-- notify()
-- manual synchronization
+---
 
-Example
+# 14. Best Practices
+
+✅ Prefer `put()` and `take()` for producer-consumer systems.
+
+✅ Use bounded queues (`ArrayBlockingQueue`) to prevent unlimited memory growth.
+
+✅ Handle `InterruptedException` properly by restoring the interrupt status:
 
 ```java
-BlockingQueue<Integer> queue =
-        new ArrayBlockingQueue<>(10);
+catch (InterruptedException e) {
+    Thread.currentThread().interrupt();
+}
 ```
 
-Popular implementations:
+✅ Prefer `LinkedBlockingQueue` when queue size is unpredictable.
 
-| Implementation | Best For |
-|---------------|----------|
-| ArrayBlockingQueue | Fixed-size queue |
-| LinkedBlockingQueue | Variable-size queue |
-| PriorityBlockingQueue | Priority ordering |
-| DelayQueue | Scheduled tasks |
-| SynchronousQueue | Direct handoff between threads |
+✅ Use `drainTo()` for bulk processing.
 
-In modern Java applications, prefer `BlockingQueue` over writing your own `wait()/notify()` logic.
+❌ Do not mix external synchronization with `BlockingQueue`; it is already thread-safe.
+
+---
+
+# 15. Top Interview Questions
+
+### Why is BlockingQueue thread-safe?
+
+Because it internally uses locks, conditions, and proper memory visibility guarantees.
+
+---
+
+### Why use BlockingQueue instead of wait()/notify()?
+
+It provides:
+
+- Cleaner code
+- Fewer bugs
+- Better performance
+- Easier maintenance
+- Well-tested concurrency primitives
+
+---
+
+### What happens when put() is called on a full queue?
+
+The producer thread blocks until space becomes available.
+
+---
+
+### What happens when take() is called on an empty queue?
+
+The consumer thread blocks until an element is inserted.
+
+---
+
+### Difference between offer() and put()
+
+| offer() | put() |
+|----------|--------|
+| Never waits | Waits indefinitely |
+| Returns `false` if full | Blocks until space is available |
+
+---
+
+### Difference between poll() and take()
+
+| poll() | take() |
+|----------|--------|
+| Returns `null` if empty | Waits until data is available |
+
+---
+
+### Which BlockingQueue is used by ThreadPoolExecutor?
+
+By default, `Executors.newFixedThreadPool()` uses an **unbounded `LinkedBlockingQueue`** to store submitted tasks.
+
+---
+
+# 16. Summary
+
+| Feature | BlockingQueue |
+|----------|---------------|
+| Package | `java.util.concurrent` |
+| Thread-safe | ✅ Yes |
+| Supports Blocking | ✅ Yes |
+| Producer-Consumer | ✅ Excellent |
+| Uses wait()/notify() internally? | Indirectly, via `Lock` and `Condition` implementations |
+| Explicit synchronization required | ❌ No |
+| Common implementations | `ArrayBlockingQueue`, `LinkedBlockingQueue`, `PriorityBlockingQueue`, `DelayQueue`, `SynchronousQueue` |
+
+---
+
+# Key Takeaways
+
+- `BlockingQueue` is the standard choice for producer-consumer problems.
+- It eliminates manual synchronization and thread communication code.
+- `put()` blocks when the queue is full, while `take()` blocks when it is empty.
+- Choose `ArrayBlockingQueue` for bounded queues and predictable memory usage.
+- Choose `LinkedBlockingQueue` for dynamic workloads.
+- `PriorityBlockingQueue`, `DelayQueue`, and `SynchronousQueue` serve specialised use cases.
+- Most implementations rely on `ReentrantLock` and `Condition` rather than `synchronized`.
+- Understanding the differences between `put()`, `offer()`, `take()`, and `poll()` is essential for Java concurrency interviews.
 
 ---
 
