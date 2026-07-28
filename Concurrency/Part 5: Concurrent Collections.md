@@ -770,4 +770,522 @@ map.computeIfAbsent(id, k -> value);
 
 ---
 
-➡️ **Next Chapter:** **ConcurrentHashMap (Deep Dive)** — Internal Architecture, CAS, Bucket-Level Locking, Treeification, Resizing, Java 7 vs Java 8, Performance, and Interview Questions.
+# Part 5 — Concurrent Collections (Concise Notes)
+
+---
+
+## 5. ConcurrentHashMap ⭐
+
+**Package**
+
+```java
+java.util.concurrent
+```
+
+### What is it?
+
+A high-performance, thread-safe implementation of `Map` designed for concurrent access.
+
+Unlike `Hashtable`, it does **not** lock the entire map.
+
+### Key Features
+
+- Thread-safe
+- High concurrency
+- Lock-free reads
+- Fine-grained locking for writes
+- Does not allow `null` keys or values
+- Weakly consistent iterator
+- Atomic operations (`compute()`, `merge()`, etc.)
+
+### Internal Working
+
+- Data stored in buckets.
+- Reads are mostly lock-free.
+- Writes lock only the affected bucket/node.
+- Uses **CAS (Compare-And-Swap)** before locking.
+- Buckets with many collisions are converted into Red-Black Trees.
+
+```
+Hash
+
+↓
+
+Bucket
+
+↓
+
+Node
+
+↓
+
+TreeBin (after threshold)
+```
+
+### Time Complexity
+
+| Operation | Complexity |
+|------------|------------|
+| get() | O(1) |
+| put() | O(1) |
+| remove() | O(1) |
+
+### Best Use Cases
+
+- Caching
+- Session storage
+- Shared configuration
+- Counters
+- In-memory lookup tables
+
+---
+
+## 6. CopyOnWriteArrayList ⭐
+
+### What is it?
+
+A thread-safe `List` where every write operation creates a new copy of the underlying array.
+
+### Internal Working
+
+```
+Old Array
+
+↓
+
+Copy Array
+
+↓
+
+Modify Copy
+
+↓
+
+Replace Reference
+```
+
+Readers continue reading the old array without blocking.
+
+### Advantages
+
+- Lock-free reads
+- No ConcurrentModificationException
+- Excellent for read-heavy applications
+
+### Disadvantages
+
+- Expensive writes
+- Higher memory usage
+
+### Best Use Cases
+
+- Configuration lists
+- Event listeners
+- Cached reference data
+- Read-heavy systems
+
+---
+
+## 7. CopyOnWriteArraySet
+
+### What is it?
+
+A thread-safe `Set` built on top of `CopyOnWriteArrayList`.
+
+### Characteristics
+
+- No duplicates
+- Snapshot iterator
+- Lock-free reads
+- Expensive writes
+
+### Best Use Cases
+
+- Listener registration
+- Observer pattern
+- Read-mostly collections
+
+---
+
+## 8. ConcurrentLinkedQueue
+
+### What is it?
+
+A lock-free, thread-safe FIFO queue.
+
+### Internal Working
+
+Uses CAS instead of locks.
+
+```
+Head
+
+↓
+
+Node
+
+↓
+
+Node
+
+↓
+
+Tail
+```
+
+### Characteristics
+
+- Non-blocking
+- High throughput
+- Unbounded queue
+
+### Best Use Cases
+
+- Task queues
+- Logging
+- Event processing
+
+---
+
+## 9. ConcurrentLinkedDeque
+
+### What is it?
+
+A thread-safe double-ended queue.
+
+Supports insertion and removal from both ends.
+
+### Methods
+
+```java
+addFirst()
+
+addLast()
+
+pollFirst()
+
+pollLast()
+```
+
+### Best Use Cases
+
+- Work stealing
+- Undo/Redo
+- Double-ended processing
+
+---
+
+## 10. BlockingQueue Family
+
+Provides automatic producer-consumer synchronization.
+
+### Popular Implementations
+
+| Queue | Purpose |
+|---------|----------|
+| ArrayBlockingQueue | Fixed capacity |
+| LinkedBlockingQueue | Dynamic capacity |
+| PriorityBlockingQueue | Priority ordering |
+| DelayQueue | Delayed execution |
+| SynchronousQueue | Direct thread handoff |
+
+### Important Methods
+
+```java
+put()
+
+take()
+
+offer()
+
+poll()
+
+peek()
+
+drainTo()
+```
+
+### Best Use Cases
+
+- Thread pools
+- Producer-consumer
+- Job scheduling
+- Messaging systems
+
+---
+
+## 11. ConcurrentSkipListMap
+
+### What is it?
+
+A thread-safe, sorted implementation of `NavigableMap`.
+
+### Internal Working
+
+Uses a **Skip List** instead of a Red-Black Tree.
+
+```
+Level 3
+
+↓
+
+Level 2
+
+↓
+
+Level 1
+
+↓
+
+Data
+```
+
+### Characteristics
+
+- Sorted keys
+- Lock-free reads
+- Scalable
+
+### Best Use Cases
+
+- Leaderboards
+- Ranking systems
+- Time-based ordering
+
+---
+
+## 12. ConcurrentSkipListSet
+
+### What is it?
+
+A thread-safe sorted implementation of `NavigableSet`.
+
+Internally backed by `ConcurrentSkipListMap`.
+
+### Characteristics
+
+- Sorted
+- Thread-safe
+- No duplicates
+
+### Best Use Cases
+
+- Ordered unique values
+- Scheduling
+- Ranking
+
+---
+
+## 13. Fail-Fast vs Weakly Consistent Iterators
+
+| Feature | Fail-Fast | Weakly Consistent |
+|----------|-----------|-------------------|
+| ConcurrentModificationException | Yes | No |
+| Safe during modification | No | Yes |
+| Iterator reflects latest changes | No | May reflect some changes |
+
+### Fail-Fast Collections
+
+- ArrayList
+- HashMap
+- HashSet
+
+### Weakly Consistent Collections
+
+- ConcurrentHashMap
+- ConcurrentLinkedQueue
+- ConcurrentSkipListMap
+
+---
+
+## 14. Atomic Compound Operations
+
+Individual operations are thread-safe.
+
+```
+put()
+
+get()
+
+remove()
+```
+
+But multiple operations together are **not**.
+
+Unsafe
+
+```java
+if (!map.containsKey(key)) {
+    map.put(key, value);
+}
+```
+
+Safe
+
+```java
+map.computeIfAbsent(key, k -> value);
+```
+
+### Atomic Methods
+
+- putIfAbsent()
+- compute()
+- merge()
+- replace()
+- remove(key,value)
+
+---
+
+## 15. compute(), computeIfAbsent(), computeIfPresent() & merge()
+
+### compute()
+
+Always executes.
+
+```java
+map.compute(key, (k,v) -> ...);
+```
+
+---
+
+### computeIfAbsent()
+
+Executes only if key is missing.
+
+```java
+map.computeIfAbsent(key, k -> value);
+```
+
+---
+
+### computeIfPresent()
+
+Executes only if key exists.
+
+```java
+map.computeIfPresent(key, (k,v) -> newValue);
+```
+
+---
+
+### merge()
+
+Adds or combines values atomically.
+
+```java
+map.merge(key, value, Integer::sum);
+```
+
+Perfect for counters.
+
+---
+
+## 16. Java 7 vs Java 8 ConcurrentHashMap
+
+| Java 7 | Java 8 |
+|----------|---------|
+| Segment locking | Bucket-level locking |
+| Fixed segments | Dynamic buckets |
+| More locks | Fewer locks |
+| No tree bins | Red-Black Trees |
+| Lower scalability | Higher scalability |
+
+### Improvements in Java 8
+
+- Better concurrency
+- Better resizing
+- Better collision handling
+- Less memory overhead
+
+---
+
+## 17. Performance Comparison
+
+| Collection | Read | Write | Memory | Best For |
+|-------------|------|--------|--------|----------|
+| HashMap | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | Single-threaded |
+| Hashtable | ⭐ | ⭐ | ⭐⭐⭐ | Legacy |
+| ConcurrentHashMap | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | General concurrency |
+| CopyOnWriteArrayList | ⭐⭐⭐⭐⭐ | ⭐ | ⭐ | Read-heavy |
+| ConcurrentLinkedQueue | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | High throughput |
+| BlockingQueue | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | Producer-Consumer |
+
+---
+
+## 18. Which Concurrent Collection Should You Use?
+
+| Requirement | Collection |
+|--------------|------------|
+| Thread-safe Map | ConcurrentHashMap |
+| Read-heavy List | CopyOnWriteArrayList |
+| Read-heavy Set | CopyOnWriteArraySet |
+| FIFO Queue | ConcurrentLinkedQueue |
+| Double-ended Queue | ConcurrentLinkedDeque |
+| Producer-Consumer | BlockingQueue |
+| Sorted Map | ConcurrentSkipListMap |
+| Sorted Set | ConcurrentSkipListSet |
+
+---
+
+## 19. Real-World Use Cases
+
+| Scenario | Recommended Collection |
+|-----------|-----------------------|
+| Cache | ConcurrentHashMap |
+| Spring Bean Cache | ConcurrentHashMap |
+| User Sessions | ConcurrentHashMap |
+| ThreadPool Tasks | BlockingQueue |
+| Kafka Consumers | BlockingQueue |
+| Event Bus | ConcurrentLinkedQueue |
+| Logging | ConcurrentLinkedQueue |
+| Notification Queue | BlockingQueue |
+| Configuration Data | CopyOnWriteArrayList |
+| Event Listeners | CopyOnWriteArraySet |
+| Leaderboards | ConcurrentSkipListMap |
+
+---
+
+## 20. Top Interview Questions
+
+1. Why is ConcurrentHashMap faster than Hashtable?
+2. Why are `null` keys not allowed?
+3. Explain CAS.
+4. What is bucket-level locking?
+5. Explain treeification.
+6. Difference between `putIfAbsent()` and `computeIfAbsent()`.
+7. Why is CopyOnWriteArrayList slow for writes?
+8. BlockingQueue vs ConcurrentLinkedQueue?
+9. Fail-Fast vs Weakly Consistent iterator?
+10. Java 7 vs Java 8 ConcurrentHashMap?
+11. What happens during ConcurrentHashMap resizing?
+12. Which collection is best for read-heavy applications?
+13. Can ConcurrentHashMap guarantee atomic compound operations?
+14. Which concurrent collection would you use for caching?
+15. Why doesn't ConcurrentHashMap throw ConcurrentModificationException?
+
+---
+
+## 21. Summary
+
+| Collection | Thread-Safe | Ordered | Blocking | Lock-Free Reads | Best Use |
+|-------------|-------------|---------|----------|-----------------|----------|
+| ConcurrentHashMap | ✅ | ❌ | ❌ | ✅ | Shared Map |
+| CopyOnWriteArrayList | ✅ | ✅ | ❌ | ✅ | Read-heavy List |
+| CopyOnWriteArraySet | ✅ | ✅ | ❌ | ✅ | Read-heavy Set |
+| ConcurrentLinkedQueue | ✅ | FIFO | ❌ | ✅ | Task Queue |
+| ConcurrentLinkedDeque | ✅ | Double End | ❌ | ✅ | Work Stealing |
+| BlockingQueue | ✅ | FIFO/Priority | ✅ | ❌ | Producer-Consumer |
+| ConcurrentSkipListMap | ✅ | Sorted | ❌ | ✅ | Ordered Map |
+| ConcurrentSkipListSet | ✅ | Sorted | ❌ | ✅ | Ordered Set |
+
+---
+
+# 💡 Key Takeaways
+
+- Use **ConcurrentHashMap** for shared mutable maps.
+- Use **CopyOnWriteArrayList** when reads greatly outnumber writes.
+- Use **ConcurrentLinkedQueue** for high-throughput, non-blocking queues.
+- Use **BlockingQueue** when producers and consumers need to wait for each other.
+- Use **ConcurrentSkipListMap/Set** when sorted data is required concurrently.
+- Prefer atomic methods like `computeIfAbsent()` over manual check-then-act logic.
+- Concurrent collections improve scalability through **fine-grained locking**, **CAS**, **copy-on-write**, and **lock-free algorithms**.
