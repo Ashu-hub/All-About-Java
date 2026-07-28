@@ -1,439 +1,773 @@
 # Part 5 — Concurrent Collections
 
-## Table of Contents
+> **Goal:** Learn how Java provides high-performance, thread-safe collection classes that allow multiple threads to access and modify shared data safely without requiring explicit synchronization.
+
+---
+
+# Table of Contents
 
 - [1. Why Concurrent Collections?](#1-why-concurrent-collections)
 - [2. Problems with Normal Collections](#2-problems-with-normal-collections)
 - [3. Synchronized Collections vs Concurrent Collections](#3-synchronized-collections-vs-concurrent-collections)
-- [4. Memory Visibility & Thread Safety](#4-memory-visibility--thread-safety)
-- [5. ConcurrentHashMap ⭐](#5-concurrenthashmap-)
-- [6. CopyOnWriteArrayList ⭐](#6-copyonwritearraylist-)
-- [7. CopyOnWriteArraySet](#7-copyonwritearrayset)
-- [8. ConcurrentLinkedQueue](#8-concurrentlinkedqueue)
-- [9. ConcurrentLinkedDeque](#9-concurrentlinkeddeque)
-- [10. BlockingQueue Family](#10-blockingqueue-family)
-- [11. ConcurrentSkipListMap](#11-concurrentskiplistmap)
-- [12. ConcurrentSkipListSet](#12-concurrentskiplistset)
-- [13. Fail-Fast vs Weakly Consistent Iterators](#13-fail-fast-vs-weakly-consistent-iterators)
-- [14. Atomic Compound Operations](#14-atomic-compound-operations)
-- [15. compute(), computeIfAbsent(), computeIfPresent() & merge()](#15-compute-computeifabsent-computeifpresent--merge)
-- [16. Java 7 vs Java 8 ConcurrentHashMap](#16-java-7-vs-java-8-concurrenthashmap)
-- [17. Performance Comparison](#17-performance-comparison)
-- [18. Which Concurrent Collection Should You Use?](#18-which-concurrent-collection-should-you-use)
-- [19. Real-World Use Cases](#19-real-world-use-cases)
-- [20. Top Interview Questions](#20-top-interview-questions)
-- [21. Summary](#21-summary)
+- [4. How Concurrent Collections Work](#4-how-concurrent-collections-work)
+- [5. Memory Visibility & Thread Safety](#5-memory-visibility--thread-safety)
+- [6. Summary](#6-summary)
 
 ---
 
-# 🎯 Learning Objectives
+# 1. Why Concurrent Collections?
 
-After completing this chapter, you will understand:
+Before Java 5 introduced the **java.util.concurrent** package, developers had only two choices when sharing collections between multiple threads:
 
-- Why normal collections fail in multithreaded applications
-- How Java concurrent collections achieve thread safety
-- Internal working of `ConcurrentHashMap`
-- When to use `CopyOnWriteArrayList`
-- When to choose `BlockingQueue` vs `ConcurrentLinkedQueue`
-- Weakly consistent iterators
-- Atomic map operations like `computeIfAbsent()`
-- Best practices used in production systems
+- Use normal collections like `ArrayList` or `HashMap` (unsafe)
+- Wrap them using `Collections.synchronizedXXX()` (safe but slow)
 
----
+Neither option scaled well for highly concurrent applications.
 
-> [!IMPORTANT]
->
-> **Concurrent Collections** are designed to allow multiple threads to safely access and modify data structures with minimal locking and maximum performance.
+Java introduced **Concurrent Collections** to solve this problem.
 
----
+They provide:
 
-> [!TIP]
->
-> In modern Java applications, prefer **Concurrent Collections** over `Collections.synchronizedXXX()` unless you have a very specific reason.
+- Thread safety
+- Better scalability
+- Higher throughput
+- Reduced locking
+- Better CPU utilisation
+
+Instead of locking an entire collection, most concurrent collections lock only the part being modified or avoid locks altogether.
 
 ---
 
-> [!WARNING]
->
-> Being **thread-safe** does **not** mean a sequence of multiple operations is automatically atomic.
+## Real-world Example
 
-Example:
+Imagine an online shopping application.
+
+Thousands of users are simultaneously:
+
+- Searching products
+- Adding products to cart
+- Updating inventory
+- Viewing recommendations
+
+All these operations access shared collections.
+
+```
+          Thread 1
+             │
+             ▼
+        Product Cache
+             ▲
+             │
+          Thread 2
+
+             ▲
+             │
+          Thread 3
+
+             ▲
+             │
+        Thousands more...
+```
+
+If every operation locked the entire collection, performance would drop dramatically.
+
+Concurrent Collections allow many threads to work simultaneously.
+
+---
+
+## Why Normal Collections Fail
+
+Consider a shared `HashMap`.
 
 ```java
-if (!map.containsKey(key)) {
-    map.put(key, value);
-}
+Map<Integer, String> map = new HashMap<>();
 ```
 
-This is **not thread-safe**, even with `ConcurrentHashMap`.
-
-Instead use:
+Thread A
 
 ```java
-map.computeIfAbsent(key, k -> value);
+map.put(1, "Laptop");
 ```
 
----
+Thread B
 
-# 📚 Chapter Overview
-
-```
-                     Concurrent Collections
-
-        ┌─────────────────────────────────────┐
-        │         Thread-Safe Collections      │
-        └─────────────────────────────────────┘
-                     │
-      ┌──────────────┼─────────────────┐
-      │              │                 │
-      ▼              ▼                 ▼
- ConcurrentHashMap  CopyOnWrite    Concurrent Queues
-                    Collections
-      │                                │
-      ▼                                ▼
- BlockingQueue                 SkipList Collections
+```java
+map.put(2, "Phone");
 ```
 
----
+Both threads modify the internal buckets simultaneously.
 
-# 📦 Collections Covered
+Possible results:
 
-| Collection | Purpose |
-|------------|----------|
-| ConcurrentHashMap | Thread-safe HashMap |
-| CopyOnWriteArrayList | Read-heavy list |
-| CopyOnWriteArraySet | Read-heavy set |
-| ConcurrentLinkedQueue | Lock-free FIFO queue |
-| ConcurrentLinkedDeque | Lock-free double-ended queue |
-| ArrayBlockingQueue | Fixed-capacity blocking queue |
-| LinkedBlockingQueue | Dynamic blocking queue |
-| PriorityBlockingQueue | Priority-based queue |
-| DelayQueue | Delayed task execution |
-| SynchronousQueue | Direct thread handoff |
-| ConcurrentSkipListMap | Sorted concurrent map |
-| ConcurrentSkipListSet | Sorted concurrent set |
-
----
-
-# 📖 Topics Covered
-
-## 1. Why Concurrent Collections?
-
-- Why `ArrayList`, `HashMap`, and `HashSet` are unsafe
-- Race conditions
-- Data corruption
 - Lost updates
-- ConcurrentModificationException
+- Corrupted bucket links
+- Infinite loops (older JDKs during resize)
+- Incorrect size
+- Unexpected exceptions
+
+A normal collection has **no internal synchronization**.
 
 ---
 
-## 2. Problems with Normal Collections
+## Busy Server Example
 
-Topics include:
+Imagine a payment service.
 
-- Multiple writers
-- Reader vs writer
-- Infinite loops in old `HashMap`
-- Data inconsistency
-- Visibility problems
-
----
-
-## 3. Synchronized Collections vs Concurrent Collections
-
-Learn:
-
-- `Collections.synchronizedList()`
-- `Collections.synchronizedMap()`
-- Global locking
-- Scalability issues
-- Performance bottlenecks
-
-Comparison with modern concurrent collections.
-
----
-
-## 4. Memory Visibility & Thread Safety
-
-Topics include:
-
-- Happens-before relationship
-- Visibility guarantees
-- Atomic operations
-- Volatile vs concurrent collections
-
----
-
-## 5. ConcurrentHashMap ⭐
-
-Complete deep dive:
-
-- Package
-- Internal structure
-- Bucket architecture
-- CAS
-- Bucket-level locking
-- Lock-free reads
-- Treeification
-- Resizing
-- compute()
-- merge()
-- replace()
-- Iterators
-- Performance
-- Best practices
-
----
-
-## 6. CopyOnWriteArrayList ⭐
-
-Topics:
-
-- Internal copy mechanism
-- Snapshot iterator
-- Read-heavy optimization
-- Memory cost
-- Performance analysis
-- Production use cases
-
----
-
-## 7. CopyOnWriteArraySet
-
-- Implementation
-- Internal working
-- Advantages
-- Limitations
-- Use cases
-
----
-
-## 8. ConcurrentLinkedQueue
-
-Topics:
-
-- Lock-free implementation
-- CAS
-- FIFO ordering
-- Non-blocking operations
-- Performance
-- Real-world examples
-
----
-
-## 9. ConcurrentLinkedDeque
-
-Topics:
-
-- Double-ended queue
-- addFirst()
-- addLast()
-- pollFirst()
-- pollLast()
-- Use cases
-
----
-
-## 10. BlockingQueue Family
-
-Includes:
-
-- ArrayBlockingQueue
-- LinkedBlockingQueue
-- PriorityBlockingQueue
-- DelayQueue
-- SynchronousQueue
-
-Comparison and best practices.
-
----
-
-## 11. ConcurrentSkipListMap
-
-Topics:
-
-- Sorted concurrent map
-- Skip list structure
-- Performance
-- Ordering
-- NavigableMap operations
-
----
-
-## 12. ConcurrentSkipListSet
-
-Topics:
-
-- Sorted set
-- Internal implementation
-- Performance
-- NavigableSet operations
-
----
-
-## 13. Fail-Fast vs Weakly Consistent Iterators
-
-Learn:
-
-- Why ConcurrentModificationException occurs
-- Snapshot iteration
-- Weakly consistent iteration
-- ConcurrentHashMap iterators
-- CopyOnWrite iterators
-
----
-
-## 14. Atomic Compound Operations
-
-Learn why these are unsafe:
-
-```java
-containsKey()
+```
+100 Requests
 
 ↓
 
-put()
+100 Threads
+
+↓
+
+HashMap
 ```
 
-And safe alternatives:
+Every request updates the same cache.
 
-- putIfAbsent()
-- replace()
-- remove(key,value)
-- compute()
-- merge()
+Without thread safety:
+
+```
+Customer A
+
+↓
+
+Updates balance
+
+Customer B
+
+↓
+
+Updates balance
+
+↓
+
+Incorrect final balance
+```
+
+This is called a **Race Condition**.
 
 ---
 
-## 15. compute(), computeIfAbsent(), computeIfPresent() & merge()
+> 🟢 **Key Point**
+>
+> Concurrent Collections are designed to eliminate these race conditions while maintaining high performance.
 
-Deep explanation of:
+---
+
+# 2. Problems with Normal Collections
+
+Let's understand why traditional collections are unsafe.
+
+---
+
+## Problem 1 — Race Condition
+
+Suppose two threads update the same list.
 
 ```java
-compute()
-
-computeIfAbsent()
-
-computeIfPresent()
-
-merge()
-
-replaceAll()
+List<String> list = new ArrayList<>();
 ```
 
-Including:
+Thread A
 
-- Internal locking
-- Atomicity
-- Practical examples
+```java
+list.add("A");
+```
+
+Thread B
+
+```java
+list.add("B");
+```
+
+Internally, `ArrayList` performs several operations.
+
+Simplified process:
+
+```
+Read current size
+
+↓
+
+Store element
+
+↓
+
+Increase size
+```
+
+If both threads execute simultaneously:
+
+```
+Initial Size = 0
+
+Thread A → Reads 0
+
+Thread B → Reads 0
+
+Thread A → Stores A at index 0
+
+Thread B → Stores B at index 0
+
+Final Size = 1
+```
+
+Element `"A"` is lost.
 
 ---
 
-## 16. Java 7 vs Java 8 ConcurrentHashMap
+## Problem 2 — Data Corruption
 
-Topics:
+Multiple writes can corrupt the internal structure.
 
-Java 7
+Example:
 
-- Segment locking
-- Segments
+```
+Thread A
+
+↓
+
+Resize Array
+
+Thread B
+
+↓
+
+Insert Element
+
+↓
+
+Corrupted Array
+```
+
+This can result in:
+
+- Missing data
+- Invalid indexes
+- Exceptions
+
+---
+
+## Problem 3 — ConcurrentModificationException
+
+Suppose one thread iterates.
+
+```java
+for(String s : list){
+
+}
+```
+
+Another thread modifies.
+
+```java
+list.add("Java");
+```
+
+Result
+
+```
+ConcurrentModificationException
+```
+
+This is known as a **Fail-Fast Iterator**.
+
+The iterator detects structural modification and immediately fails.
+
+---
+
+## Problem 4 — Visibility Issues
+
+Suppose Thread A updates a collection.
+
+```
+Shared List
+
+↓
+
+Add "ABC"
+```
+
+Thread B immediately reads it.
+
+Without proper synchronization:
+
+Thread B may still see the old state.
+
+Why?
+
+Because CPUs maintain local caches.
+
+```
+CPU Core 1 Cache
+
+CPU Core 2 Cache
+
+↓
+
+Memory
+```
+
+Changes are not always immediately visible.
+
+Concurrent collections establish the proper **happens-before** relationships to guarantee visibility.
+
+---
+
+## Problem 5 — HashMap Resize (Java 7)
+
+One of the most famous interview questions.
+
+During resizing, two threads may rearrange bucket links simultaneously.
+
+```
+Bucket
+
+↓
+
+Node A
+
+↓
+
+Node B
+
+↓
+
+Node C
+```
+
+Incorrect re-linking could create a cycle.
+
+```
+A
+
+↓
+
+B
+
+↓
+
+C
+
+↑
+│
+└───────
+```
+
+Traversal becomes:
+
+```
+A
+
+↓
+
+B
+
+↓
+
+C
+
+↓
+
+B
+
+↓
+
+C
+
+↓
+
+B
+
+↓
+
+Forever...
+```
+
+Older JDKs could enter an infinite loop.
+
+Modern JDKs have improved the implementation, but **HashMap is still not thread-safe**.
+
+---
+
+> 🔴 **Interview Trap**
+>
+> HashMap's resize algorithm was improved in Java 8, but **HashMap is still not safe for concurrent writes**.
+
+---
+
+# 3. Synchronized Collections vs Concurrent Collections
+
+Before Java 5, developers used wrappers.
+
+Example
+
+```java
+List<String> list =
+Collections.synchronizedList(new ArrayList<>());
+```
+
+This makes the list thread-safe.
+
+But how?
+
+By synchronizing every method.
+
+Internally
+
+```java
+public synchronized boolean add(E e){
+
+}
+```
+
+Only one thread can access the collection at a time.
+
+```
+Thread A
+
+↓
+
+LOCK
+
+↓
+
+Collection
+
+↓
+
+UNLOCK
+
+↓
+
+Thread B
+```
+
+Works correctly.
+
+But performance suffers.
+
+---
+
+## Why Is It Slow?
+
+Suppose 100 threads only want to read.
+
+```
+Read
+
+Read
+
+Read
+
+Read
+
+Read
+```
+
+Even reads must wait.
+
+```
+Thread 1
+
+↓
+
+Lock
+
+↓
+
+Read
+
+↓
+
+Unlock
+
+↓
+
+Thread 2
+```
+
+Only one thread proceeds at a time.
+
+This creates a bottleneck.
+
+---
+
+## Concurrent Collections
+
+Instead of locking everything,
+
+Concurrent Collections use techniques like:
+
+- Fine-grained locking
 - Lock striping
+- Compare-And-Swap (CAS)
+- Lock-free algorithms
+- Copy-on-write
+- Atomic operations
 
-Java 8
+This allows multiple threads to work simultaneously.
 
-- Bucket locking
-- CAS
-- Tree bins
-- Better scalability
+Example:
 
----
+```
+Thread A
 
-## 17. Performance Comparison
+↓
 
-Comprehensive benchmarks of:
+Bucket 1
 
-| Collection | Read | Write | Iteration | Memory |
-|------------|------|--------|-----------|--------|
-| HashMap | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| Hashtable | ⭐ | ⭐ | ⭐ | ⭐⭐⭐ |
-| ConcurrentHashMap | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
-| CopyOnWriteArrayList | ⭐⭐⭐⭐⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐ |
-| ConcurrentLinkedQueue | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ |
+Thread B
 
----
+↓
 
-## 18. Which Concurrent Collection Should You Use?
+Bucket 7
 
-Decision guide for:
+Thread C
 
-- Cache
-- Session storage
-- Event processing
-- Logging
-- Messaging
-- Scheduling
-- Read-heavy systems
-- Write-heavy systems
+↓
+
+Bucket 20
+```
+
+No interference.
 
 ---
 
-## 19. Real-World Use Cases
+## Comparison
 
-Examples from production:
-
-- Thread pools
-- Spring Boot
-- Kafka consumers
-- Task schedulers
-- Notification systems
-- Caching
-- Payment processing
-- API rate limiting
+| Feature | Synchronized Collection | Concurrent Collection |
+|----------|-------------------------|-----------------------|
+| Thread-safe | ✅ | ✅ |
+| Entire collection locked | ✅ | ❌ |
+| Multiple readers | ❌ | ✅ |
+| Better scalability | ❌ | ✅ |
+| High throughput | ❌ | ✅ |
+| Modern applications | Rarely used | Preferred |
 
 ---
 
-## 20. Top Interview Questions
-
-Includes more than **40 interview questions**, such as:
-
-- Why ConcurrentHashMap is faster than Hashtable?
-- Why are null keys not allowed?
-- Explain CAS.
-- What is bucket-level locking?
-- Explain treeification.
-- Why CopyOnWriteArrayList is expensive for writes?
-- BlockingQueue vs ConcurrentLinkedQueue?
-- Weakly consistent iterator?
-- computeIfAbsent() vs putIfAbsent()?
-- Java 7 vs Java 8 ConcurrentHashMap?
+> 🟢 **Best Practice**
+>
+> Prefer `ConcurrentHashMap`, `CopyOnWriteArrayList`, or `BlockingQueue` over `Collections.synchronizedXXX()` in modern applications.
 
 ---
 
-## 21. Summary
+# 4. How Concurrent Collections Work
 
-Quick revision tables.
+Different concurrent collections use different strategies.
 
-Comparison charts.
+| Collection | Strategy |
+|------------|----------|
+| ConcurrentHashMap | Bucket-level locking + CAS |
+| CopyOnWriteArrayList | Copy entire array on modification |
+| ConcurrentLinkedQueue | Lock-free CAS |
+| BlockingQueue | Locks + Conditions |
+| ConcurrentSkipListMap | Lock-free skip list |
 
-Best practices.
-
-Common interview traps.
-
-Production recommendations.
+Each strategy is chosen based on the type of workload.
 
 ---
 
-# 🎓 Expected Outcome
+## Fine-Grained Locking
 
-After completing this chapter, you should be able to confidently answer almost every Java interview question related to:
+Instead of locking the whole collection,
 
-- ConcurrentHashMap
-- CopyOnWrite collections
-- BlockingQueue
-- Concurrent queues
-- Concurrent skip lists
-- Thread-safe collections
-- Iterator behaviour
-- Atomic map operations
-- Collection performance
-- Real-world concurrent programming
+only a small part is locked.
+
+Example
+
+```
+Hash Table
+
++-----+-----+-----+-----+
+| B1  | B2  | B3  | B4  |
++-----+-----+-----+-----+
+
+Thread A locks Bucket 1
+
+Thread B locks Bucket 3
+
+Both continue simultaneously.
+```
+
+This dramatically improves throughput.
+
+---
+
+## Lock-Free Algorithms
+
+Some collections avoid locks completely.
+
+Example
+
+```
+ConcurrentLinkedQueue
+```
+
+Instead of locking,
+
+they use **CAS (Compare-And-Swap)**.
+
+```
+Expected Value
+
+↓
+
+Compare
+
+↓
+
+Still Same?
+
+↓
+
+Yes
+
+↓
+
+Update
+
+↓
+
+Done
+```
+
+No blocking.
+
+No waiting.
+
+Much higher scalability.
+
+---
+
+## Copy-On-Write
+
+Used by
+
+```
+CopyOnWriteArrayList
+```
+
+Whenever data changes:
+
+```
+Old Array
+
+↓
+
+Create Copy
+
+↓
+
+Modify Copy
+
+↓
+
+Replace Reference
+```
+
+Readers continue using the old array.
+
+No locks are required for reading.
+
+Excellent for read-heavy applications.
+
+---
+
+# 5. Memory Visibility & Thread Safety
+
+Concurrent Collections don't just prevent data corruption.
+
+They also guarantee memory visibility.
+
+Producer
+
+```java
+map.put(1, "Java");
+```
+
+Consumer
+
+```java
+map.get(1);
+```
+
+The consumer is guaranteed to observe the latest successfully published value.
+
+No additional `volatile` or synchronization is required for individual collection operations.
+
+---
+
+## Thread Safety Doesn't Mean Atomic Sequences
+
+Each individual operation is thread-safe.
+
+Example
+
+```java
+map.put(id, value);
+```
+
+Safe.
+
+```java
+map.get(id);
+```
+
+Safe.
+
+But this is **not** atomic:
+
+```java
+if (!map.containsKey(id)) {
+    map.put(id, value);
+}
+```
+
+Two threads can execute it simultaneously.
+
+Correct solution:
+
+```java
+map.computeIfAbsent(id, k -> value);
+```
+
+---
+
+> 🔴 **Interview Trap**
+>
+> **Thread-safe operations do not automatically make a sequence of operations thread-safe.** Use atomic methods such as `computeIfAbsent()`, `compute()`, `merge()`, or `putIfAbsent()` when multiple steps must be treated as one operation.
+
+---
+
+# 6. Summary
+
+| Collection Type | Thread-safe | Performance | Typical Use |
+|-----------------|------------|-------------|-------------|
+| ArrayList | ❌ | Excellent (single-threaded) | General applications |
+| HashMap | ❌ | Excellent (single-threaded) | General applications |
+| Collections.synchronizedList | ✅ | Moderate | Legacy code |
+| Collections.synchronizedMap | ✅ | Moderate | Legacy code |
+| ConcurrentHashMap | ✅ | Excellent | Shared caches, session storage |
+| CopyOnWriteArrayList | ✅ | Excellent reads | Read-heavy applications |
+| ConcurrentLinkedQueue | ✅ | Excellent | Non-blocking queues |
+| BlockingQueue | ✅ | Excellent | Producer–Consumer systems |
+
+---
+
+# Key Takeaways
+
+- Normal collections are **not thread-safe**.
+- Concurrent Collections provide **high-performance thread safety**.
+- They minimise locking by using techniques such as **fine-grained locking**, **CAS**, **copy-on-write**, and **lock-free algorithms**.
+- `Collections.synchronizedXXX()` locks the entire collection and scales poorly under heavy concurrency.
+- Thread safety guarantees individual operations, **not compound operations**.
+- Use atomic methods such as `computeIfAbsent()` when multiple steps must execute as a single atomic action.
+
+---
+
+➡️ **Next Chapter:** **ConcurrentHashMap (Deep Dive)** — Internal Architecture, CAS, Bucket-Level Locking, Treeification, Resizing, Java 7 vs Java 8, Performance, and Interview Questions.
