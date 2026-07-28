@@ -12,7 +12,6 @@
 - [4. How Concurrent Collections Work](#4-how-concurrent-collections-work)
 - [5. Memory Visibility & Thread Safety](#5-memory-visibility--thread-safety)
 - [6. Summary](#6-summary)
-# Table of Contents
 
 - [5. ConcurrentHashMap ⭐](#5-concurrenthashmap-)
   - [Package](#package)
