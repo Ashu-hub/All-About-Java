@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Handwritten Notes - Java Concurrency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    background-color: #f4f1ea;
+    font-family: 'Patrick Hand', cursive;
+    font-size: 20px;
+    color: #1a237e; /* Dark blue ink color */
+    display: flex;
+    justify-content: center;
+    padding: 30px 10px;
+    margin: 0;
+  }
+
+  .notebook-page {
+    background: #fffef8;
+    width: 100%;
+    max-width: 750px;
+    padding: 40px 40px 40px 60px;
+    border-radius: 4px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.06);
+    position: relative;
+    /* Lined paper effect */
+    background-image: linear-gradient(#e1e8ed 1px, transparent 1px);
+    background-size: 100% 32px;
+    line-height: 32px;
+    transform: rotate(-0.5deg); /* Slight natural tilt */
+  }
+
+  /* Red left margin line */
+  .notebook-page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 45px;
+    width: 2px;
+    background-color: #ffb3b3;
+  }
+
+  h1 {
+    font-family: 'Caveat', cursive;
+    font-size: 42px;
+    color: #0d47a1;
+    text-align: center;
+    margin: 0 0 20px 0;
+    text-decoration: underline decoration-style wavy #ffb3b3;
+    line-height: 40px;
+  }
+
+  h2 {
+    font-family: 'Caveat', cursive;
+    font-size: 30px;
+    color: #1565c0;
+    margin: 24px 0 8px 0;
+    line-height: 32px;
+  }
+
+  p, ul {
+    margin: 0 0 16px 0;
+    padding: 0;
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  li {
+    position: relative;
+    padding-left: 20px;
+  }
+
+  li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #d32f2f;
+  }
+
+  .arrow-list li::before {
+    content: "↳";
+    color: #1565c0;
+  }
+
+  .code-inline {
+    font-family: 'Caveat', cursive;
+    font-size: 24px;
+    font-weight: bold;
+    background-color: #fff9c4; /* Yellow highlighter effect */
+    padding: 0 6px;
+    border-radius: 3px;
+  }
+
+  .warning-box {
+    border: 2px dashed #e53935;
+    background-color: #ffebee;
+    padding: 8px 16px;
+    border-radius: 8px;
+    margin: 12px 0;
+    transform: rotate(0.5deg);
+  }
+
+  .summary-box {
+    margin-top: 32px;
+    border: 2px solid #1976d2;
+    padding: 12px 20px;
+    border-radius: 12px;
+    background-color: #e3f2fd;
+    transform: rotate(-0.3deg);
+  }
+
+  .summary-box h3 {
+    font-family: 'Caveat', cursive;
+    font-size: 28px;
+    margin: 0 0 8px 0;
+    color: #0d47a1;
+  }
+
+  .check {
+    color: #2e7d32;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+
+<div class="notebook-page">
+  <h1>Core Concepts: Concurrency</h1>
+
+  <h2>1. Visibility Problems (<span class="code-inline">volatile</span>)</h2>
+  <ul>
+    <li>Multi-core CPUs use local caches &rarr; threads might miss the most recent updates to a variable!</li>
+    <li><strong>Solution:</strong> The <span class="code-inline">volatile</span> keyword</li>
+  </ul>
+  <ul class="arrow-list">
+    <li>Ensures updates are immediately written back to shared main memory.</li>
+    <li>Makes changes visible to ALL threads instantly.</li>
+    <li><strong>Use Case:</strong> Simple flags or states where no complex logic is required.</li>
+  </ul>
+
+  <h2>2. Synchronization & Compound Ops (<span class="code-inline">AtomicInteger</span>)</h2>
+  <ul>
+    <li>Operations like <span class="code-inline">value++</span> are NOT atomic!</li>
+  </ul>
+  <ul class="arrow-list">
+    <li>They involve 3 steps: <em>[READ]</em> &rarr; <em>[INCREMENT]</em> &rarr; <em>[WRITE]</em></li>
+    <li>Threads can interleave mid-process, causing lost updates.</li>
+  </ul>
+
+  <div class="warning-box">
+    ⚠️ <strong>Warning:</strong> <span class="code-inline">volatile</span> does NOT fix this! It only handles <em>visibility</em>, not compound operations.
+  </div>
+
+  <h2>3. Solutions for Compound Operations</h2>
+  <p><strong>a) <span class="code-inline">synchronized</span></strong></p>
+  <ul>
+    <li>Creates an exclusive lock.</li>
+    <li>Ensures one thread completes the entire block before another begins.</li>
+  </ul>
+
+  <p><strong>b) <span class="code-inline">AtomicInteger</span> (and <span class="code-inline">AtomicReference</span>)</strong></p>
+  <ul>
+    <li>Uses hardware-level instructions to perform compound ops atomically without explicit locks.</li>
+    <li><strong>Key Methods:</strong> <span class="code-inline">incrementAndGet()</span>, <span class="code-inline">addAndGet()</span>, <span class="code-inline">compareAndSet()</span></li>
+  </ul>
+
+  <div class="summary-box">
+    <h3>📌 Summary Recommendation</h3>
+    <p><span class="check">✔</span> Use <strong>volatile</strong> for basic visibility of simple flags.</p>
+    <p><span class="check">✔</span> Use <strong>Atomic classes</strong> for counters or non-blocking algorithms requiring atomic compound updates.</p>
+  </div>
+</div>
+
+</body>
+</html>
