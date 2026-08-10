@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThreadLocal in Java - Technical Notes</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #24292e;
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f6f8fa;
+        }
+        .container {
+            background-color: #ffffff;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            padding: 32px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+        h1 {
+            color: #0366d6;
+            border-bottom: 2px solid #eaecef;
+            padding-bottom: 8px;
+            margin-top: 0;
+        }
+        h2 {
+            color: #1b1f23;
+            border-bottom: 1px solid #eaecef;
+            padding-bottom: 6px;
+            margin-top: 28px;
+        }
+        h3 {
+            color: #24292e;
+            margin-top: 20px;
+        }
+        code {
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+            background-color: #f6f8fa;
+            border-radius: 3px;
+            padding: 0.2em 0.4em;
+            font-size: 85%;
+        }
+        pre {
+            background-color: #f6f8fa;
+            border-radius: 6px;
+            padding: 16px;
+            overflow: auto;
+            border: 1px solid #e1e4e8;
+        }
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            font-size: 90%;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 6px;
+        }
+        .timestamp {
+            color: #586069;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            margin-bottom: 16px;
+        }
+        th, td {
+            padding: 10px 12px;
+            border: 1px solid #e1e4e8;
+            text-align: left;
+        }
+        th {
+            background-color: #f6f8fa;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: #fefefe;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>ThreadLocal in Java</h1>
+    <p><em>Notes based on video tutorial by Defog Tech.</em></p>
+
+    <h2>What is <code>ThreadLocal</code>?</h2>
+    <p>
+        <code>ThreadLocal</code> in Java enables you to create variables that can only be read and written by the same thread. If two threads execute the same code and reference a <code>ThreadLocal</code> variable, neither thread can see the other's variable, ensuring <strong>thread confinement</strong> without synchronization overhead. <span class="timestamp">[03:41]</span>
+    </p>
+
+    <h2>Key Use Cases</h2>
+
+    <h3>Use Case 1: Per-Thread Object Creation (Thread-Safety + Performance) <span class="timestamp">[04:04]</span></h3>
+    <ul>
+        <li>
+            <strong>Problem:</strong> 
+            <ul>
+                <li>Classes like <code>SimpleDateFormat</code> are <strong>not thread-safe</strong>. <span class="timestamp">[02:45]</span></li>
+                <li>Instantiating an object inside every task (e.g., 1,000 tasks) leads to excessive memory consumption. <span class="timestamp">[02:10]</span></li>
+                <li>Sharing a single global instance with <code>synchronized</code> blocks/locks degrades performance due to thread contention. <span class="timestamp">[03:10]</span></li>
+            </ul>
+        </li>
+        <li>
+            <strong>Solution:</strong> 
+            <ul>
+                <li>Assign <strong>one instance per thread</strong> in a thread pool (e.g., a pool of 10 threads gets exactly 10 instances of <code>SimpleDateFormat</code>). <span class="timestamp">[03:42]</span></li>
+                <li>Each thread reuses its own instance across multiple tasks safely and efficiently without locking. <span class="timestamp">[03:54]</span></li>
+            </ul>
+        </li>
+    </ul>
+
+    <h4>Implementation Examples:</h4>
+    <p><strong>Java 7 / Pre-Java 8 Approach:</strong> <span class="timestamp">[04:19]</span></p>
+<pre><code>class ThreadSafeFormatter {
+    public static final ThreadLocal&lt;SimpleDateFormat&gt; dateFormatter = 
+        new ThreadLocal&lt;SimpleDateFormat&gt;() {
+            @Override
+            protected SimpleDateFormat initialValue() {
+                return new SimpleDateFormat("yyyy-MM-dd");
+            }
+        };
+}</code></pre>
+
+    <p><strong>Java 8+ Approach (Factory Method):</strong> <span class="timestamp">[05:30]</span></p>
+<pre><code>public class ThreadSafeFormatter {
+    public static final ThreadLocal&lt;SimpleDateFormat&gt; df = 
+        ThreadLocal.withInitial(() -&gt; new SimpleDateFormat("yyyy-MM-dd"));
+}</code></pre>
+
+    <h3>Use Case 2: Per-Thread Context Propagation <span class="timestamp">[06:01]</span></h3>
+    <ul>
+        <li>
+            <strong>Problem:</strong>
+            <ul>
+                <li>In web servers, an incoming HTTP request is assigned a single execution thread that flows through multiple layers (<code>Service1</code> &rarr; <code>Service2</code> &rarr; <code>Service3</code> &rarr; <code>Service4</code>). <span class="timestamp">[06:05]</span></li>
+                <li>Explicitly passing contextual parameters (e.g., <code>User</code> object, Auth tokens, Transaction IDs) across every method call creates dirty, unmaintainable code. <span class="timestamp">[06:30]</span></li>
+                <li>Storing thread context in a single global <code>HashMap</code> requires locks/<code>ConcurrentHashMap</code> to avoid race conditions. <span class="timestamp">[07:04]</span></li>
+            </ul>
+        </li>
+        <li>
+            <strong>Solution:</strong>
+            <ul>
+                <li>Store the context in a static <code>ThreadLocal</code> holder class at the entry point (<code>Service1</code>). <span class="timestamp">[07:34]</span></li>
+                <li>Subsequent services running on the same thread can fetch the context directly via <code>holder.get()</code> without passing parameters. <span class="timestamp">[08:14]</span></li>
+            </ul>
+        </li>
+    </ul>
+
+    <h4>Code Pattern:</h4>
+<pre><code>public class UserContextHolder {
+    public static final ThreadLocal&lt;User&gt; holder = new ThreadLocal&lt;&gt;();
+}
+
+// In Service 1 (Entry point)
+User user = getUser();
+UserContextHolder.holder.set(user); // Set for current thread [07:51]
+
+// In Service 2/3/4
+User currentUser = UserContextHolder.holder.get(); // Access for current thread [08:17]</code></pre>
+
+    <h2>Spring Framework Examples</h2>
+    <p>Spring heavily relies on <code>ThreadLocal</code> for context holders across requests: <span class="timestamp">[08:48]</span></p>
+    <ul>
+        <li><code>SecurityContextHolder</code> &ndash; Stores security details of the current execution thread. <span class="timestamp">[09:18]</span></li>
+        <li><code>RequestContextHolder</code> &ndash; Exposes web request attributes in a thread-bound manner. <span class="timestamp">[08:58]</span></li>
+        <li><code>TransactionContextHolder</code> &ndash; Manages thread-bound database transactions. <span class="timestamp">[09:25]</span></li>
+        <li><code>LocaleContextHolder</code> &ndash; Maintains user locale settings for the thread. <span class="timestamp">[09:23]</span></li>
+    </ul>
+
+    <h2>Crucial Best Practices &amp; Pitfalls</h2>
+    <ol>
+        <li>
+            <strong>Mandatory Memory Cleanup (<code>remove()</code>):</strong> <span class="timestamp">[09:30]</span>
+            <p>Always invoke <code>threadLocal.remove()</code> in a <code>finally</code> block or at the end of the request lifecycle. <span class="timestamp">[09:56]</span></p>
+            <p>In application servers using <strong>Thread Pools</strong>, threads are recycled. Failing to clear <code>ThreadLocal</code> can lead to <strong>memory leaks</strong> or <strong>data contamination</strong> across different requests on the re-used thread.</p>
+<pre><code>try {
+    // Process task
+} finally {
+    UserContextHolder.holder.remove(); // Cleanup [09:57]
+}</code></pre>
+        </li>
+        <li><strong>Prefer Local Variables When Possible:</strong> If an object is short-lived and restricted to a single method stack, standard local variables are simpler and safer. <span class="timestamp">[10:35]</span></li>
+        <li><strong>Delegate to Frameworks:</strong> When working with web frameworks like Spring, leverage built-in context managers rather than manually reinventing <code>ThreadLocal</code> state management. <span class="timestamp">[10:39]</span></li>
+    </ol>
+
+    <h2>Summary Checklist <span class="timestamp">[10:05]</span></h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Aspect</th>
+                <th>Detail</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Core Concept</strong></td>
+                <td>Thread confinement (1 copy per thread)</td>
+            </tr>
+            <tr>
+                <td><strong>Benefits</strong></td>
+                <td>Thread-safety without locks + optimal performance</td>
+            </tr>
+            <tr>
+                <td><strong>Key Operations</strong></td>
+                <td><code>set(value)</code>, <code>get()</code>, <code>remove()</code>, <code>withInitial(...)</code></td>
+            </tr>
+            <tr>
+                <td><strong>Cleanup</strong></td>
+                <td>Always call <code>.remove()</code> after request completion</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
