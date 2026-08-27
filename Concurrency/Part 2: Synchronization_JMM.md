@@ -525,7 +525,9 @@ Demo.class
 ---
 
 # 8. volatile
-
+ volatile is mainly used to solve visibility problems between threads.
+ "Whenever one thread changes this variable, other threads should see the latest value."
+ 
 > [!NOTE]
 > `volatile` guarantees **Visibility**, not **Atomicity**.
 
