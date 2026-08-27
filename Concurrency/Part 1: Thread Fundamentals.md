@@ -248,7 +248,7 @@ public interface Callable<V> {
 |---------|---------|
 | sleep() | Pause current thread |
 | yield() | Hint scheduler |
-| join() | Wait for another thread |
+| join() | Wait for another thread | t1.join()-> the thread which calls t1.join() enters into waiting state. not t1.
 
 > [!WARNING]
 > `sleep()` **does not** release the monitor lock.
