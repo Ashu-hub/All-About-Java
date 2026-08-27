@@ -227,6 +227,19 @@ public interface Callable<V> {
 > [!WARNING]
 > Calling `run()` directly does **not** create a new thread.
 
+   t.start();
+   t.start();
+   
+   You get:
+   java.lang.IllegalThreadStateException
+   
+   A Thread object can be started only once.
+   
+   t.run();
+   t.run();
+   t.run();
+   
+   is technically allowed because these are just normal method calls. They all execute on the current thread.
 ---
 
 # 5. sleep() vs yield() vs join()
