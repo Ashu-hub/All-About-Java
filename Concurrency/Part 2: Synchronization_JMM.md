@@ -775,6 +775,453 @@ Waiting Lock1
 
 ---
 
+# Deadlock in Java
+
+## What is Deadlock?
+A deadlock occurs when two or more threads are waiting for each other indefinitely, so none of them can continue execution.
+
+> **In simple words:**  
+> Thread A is waiting for Thread B, and Thread B is waiting for Thread A.
+
+### Simple Example
+Consider two threads and two locks:
+
+```java
+Object lock1 = new Object();
+Object lock2 = new Object();
+
+Thread t1 = new Thread(() -> {
+    synchronized (lock1) {
+        System.out.println("T1 got lock1");
+
+        synchronized (lock2) {
+            System.out.println("T1 got lock2");
+        }
+    }
+});
+
+Thread t2 = new Thread(() -> {
+    synchronized (lock2) {
+        System.out.println("T2 got lock2");
+
+        synchronized (lock1) {
+            System.out.println("T2 got lock1");
+        }
+    }
+});
+```
+
+### How Deadlock Happens
+
+```text
+T1                         T2
+│                          │
+├── gets lock1             │
+│                          ├── gets lock2
+│                          │
+├── tries lock2            │
+│   BLOCKED                │
+│                          ├── tries lock1
+│                          │   BLOCKED
+│                          │
+└──────── DEADLOCK ────────┘
+```
+
+**Now:**
+* **T1** holds `lock1` and waits for `lock2`
+* **T2** holds `lock2` and waits for `lock1`
+* **T1** cannot continue until **T2** releases `lock2`
+* **T2** cannot continue until **T1** releases `lock1`
+
+Therefore, both threads wait forever.
+
+---
+
+## Coffman Conditions
+
+Deadlock requires four conditions, known as the **Coffman conditions**. All four conditions must exist simultaneously for a traditional deadlock to occur.
+
+### 1. Mutual Exclusion
+Only one thread can hold a particular lock at a time.
+
+```text
+Lock A → T1 owns it
+T2     → cannot acquire it
+```
+
+*Example:*
+```java
+synchronized (lockA) {
+    // Only one thread can execute this section
+}
+```
+
+### 2. Hold and Wait
+A thread holds one lock while waiting to acquire another lock.
+
+```text
+T1:
+    Holds Lock A
+         +
+    Waits for Lock B
+```
+
+*Example:*
+```java
+synchronized (lockA) {
+    synchronized (lockB) {
+        // T1 holds A while waiting for B
+    }
+}
+```
+
+### 3. No Preemption
+A lock cannot be forcibly taken away from the thread holding it. The thread holding the lock must release it voluntarily.
+
+```text
+T1 → owns Lock A
+T2 → wants Lock A
+
+T2 cannot simply take Lock A away from T1.
+```
+
+### 4. Circular Wait
+There is a circular dependency between threads.
+
+```text
+T1 → waiting for Lock B
+          ↑
+          │
+T2 → holds Lock B
+
+T2 → waiting for Lock A
+          ↑
+          │
+T1 → holds Lock A
+
+Or simply:
+T1 → T2 → T1
+```
+
+This circular dependency causes the deadlock.
+
+---
+
+## How to Prevent Deadlock?
+
+There are several ways to prevent or reduce the possibility of deadlock.
+
+### 1. Always Acquire Locks in the Same Order ⭐
+This is one of the most effective techniques.
+
+**Bad Approach:**
+```java
+// T1
+synchronized (lock1) {
+    synchronized (lock2) {
+        // work
+    }
+}
+
+// T2
+synchronized (lock2) {
+    synchronized (lock1) {
+        // work
+    }
+}
+```
+* **T1 acquires:** `lock1` → `lock2`
+* **T2 acquires:** `lock2` → `lock1`  
+*(This can create circular waiting)*
+
+**Better Approach:**  
+Define a rule: *Always acquire `lock1` before `lock2`.*
+
+```java
+// T1
+synchronized (lock1) {
+    synchronized (lock2) {
+        // work
+    }
+}
+
+// T2
+synchronized (lock1) {
+    synchronized (lock2) {
+        // work
+    }
+}
+```
+Now both threads follow `lock1` → `lock2`, avoiding circular waiting entirely.
+
+> **Interview Point:** Consistent lock ordering prevents the circular-wait condition.
+
+### 2. Use `tryLock()` with Timeout ⭐
+When using `ReentrantLock`, we can avoid waiting indefinitely by using `tryLock()`.
+
+```java
+if (lock.tryLock(5, TimeUnit.SECONDS)) {
+    try {
+        // Critical section
+    } finally {
+        lock.unlock();
+    }
+} else {
+    // Could not acquire lock
+}
+```
+If the lock cannot be acquired within 5 seconds, the thread can stop waiting and take another action. This prevents indefinite waiting.
+
+### 3. Avoid Unnecessary Nested Locks
+Try to avoid acquiring multiple locks simultaneously unless necessary.
+
+**Risky:**
+```java
+synchronized (lock1) {
+    // Lots of work
+    synchronized (lock2) {
+        // More work
+    }
+}
+```
+The more locks a thread holds at the same time, the greater the possibility of deadlock.  
+* **Prefer:** Fewer locks, smaller critical sections, and shorter lock-holding times.
+
+### 4. Keep Critical Sections Small
+Avoid doing unnecessary work while holding a lock.
+
+**Bad:**
+```java
+synchronized (lock) {
+    validateData();
+    performCalculation();
+    callExternalService();
+    updateDatabase();
+}
+```
+
+**Better:**
+```java
+validateData();
+performCalculation();
+callExternalService();
+
+synchronized (lock) {
+    updateSharedState();
+}
+```
+Only the operation that actually requires synchronization should be inside the critical section.
+
+### 5. Avoid External Calls While Holding Locks
+Avoid performing long or non-deterministic operations inside synchronized blocks:
+
+```java
+// Avoid this:
+synchronized (lock) {
+    callExternalService();
+}
+```
+The external operation could take a long time, block, fail, acquire another lock, or create unexpected dependencies. 
+
+```java
+// Prefer this:
+callExternalService();
+
+synchronized (lock) {
+    updateSharedState();
+}
+```
+
+### 6. Use Higher-Level Concurrency Utilities
+Instead of manually managing multiple locks, consider using high-level Java concurrency utilities:
+
+* `ExecutorService`
+* `BlockingQueue`
+* `ConcurrentHashMap`
+* `AtomicInteger`
+* `Semaphore`
+* `CountDownLatch`
+* `ReentrantLock`
+
+These reduce the amount of explicit locking required.
+
+---
+
+## Deadlock vs Starvation vs Livelock
+
+| Problem | Meaning |
+| :--- | :--- |
+| **Deadlock** | Threads wait for each other forever |
+| **Starvation** | A thread continuously fails to get CPU time or a required resource |
+| **Livelock** | Threads keep responding to each other but make no useful progress |
+
+### Easy Way to Remember
+* **Deadlock** → Nobody moves
+* **Starvation** → One thread doesn't get a chance
+* **Livelock** → Everyone moves, but nothing gets done
+
+---
+
+## Can `synchronized` Cause Deadlock?
+
+**Yes.**  
+However, `synchronized` itself is not a deadlock—deadlock depends on how multiple locks are acquired across threads.
+
+```text
+T1 → Lock A → waits for Lock B
+T2 → Lock B → waits for Lock A
+```
+
+### `synchronized` Deadlock Example
+
+```java
+public class DeadlockExample {
+
+    private static final Object lock1 = new Object();
+    private static final Object lock2 = new Object();
+
+    public static void main(String[] args) {
+
+        Thread t1 = new Thread(() -> {
+            synchronized (lock1) {
+                System.out.println("T1 acquired lock1");
+
+                synchronized (lock2) {
+                    System.out.println("T1 acquired lock2");
+                }
+            }
+        });
+
+        Thread t2 = new Thread(() -> {
+            synchronized (lock2) {
+                System.out.println("T2 acquired lock2");
+
+                synchronized (lock1) {
+                    System.out.println("T2 acquired lock1");
+                }
+            }
+        });
+
+        t1.start();
+        t2.start();
+    }
+}
+```
+
+**Possible Execution:**
+```text
+T1 → acquired lock1
+T2 → acquired lock2
+
+T1 → waiting for lock2
+T2 → waiting for lock1
+
+        ↓
+     DEADLOCK
+```
+
+### How to Fix This Example?
+Make both threads acquire locks in the same order:
+
+```java
+Thread t1 = new Thread(() -> {
+    synchronized (lock1) {
+        System.out.println("T1 acquired lock1");
+
+        synchronized (lock2) {
+            System.out.println("T1 acquired lock2");
+        }
+    }
+});
+
+Thread t2 = new Thread(() -> {
+    synchronized (lock1) {
+        System.out.println("T2 acquired lock1");
+
+        synchronized (lock2) {
+            System.out.println("T2 acquired lock2");
+        }
+    }
+});
+```
+
+Both follow `lock1` → `lock2`, eliminating circular wait.
+
+---
+
+## Interview Preparation
+
+### Question
+*Two threads are accessing two resources. How can deadlock occur?*
+
+### Answer
+```text
+Thread 1:
+    Acquire Lock A
+        ↓
+    Try to acquire Lock B
+        ↓
+    Waiting...
+
+Thread 2:
+    Acquire Lock B
+        ↓
+    Try to acquire Lock A
+        ↓
+    Waiting...
+```
+Both threads are waiting for the other thread to release a lock (`Thread 1 ↔ Thread 2`), resulting in a deadlock.
+
+### ⭐ Senior-Level Interview Answer
+> "Deadlock occurs when two or more threads permanently wait for resources held by each other. It requires four Coffman conditions: mutual exclusion, hold-and-wait, no preemption, and circular wait. We can prevent deadlock by acquiring locks in a consistent order, avoiding unnecessary nested locks, keeping critical sections small, using `tryLock()` with timeouts, avoiding external calls while holding locks, and preferring higher-level concurrency utilities where appropriate."
+
+---
+
+## Quick Revision
+
+```text
+                    DEADLOCK
+                        │
+                        ↓
+          Threads wait for each other
+                        │
+                        ↓
+              4 Coffman Conditions
+                        │
+       ┌────────────────┼────────────────┐
+       ↓                ↓                ↓
+ Mutual Exclusion  Hold & Wait     No Preemption
+                        │
+                        ↓
+                  Circular Wait
+                        │
+                        ↓
+                 PREVENTION
+                        │
+       ┌────────────────┼────────────────┐
+       ↓                ↓                ↓
+ Lock Ordering ⭐   tryLock()       Small Critical
+                    + Timeout          Sections
+       │
+       ├── Avoid Nested Locks
+       ├── Avoid External Calls Under Lock
+       └── Use Higher-Level Concurrency APIs
+```
+
+### Key Points to Remember
+* **Deadlock** = threads waiting for each other forever.
+* Requires **4 Coffman conditions** to exist simultaneously.
+* **Consistent lock ordering** is the best prevention technique.
+* `tryLock()` with a timeout prevents indefinite waiting.
+* Keep **critical sections small**.
+* Avoid unnecessary **nested locks** and **external calls** inside synchronized blocks.
+* `synchronized` can cause deadlocks if locks are acquired out of order.
+* `volatile` does **not** solve deadlocks.
+* `Thread.sleep()` does **not** release a monitor lock.
+
+
+---
+
 # 13. Livelock
 
 > [!NOTE]
