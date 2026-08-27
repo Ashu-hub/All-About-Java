@@ -244,11 +244,11 @@ public interface Callable<V> {
 
 # 5. sleep() vs yield() vs join()
 
-| Method | Purpose |
-|---------|---------|
-| sleep() | Pause current thread |
-| yield() | Hint scheduler |
-| join() | Wait for another thread | t1.join()-> the thread which calls t1.join() enters into waiting state. not t1.
+| Method | Purpose | |
+|---------|---------| |
+| sleep() | Pause current thread | |
+| yield() | Hint scheduler | |
+| join() | Wait for another thread | t1.join()-> the thread which calls t1.join() enters into waiting state. not t1.|
 
 > [!WARNING]
 > `sleep()` **does not** release the monitor lock.
