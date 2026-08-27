@@ -178,6 +178,16 @@ public interface Runnable {
 - `ExecutorService`
 
 ---
+| Runnable                                 | Callable                     |
+| ---------------------------------------- | ---------------------------- |
+| `run()`                                  | `call()`                     |
+| Returns nothing (`void`)                 | Can return a value           |
+| Can NOT throw checked exceptions directly | Can throw checked exceptions |
+| Used directly with `Thread`              | Used with `ExecutorService`  |
+
+
+
+---
 
 ### 🟨 Callable Interface
 
