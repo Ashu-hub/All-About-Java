@@ -217,10 +217,12 @@ public interface Callable<V> {
 ---
 # 4. start() vs run()
 
-| start() | run() |
-|---------|-------|
-| Creates new thread | Normal method call |
-| Asynchronous | Synchronous |
+| `start()`                                      | `run()`                                           |
+| ---------------------------------------------- | ------------------------------------------------- |
+| Creates a **new thread of execution**          | Does **not** create a new thread                  |
+| JVM schedules the new thread                   | Executes like a normal method                     |
+| `run()` is eventually called by the new thread | `run()` executes in the **current thread**        |
+| Can be called only once                        | Can be called multiple times like a normal method |
 
 > [!WARNING]
 > Calling `run()` directly does **not** create a new thread.
