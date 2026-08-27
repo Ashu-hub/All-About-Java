@@ -61,7 +61,8 @@ Because they share memory and have lower context-switch overhead.
 ---
 
 # 2. Thread Lifecycle
-
+   "A Java thread starts in the NEW state. When start() is called, it moves to RUNNABLE, where the JVM scheduler decides when it gets CPU time. It can temporarily move to BLOCKED when waiting for a monitor lock, WAITING when waiting indefinitely for another thread, or TIMED_WAITING when waiting for a specified period. Once its run() method completes, it enters the TERMINATED state and cannot be restarted."
+   One important distinction: sleep() → TIMED_WAITING, while waiting to enter a synchronized block → BLOCKED.
 ```text
 NEW
   │ start()
