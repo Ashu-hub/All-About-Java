@@ -181,6 +181,18 @@ You must call `unlock()`.
 
 # 4. Fair vs Unfair Lock
 
+
+Fairness is mainly relevant to `ReentrantLock`.
+
+A lock can be created as:
+
+```java
+// Unfair lock
+Lock lock = new ReentrantLock();
+
+// Fair lock
+Lock lock = new ReentrantLock(true);
+
 ## Fair Lock
 
 Threads acquire the lock in the order they requested it (FIFO).
@@ -268,6 +280,17 @@ lock.writeLock().lock();
 - Configuration
 - Product Catalogue
 - Reports
+
+| Feature                 | Fair Lock                        | Unfair Lock            |
+| ----------------------- | -------------------------------- | ---------------------- |
+| Ordering                | Attempts to follow waiting order | No guaranteed ordering |
+| Performance             | Usually lower                    | Usually higher         |
+| Throughput              | Usually lower                    | Usually higher         |
+| Starvation              | Less likely                      | More possible          |
+| Context switching       | Can be higher                    | Usually lower          |
+| Default `ReentrantLock` | ❌ No                             | ✅ Yes                  |
+| Creation                | `new ReentrantLock(true)`        | `new ReentrantLock()`  |
+
 
 ---
 
