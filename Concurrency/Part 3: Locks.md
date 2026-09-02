@@ -26,6 +26,30 @@
 
 > [!NOTE]
 > `synchronized` is simple but has limited flexibility. The **Lock API** provides more control over locking.
+    In Java, a lock is a synchronization mechanism used to control access to shared resources when multiple threads are running concurrently. A lock ensures that only one thread can execute a critical section of code at a time, preventing race conditions and data corruption.
+> Types of Locks in Java:
+> 1. Intrinsic Lock (Monitor Lock): Every Java object has a built-in lock called an intrinsic lock or monitor. The synchronized keyword uses this lock.
+> 2. Explicit Lock (Lock Interface): Java provides the Lock interface in the java.util.concurrent.locks package for more advanced locking features.
+
+
+```java
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+class Counter {
+    private int count = 0;
+    private Lock lock = new ReentrantLock();
+
+    public void increment() {
+        lock.lock();  // Acquire lock
+        try {
+            count++;
+        } finally {
+            lock.unlock(); // Always release lock
+        }
+    }
+}
+```
 
 ### Why use Locks?
 
