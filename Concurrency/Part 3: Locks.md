@@ -239,12 +239,46 @@ T4 acquires lock before T2
 
 ✅ Unfair lock.
 
+| Feature                 | Fair Lock                        | Unfair Lock            |
+| ----------------------- | -------------------------------- | ---------------------- |
+| Ordering                | Attempts to follow waiting order | No guaranteed ordering |
+| Performance             | Usually lower                    | Usually higher         |
+| Throughput              | Usually lower                    | Usually higher         |
+| Starvation              | Less likely                      | More possible          |
+| Context switching       | Can be higher                    | Usually lower          |
+| Default `ReentrantLock` | ❌ No                             | ✅ Yes                  |
+| Creation                | `new ReentrantLock(true)`        | `new ReentrantLock()`  |
+
 ---
 
 # 5. ReadWriteLock
 
 > [!NOTE]
 > Allows **multiple readers** but only **one writer**.
+> # ReadWriteLock in Java
+
+`ReadWriteLock` is a locking mechanism provided by Java that allows **multiple threads to read a shared resource simultaneously**, while ensuring that **only one thread can write at a time**.
+
+It is useful when:
+
+- Reads are much more frequent than writes.
+- Multiple threads need to read the same data.
+- Writes need exclusive access.
+
+---
+
+## Why Do We Need ReadWriteLock?
+
+Consider a shared cache:
+
+```text
+          Shared Cache
+              |
+       ┌──────┴──────┐
+       ↓             ↓
+    Reader-1      Reader-2
+       ↓             ↓
+      READ          READ
 
 ```
 Readers
@@ -272,7 +306,69 @@ lock.readLock().lock();
 lock.writeLock().lock();
 ```
 
+Read Lock
+
+Multiple threads can acquire the read lock simultaneously
+
+```java
+Lock readLock = lock.readLock();
+
+readLock.lock();
+
+try {
+    // Read shared data
+} finally {
+    readLock.unlock();
+}
+```
+```java
+Thread-1 ── READ LOCK ──┐
+Thread-2 ── READ LOCK ──┼── Allowed simultaneously
+Thread-3 ── READ LOCK ──┘
+```
+ > Write Lock
+
+Only one thread can acquire the write lock.
+
+```java
+Lock writeLock = lock.writeLock();
+
+writeLock.lock();
+
+try {
+    // Modify shared data
+} finally {
+    writeLock.unlock();
+}
+
+```
+
+```java
+Thread-1 ── WRITE LOCK
+                ↓
+             WRITING
+
+Thread-2 ── WAITING
+Thread-3 ── WAITING
+```
+
+**While Thread-1 has the write lock:
+
+Other writers cannot write.
+Readers cannot read.**
+
+
 ---
+
+| Feature             | ReentrantLock             | ReadWriteLock        |
+| ------------------- | ------------------------- | -------------------- |
+| Read simultaneously | ❌                         | ✅                    |
+| Multiple writers    | ❌                         | ❌                    |
+| Reader + Writer     | ❌                         | ❌                    |
+| Exclusive writing   | ✅                         | ✅                    |
+| Best for            | General critical sections | Read-heavy workloads |
+| Lock types          | One                       | Read + Write         |
+
 
 ## Use Cases
 
@@ -280,16 +376,6 @@ lock.writeLock().lock();
 - Configuration
 - Product Catalogue
 - Reports
-
-| Feature                 | Fair Lock                        | Unfair Lock            |
-| ----------------------- | -------------------------------- | ---------------------- |
-| Ordering                | Attempts to follow waiting order | No guaranteed ordering |
-| Performance             | Usually lower                    | Usually higher         |
-| Throughput              | Usually lower                    | Usually higher         |
-| Starvation              | Less likely                      | More possible          |
-| Context switching       | Can be higher                    | Usually lower          |
-| Default `ReentrantLock` | ❌ No                             | ✅ Yes                  |
-| Creation                | `new ReentrantLock(true)`        | `new ReentrantLock()`  |
 
 
 ---
