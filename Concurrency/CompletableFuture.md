@@ -1,3 +1,58 @@
+# Table of Contents
+
+1. [Why CompletableFuture?](#1-why-completablefuture)
+2. [Creating a CompletableFuture](#2-creating-a-completablefuture)
+
+   * [runAsync()](#21-runasync)
+   * [supplyAsync()](#22-supplyasync)
+3. [Getting the Result](#3-getting-the-result)
+
+   * [get()](#31-get)
+   * [join()](#32-join)
+4. [thenApply()](#4-thenapply)
+5. [thenAccept()](#5-thenaccept)
+6. [thenRun()](#6-thenrun)
+7. [thenApply vs thenAccept vs thenRun](#7-thenapply-vs-thenaccept-vs-thenrun)
+8. [thenCompose()](#8-thencompose)
+9. [Why not thenApply()?](#9-why-not-thenapply)
+10. [thenApply vs thenCompose](#10-thenapply-vs-thencompose)
+11. [thenCombine()](#11-thencombine)
+12. [thenCompose vs thenCombine](#12-thencompose-vs-thencombine)
+13. [allOf()](#13-allof)
+14. [Important Point About allOf()](#14-important-point-about-allof)
+15. [anyOf()](#15-anyof)
+16. [allOf vs anyOf](#16-allof-vs-anyof)
+17. [Exception Handling](#17-exception-handling)
+18. [exceptionally()](#18-exceptionally)
+19. [handle()](#19-handle)
+20. [whenComplete()](#20-whencomplete)
+21. [exceptionally vs handle vs whenComplete](#21-exceptionally-vs-handle-vs-whencomplete)
+22. [Async Methods](#22-async-methods)
+23. [thenApply vs thenApplyAsync](#23-thenapply-vs-thenapplyasync)
+24. [Custom Executor](#24-custom-executor)
+25. [Why Use a Custom Executor?](#25-why-use-a-custom-executor)
+26. [Complete Example](#26-complete-example)
+27. [Sequential + Parallel Example](#27-sequential--parallel-example)
+28. [CompletableFuture State](#28-completablefuture-state)
+29. [isCompletedExceptionally()](#29-iscompletedexceptionally)
+30. [cancel()](#30-cancel)
+31. [orTimeout()](#31-ortimeout)
+32. [completeOnTimeout()](#32-completeontimeout)
+33. [complete()](#33-complete)
+34. [completeExceptionally()](#34-completeexceptionally)
+35. [Future vs CompletableFuture](#35-future-vs-completablefuture)
+36. [Important: CompletableFuture Isn't Automatically Non-Blocking](#36-important-completablefuture-isnt-automatically-non-blocking)
+37. [ForkJoinPool.commonPool()](#37-forkjoinpoolcommonpool)
+38. [thenApply() Thread Behavior](#38-thenapply-thread-behavior)
+39. [Common CompletableFuture Pattern](#39-common-completablefuture-pattern)
+40. [Important Methods Cheat Sheet](#40-important-methods-cheat-sheet)
+41. [Most Important Interview Concepts](#41-most-important-interview-concepts)
+42. [Golden Rules](#42-golden-rules)
+43. [One-Page Interview Summary](#43-one-page-interview-summary)
+
+
+
+
 # CompletableFuture — Complete Java Guide
 
 `CompletableFuture` is a Java API for writing **asynchronous and composable workflows**.
