@@ -61,7 +61,7 @@ This is one of the major use cases for `CompletableFuture`.
 
 # 2. Creating a CompletableFuture
 
-There are two commonly used methods:
+There are two commonly used (static) methods:
 
 ```text
 runAsync()
