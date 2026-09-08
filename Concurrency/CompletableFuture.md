@@ -4,6 +4,9 @@
 
 It was introduced in **Java 8** as part of `java.util.concurrent`.
 
+Is is a class which implements Future & CompletionStage. 
+like: public class CompletableFuture<T> implements Future<T>, CompletionStage<T>
+
 The main purpose is to:
 
 * Execute tasks asynchronously
