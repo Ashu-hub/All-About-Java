@@ -537,6 +537,43 @@ public class GFG {
 			**Fix for substring() in JDK 7 **
 			When we invoke substring() in JDK 7, instead of referring char[] array from original String, jvm creates new String objects with its own char[] array.
 			It is worth noting that, new String object from memory is referred when substring() method is invoked in JDK 7, thus making original string eligible for garbage collection.
+
+###Q. How to put mutable object inside custom immutable class
+		
+	To maintain immutability when a class contains mutable objects, I use defensive copying. I create a copy of the mutable object in the constructor so the caller cannot modify the internal state, and I return a copy from the getter so callers cannot mutate it indirectly.
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+final class Student {
+    private final List<String> subjects;
+
+    public Student(List<String> subjects) {
+        this.subjects = new ArrayList<>(subjects); // Defensive copy
+    }
+
+    public List<String> getSubjects() {
+        return new ArrayList<>(subjects); // Return a copy
+    }
+}
+
+List<String> list = new ArrayList<>();
+list.add("Java");
+
+Student s = new Student(list);
+
+// Modify original list
+list.add("Python");
+
+// Modify list returned by getter
+s.getSubjects().add("SQL");
+
+System.out.println(s.getSubjects());
+
+O/P [Java]
+```
+
 			
 ## Collections
 
