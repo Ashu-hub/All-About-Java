@@ -918,6 +918,15 @@ New APIs for better random number generation.
 | Strong Encapsulation | Better security |
 | Random Generator | Improved randomness APIs |
 
+1. Can a sealed class be abstract?Yes. Abstract controls instantiation; sealed controls which types may directly extend the class.
+2. Can a sealed class have a non-sealed subclass?Yes. That permitted subclass opens its branch to further unrestricted inheritance.
+3. Can a final class be a permitted subclass?Yes. It is a common choice when a permitted branch must not be extended further.
+4. Can a sealed class permit an interface?A sealed class permits direct subclasses, which must be classes. A sealed interface can permit interfaces that extend it or classes that implement it.
+5. Can a record extend a sealed class?A record cannot extend an arbitrary class because it already extends java.lang.Record. It can implement a sealed interface if it is a permitted implementation and satisfies the applicable hierarchy rules.
+6. Can we use sealed classes in a microservices domain model?
+7. Does sealed mean immutable or thread-safe?No. Sealed controls inheritance, not object mutability or concurrent access.
+
+
 ---
 
 # Java 18
