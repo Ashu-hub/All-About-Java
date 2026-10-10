@@ -574,6 +574,8 @@ Useful for
 
 ## Records (Preview)
 
+A record is a special kind of class designed to hold data with minimal boilerplate code
+
 Before
 
 ```java
