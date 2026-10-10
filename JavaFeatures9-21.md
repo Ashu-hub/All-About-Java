@@ -1078,6 +1078,14 @@ spring.threads.virtual.enabled=true
 
 1. What is a Virtual Thread?
 
+   Virtual threads are lightweight threads introduced as a permanent feature in Java 21 as part of Project Loom. They are instances of java.lang.Thread, not interfaces.
+Unlike traditional platform threads, virtual threads are scheduled by the JVM onto carrier platform threads. When a virtual thread blocks on supported I/O, it can unmount from its carrier, allowing that carrier to execute other work.
+This makes virtual threads particularly useful for high-concurrency, I/O-bound microservices. They don't make CPU-intensive tasks inherently faster, and we still need to control scarce resources such as database connections and downstream API capacity.
+We can create them using Thread.startVirtualThread() or Executors.newVirtualThreadPerTaskExecutor().
+
+Remember this distinction: Virtual threads improve the scalability of blocking workloads; they do not eliminate resource limits or replace every other concurrency tool.
+
+
 A Virtual Thread is a lightweight thread managed by the JVM rather than the operating system. Many Virtual Threads are multiplexed onto a small number of Platform Threads, enabling high concurrency with low memory usage.
 ---
 2. How is a Virtual Thread different from a Platform Thread?
