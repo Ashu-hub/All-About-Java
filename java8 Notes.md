@@ -576,6 +576,23 @@ public class OptionalDemo{
 
 ## Diff bet orElse and orElseGet() :-
 	orElse takes a parameter T and orElseGet takes Supplier as Paramter.
+	 The key difference is when the default value is evaluated.
+
+	orElse() evaluates the default value eagerly — even if a value is present.
+	
+	orElseGet() evaluates the default value lazily — only if the Optional is empty.
+
+```
+Optional<String> username = Optional.of("Alice");
+
+// ❌ BAD PRACTICE: fetchDefaultUser() runs even though username is present!
+String result1 = username.orElse(fetchDefaultUser()); 
+
+//  GOOD PRACTICE: fetchDefaultUser() never runs because username is present
+String result2 = username.orElseGet(() -> fetchDefaultUser()); 
+
+```
+	In the orElse() example, fetchDefaultUser() executes and queries the database immediately. Java evaluates it to a string value first, passes that value into orElse(), and then throws it away because "Alice" is already present.
 	
 ###get():- If a value is present in this {@code Optional}, returns the value, otherwise throw {@code NoSuchElementException}
 
