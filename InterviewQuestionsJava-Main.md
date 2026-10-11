@@ -1200,6 +1200,36 @@ O/P [Java]
    public final native Class<?> getClass();
 ```
 
+### Q) Diamod Problem:
+
+```java
+interface Parent1 {
+    default void fun() { System.out.println("Parent1 fun"); }
+}
+
+interface Parent2 {
+    default void fun() { System.out.println("Parent2 fun"); }
+}
+
+class Child implements Parent1, Parent2 {...
+```
+
+**Ans: 
+class Child implements Parent1, Parent2 {
+    @Override
+    public void fun() {
+        Parent1.super.fun(); // Explicitly choose which default method to call
+    }
+}
+
+public class Demo {
+    public static void main(String[] args) {
+        Child c = new Child();
+        c.fun(); // Output: Parent1 fun
+    }
+}
+
+--- 
 **9. If Child extends Parent and as every class extends Object, How is it possible?**
 **10. Object Lifecycle (from new to garbage collection)**  
 **11. Can I instantiate Abstract class and Does it have constructor?**  
