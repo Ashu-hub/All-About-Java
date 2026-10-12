@@ -886,6 +886,44 @@ sealed class Shape
 permits Circle, Rectangle {}
 ```
 
+```
+public abstract sealed class Account
+        permits SavingsAccount, CurrentAccount {
+
+    protected final String accountNumber;
+
+    public Account(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public abstract void displayType();
+}
+
+public final class SavingsAccount extends Account {
+
+    public SavingsAccount(String accountNumber) {
+        super(accountNumber);
+    }
+
+    @Override
+    public void displayType() {
+        System.out.println("Savings Account");
+    }
+}
+
+public final class CurrentAccount extends Account {
+
+    public CurrentAccount(String accountNumber) {
+        super(accountNumber);
+    }
+
+    @Override
+    public void displayType() {
+        System.out.println("Current Account");
+    }
+}
+```
+
 Useful for
 
 - Domain models
