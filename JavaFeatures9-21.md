@@ -1114,7 +1114,60 @@ This scheduling is called M:N Scheduling.
 ```
 
 - Creating a Virtual Thread:
+
+  3 way to create a VT:
+  a)   Thread.startVirtualThread()
+
+  ```
+    Thread.startVirtualThread(() -> {
+            System.out.println("Running in virtual thread: "
+                    + Thread.currentThread());
+        });
   
+  ```
+    b) Thread.ofVirtual():
+
+```
+
+        Thread thread = Thread.ofVirtual()
+                .name("payment-thread")
+                .unstarted(() -> {
+                    System.out.println(
+                            Thread.currentThread().getName());
+                });
+
+        thread.start();
+```
+    
+c) Executors.newVirtualThreadPerTaskExecutor();
+
+```
+ try (var executor =
+                     Executors.newVirtualThreadPerTaskExecutor()) {
+
+            Future<String> user = executor.submit(
+                    () -> fetchUser());
+
+            Future<String> policy = executor.submit(
+                    () -> fetchPolicy());
+
+            System.out.println(user.get());
+            System.out.println(policy.get());
+        }
+}
+
+    static String fetchUser() throws InterruptedException {
+        Thread.sleep(1000);
+        return "User details";
+    }
+
+    static String fetchPolicy() throws InterruptedException {
+        Thread.sleep(1000);
+        return "Policy details";
+    }
+```
+    
+
   ```
   Thread.startVirtualThread(() -> {
     System.out.println("Virtual Thread");
