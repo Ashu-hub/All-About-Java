@@ -143,5 +143,5 @@
 # The Hollywood Principle
 
 # YAGNI principle	
-	
+YAGNI stands for "You Aren't Gonna Need It". It is a core software development principle from Agile methodologies that states **developers should never build functionality based on guessed or anticipated future needs.**	
 
