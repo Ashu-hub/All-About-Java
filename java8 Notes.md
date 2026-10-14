@@ -746,7 +746,7 @@ String result2 = username.orElseGet(() -> fetchDefaultUser());
 	Ans: List<Interger> numList = Arrays.asList( 5,3,4,1,3,7,2,9,9,4);
 			numList.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 			
-		List<String> strList = Arrays.asList( "Amanda", "Rob", "Ram", "ROB", "Amanda" );
+		Map<String, Long> strMap = Arrays.asList( "Amanda", "Rob", "Ram", "ROB", "Amanda" );
 		 strList.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 	
 	2. WAP to print odd numbers:
